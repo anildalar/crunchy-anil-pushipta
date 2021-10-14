@@ -9,8 +9,9 @@ import ResellerDashboard from "./pages/Reseller/Dashbord";
 import UserDashboard from "./pages/User/Dashbord";
 import Home from "./pages/Home";
 import Pushpita from "./pages/Pushpita";
-import Routing from "./pages/Routing";
 import ClientConnections from "./pages/SystemAdmin/ClientConnections";
+import { Groups } from "./pages/Groups";
+import { ImportContects } from "./pages/ImportContects";
 
 export default function App() {
   var comp;
@@ -47,7 +48,13 @@ export default function App() {
         </Route>
         <Route path="/domain" component={ Domain }></Route>
         <Route path="/pushpita" component={ Pushpita }></Route>
-        <Route path="/routing" component={ Routing }></Route>
+        <Route path="/group">
+        <Groups />
+      </Route>
+      <Route path="/importcontects">
+        <ImportContects />
+      </Route>
+        
         <Route path="/ClientConnections" component={ ClientConnections }></Route>
       </Router>
     </>

@@ -1,0 +1,328 @@
+import React, { useState } from 'react'
+import Layout from '../component/Layout';
+import Sidebar from '../component/Sidebar';
+import $ from 'jquery'; 
+/**
+* @author
+* @function ImportContects
+**/
+
+export const ImportContects = (props) => {
+    const [csvFile, setCsvFile] = useState();
+    const [textFile, setTextFile] = useState();
+    const [impoFileDate,setImpoFileDate]=useState({
+        "groupId":"",
+        "fileType":"",
+        "fileHeader":"",
+        "lineSpliter":"",
+        "rowSpliter":"",
+    });
+
+    const submit = (e) => {
+        e.preventDefault()
+        if (csvFile) {
+            console.log(csvFile)
+            const file = csvFile;
+            const reader = new FileReader();
+
+            reader.onload = function (e) {
+                const text = e.target.result;
+                console.log(text);
+            }
+
+            reader.readAsText(file);
+        } else if (textFile) {
+            const file = textFile;
+            const reader = new FileReader();
+            reader.onload = function (e) {
+                const text = e.target.result.split(/\r\n|\n/);
+                console.log(text);
+            }
+            reader.readAsText(file);
+
+        }
+    }
+
+    const handleFileType = (e) => {
+        e.preventDefault();
+        alert(e.target.value);
+        $('#demo').collapse("hide");
+        /* $('#text').collapse("hide");
+         $('#csv').collapse("hide"); */
+
+    }
+    function downloadCSV() {
+        const rows = [
+            ["mobile *", "name", "email"], ['911234567890', 'test', 'test@gmail.com'],
+        ];
+
+        let csvContent = "data:.csv;charset=utf-8," + rows.map(e => e.join(",")).join("\n");
+        var encodedUri = encodeURI(csvContent);
+        var link = document.createElement("a");
+        link.setAttribute("href", encodedUri);
+        link.setAttribute("download", "sample file.csv");
+        document.body.appendChild(link); // Required for FF
+        link.click(); // This will downl
+    }
+    function saveTextFile() {
+        let content = 'mobile *,name,email\n911234567890,test,test@gmail.com'
+        var atag = document.createElement("a");
+        var file = new Blob([content], { type: 'text/plain' });
+        atag.href = URL.createObjectURL(file);
+        atag.download = "sample file.txt";
+        atag.click();
+    }
+
+
+
+    return (
+        <Layout>
+            {/* main-content opened */}
+            <div className="main-content horizontal-content">
+                {/* container opened */}
+                <div className="container">
+                    {/* breadcrumb */}
+                    <div className="breadcrumb-header justify-content-between">
+                        <div className="my-auto">
+                            <div className="d-flex">
+                                <h4 className="content-title mb-0 my-auto">Pages</h4><span className="text-muted mt-1 tx-13 ms-2 mb-0">/ Empty</span>
+                            </div>
+                        </div>
+                        <div className="d-flex my-xl-auto right-content">
+                            <div className="pe-1  mb-xl-0">
+                                <button type="button" className="btn btn-info btn-icon me-2 btn-b"><i className="mdi mdi-filter-variant" /></button>
+                            </div>
+                            <div className="pe-1  mb-xl-0">
+                                <button type="button" className="btn btn-danger btn-icon me-2"><i className="mdi mdi-star" /></button>
+                            </div>
+                            <div className="mb-xl-0">
+                                <button type="button" className="btn btn-warning  btn-icon me-2"><i className="mdi mdi-refresh" /></button>
+                            </div>
+                            <div className="mb-xl-0">
+                                <div className="btn-group dropdown">
+                                    <button type="button" className="btn btn-primary">14 Aug 2019</button>
+                                    <button type="button" className="btn btn-primary dropdown-toggle dropdown-toggle-split" id="dropdownMenuDate" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        <span className="sr-only">Toggle Dropdown</span>
+                                    </button>
+                                    <div className="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuDate" x-placement="bottom-end">
+                                        <a className="dropdown-item" href="#">2015</a>
+                                        <a className="dropdown-item" href="#">2016</a>
+                                        <a className="dropdown-item" href="#">2017</a>
+                                        <a className="dropdown-item" href="#">2018</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    {/* breadcrumb */}
+                    {/* row  your work start here */}
+                    <div classname="row">
+                        <div className="col-sm-12">
+                            <div className="card">
+                                <div className="card-header bg-info">
+                                    <h4 className="mb-0 text-white card-title">Import Contacts</h4>
+                                </div>
+                                <div className="card-body">
+                                    <ul className="nav nav-tabs" role="tablist">
+                                        <li className="nav-item">
+                                            <a className="nav-link active" data-bs-toggle="tab" href="#home">Add Contact</a>
+                                        </li>
+                                        <li className="nav-item">
+                                            <a className="nav-link" data-bs-toggle="tab" href="#menu1">Import Contacts</a>
+                                        </li>
+                                    </ul>
+                                    {/* Tab panes */}
+                                    <div className="tab-content">
+                                        <div id="home" className="container tab-pane active mx-0"><br />
+                                            <div className="row">
+                                                <div className="col-xl-4">
+                                                    <form id="cantactForm" >
+                                                        <input type="hidden" name="csrf_test_name" />
+                                                        <div className="form-group mb-2">
+                                                            <label htmlFor="groups">Groups&nbsp;<sup className="text-danger">*</sup> : </label>
+                                                            <select className="form-control" name="group_id" id="groups" required>
+                                                                <option value>Select Groups</option>
+                                                                <option value={3}>anil tessta</option>
+                                                                <option value={4}>fsdafd</option>
+                                                            </select>
+                                                        </div>
+                                                        <div className="form-group mb-2">
+                                                            <label htmlFor="mobile">Mobile&nbsp;<sup className="text-danger">*</sup> : </label>
+                                                            <input type="number" min={0} name="mobile" id="mobile" className="form-control" required />
+                                                            <div className="text-danger">Add prefix first</div>
+                                                        </div>
+                                                        <div className="form-group mb-2">
+                                                            <label htmlFor="name">Name : </label>
+                                                            <input type="text" name="name" id="name" className="form-control" />
+                                                        </div>
+                                                        <div className="form-group mb-2">
+                                                            <label htmlFor="email">Email : </label>
+                                                            <input type="email" name="email" id="email" className="form-control" />
+                                                        </div>
+                                                        <div className="form-group mb-2">
+                                                            <button type="submit" className="btn btn-info btn-sm submitBtn">Save</button>
+                                                            <button type="reset" className="btn btn-warning btn-sm">Reset</button>
+                                                        </div>
+                                                    </form>
+                                                </div>
+                                                <div className="col-xl-8" />
+                                            </div>
+                                        </div>
+                                        <div id="menu1" className="container tab-pane fade mx-0"><br />
+                                            <form id="uploadfiles" className   >
+                                                <input type="hidden" name="" />
+                                                <div className="row">
+                                                    <div className="col-sm-6">
+                                                        <div className="form-group">
+                                                            <label htmlFor="groups">Groups&nbsp;<sup className="text-danger">*</sup> : </label>
+                                                            <select className="form-control" name="group_id" id="groups" required>
+                                                                <option value>Select Groups</option>
+                                                                <option value={3}>anil tessta</option>
+                                                                <option value={4}>fsdafd</option>
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div className="form-group mb-2">
+                                                    <div className="form-check">
+                                                        <label className="form-check-label ms-1">
+                                                            <input type="checkbox" name="preview" id="preview" className="form-check-input " defaultValue={1} />File Preview (for better parformance preview file)										</label>
+                                                    </div>
+                                                </div>
+                                                <div className="row">
+                                                    {/* excel file */}
+                                                    <div className="col-sm-4 col-md-2">
+                                                        <div className="form-group mb-2 ">
+                                                            <div className="input-group rounded-start">
+                                                                <label htmlFor="excelfile" className=" btn btn-info bg-info ps-4">
+                                                                    <input onChange={(e)=>{handleFileType(e)}} type="radio" name="filetype" data-col="#demo" id="excelfile" className="form-check-input " defaultValue="excel" />
+                                                                    Excell File
+                                                                </label>
+                                                                <span className="input-group-text rounded-end bg-info border-0 ps-4 " style={{ height: '39px' }} href="#demo" data-bs-toggle="collapse"><i className="fas fa-cog" /></span>
+
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    {/* csv file */}
+                                                    <div className="col-sm-4 col-md-2">
+                                                        <div className="form-group mb-2">
+                                                            <div className="input-group  mb-3  rounded-start">
+                                                                <label htmlFor="csvfile" className=" btn btn-warning bg-warning ps-4 ">
+                                                                    <input onChange={(e)=>{handleFileType(e)}} type="radio" name="filetype" data-col="#csv" id="csvfile" className="form-check-input " defaultValue="csv" />
+                                                                    CSV File
+                                                                </label>
+                                                                <span className="input-group-text rounded-end bg-warning border-0 ps-4 " style={{ height: '39px' }} href="#csv" data-bs-toggle="collapse"><i className="fas fa-cog" /></span>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    {/* text file */}
+                                                    <div className="col-sm-4 col-md-2">
+                                                        <div className="form-group mb-2">
+                                                            <div className="input-group mb-3 rounded-start">
+                                                                <label htmlFor="textfile" className=" btn btn-primary bg-primary ps-4 ">
+                                                                    <input onChange={(e)=>{handleFileType(e)}} type="radio" name="filetype" data-col="#text" id="textfile" className="form-check-input  " defaultValue="text" required />
+                                                                    Text File
+                                                                </label>
+                                                                <span className=" input-group-text bg-primary rounded-end border-0 ps-4 " style={{ height: '39px' }} href="#text" data-bs-toggle="collapse"><i className="fas fa-cog" /></span>
+
+
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div className="col-sm-12">
+                                                        <div id="demo" className="collapse pt-2">
+                                                            <div className="row">
+                                                                <div className="col-sm-3">
+                                                                    <div className="form-group mb-2">
+                                                                        <label htmlFor="s">header row:</label>
+                                                                        <input type="number" min={0} name="excelheader" id="excelheader" className="form-control form-control-sm" defaultValue={0} />
+                                                                    </div>
+                                                                    <button type="button" id="button-a" className="btn btn-warning m-1  btn-sm">Download Sample file</button>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div id="csv" className="collapse pt-2">
+                                                            <div className="row">
+                                                                <div className="col-sm-3">
+                                                                    <div className="form-group mb-2">
+                                                                        <label htmlFor="csvheader">header row:</label>
+                                                                        <input type="number" min={0} name="csvheader" id="csvheader" className="form-control form-control-sm" defaultValue={0} />
+                                                                    </div>
+                                                                    <button type="button" onClick={downloadCSV} className="btn btn-warning m-1  btn-sm">Download Sample file</button>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div id="text" className="collapse pt-2">
+                                                            <div className="row">
+                                                                <div className="col-sm-3">
+                                                                    <div className="form-group mb-2">
+                                                                        <label htmlFor="textheader">header row:</label>
+                                                                        <input type="number" min={0} name="textheader" id="textheader" className="form-control" defaultValue={0} />
+                                                                    </div>
+                                                                </div>
+                                                                <div className="col-sm-4">
+                                                                    <div className="form-group mb-2">
+                                                                        <label htmlFor="linesplitter">line Splitter</label>
+                                                                        <select className="form-control" name="linesplitter" id="linesplitter">
+                                                                            <option selected value="line">Line</option>
+                                                                            <option value="none">None</option>
+                                                                        </select>
+                                                                    </div>
+                                                                </div>
+                                                                <div className="col-sm-4">
+                                                                    <div className="form-group mb-2">
+                                                                        <label htmlFor="columnsplitter">Row Splitter</label>
+                                                                        <input type="text" min={0} name="columnsplitter" id="columnsplitter" className="form-control" defaultValue="none" />
+                                                                        <div className="text-danger">Use (none) in case empty column splitter</div>
+                                                                    </div>
+                                                                </div>
+                                                                <div className="col-sm-4">
+                                                                    <button type="button" onClick={saveTextFile} className="btn btn-warning m-1  btn-sm">Download Sample file</button>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div className="row">
+                                                    <div className="col-sm-6">
+                                                        <div className="form-group my-2">
+                                                            <div className="input-group py-2">
+                                                                <div className="custom-file">
+                                                                    <input onChange={(e) => {
+                                                                        setTextFile(e.target.files[0])
+                                                                    }} type="file" name="importFile" className="custom-file-input" id="importFile" required accept=".txt,.csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel" />
+                                                                    <label className="custom-file-label" htmlFor="importFile">Choose File</label>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div className="col-sm-3">
+                                                        <button className="btn btn-info btn-sm mt-3" id="checkfile">Process one's</button>
+                                                    </div>
+                                                </div>
+                                                <div className="form-group mt-2">
+                                                    <button onClick={submit} type="submit" className="btn btn-sm btn-info submitBtn  ">Upload</button>
+                                                </div>
+
+                                                <div className="progress d-none">
+                                                    <div id="filebar" className="progress-bar" style={{ width: '70%' }}>70%</div>
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    {/* row closed  end here*/}
+                </div>
+                {/* Container closed */}
+            </div>
+            {/* main-content closed */}
+            <Sidebar />
+    </Layout>
+    )
+
+}
