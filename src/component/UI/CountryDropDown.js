@@ -5,6 +5,7 @@ import $ from 'jquery';
 
 export default function CountryDropDown() {
     const changeLang = (e,l) => {
+      //e.preventDefault();
      // alert("ok");
         //console.log(e);
         return () => {
@@ -35,7 +36,7 @@ export default function CountryDropDown() {
             x-placement="bottom-end"
           >
             <a
-              onClick={(e)=>{ changeLang(e,"hi")}}
+              onClick={(e)=>{ return changeLang(e,"hi")}}
               href="#"
               className="dropdown-item d-flex "
             >
