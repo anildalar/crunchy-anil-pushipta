@@ -10,7 +10,7 @@ function Dashboard(props) {
 
   useEffect(() => {
     //
-    alert($('.main-content-title').html());
+    //alert($('.main-content-title').html());
   }, [])
 
   return (

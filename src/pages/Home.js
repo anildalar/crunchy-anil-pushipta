@@ -114,8 +114,52 @@ function Home(props) {
                                         <div className="row">
                                             <div className="col-md-10 col-lg-10 col-xl-9 mx-auto">
                                                 <div className="card-sigin">
-                                                    <button className="btn" onClick={changeLang('en')}>{t("English")}</button>
-                                                    <button className="btn" onClick={changeLang('hi')}>{t("Hindi")}</button>
+                                                    <button className="btn" >{t("English")}</button>
+                                                    <button className="btn" >{t("Hindi")}</button>
+                                                    <ul className="nav nav-item  navbar-nav-right ms-auto">
+                                                        <li className="nav">
+                                                            <div className="dropdown  nav-itemd-none d-md-flex">
+                                                                <a onClick={changeLang('en')} href="#" className="d-flex  nav-item country-flag1" data-bs-toggle="dropdown" aria-expanded="false">
+                                                                    <span className="avatar country-Flag me-0 align-self-center bg-transparent"><img src="../../assets/img/flags/us_flag.jpg" alt="img" /></span>
+                                                                    <div className="my-auto">
+                                                                    <strong className="me-2 ms-2 my-auto">English</strong>
+                                                                    </div>
+                                                                </a>
+                                                                <div className="dropdown-menu dropdown-menu-left dropdown-menu-arrow" x-placement="bottom-end">
+                                                                    <a onClick={changeLang('hi')} href="#" className="dropdown-item d-flex ">
+                                                                        <span className="avatar  me-3 align-self-center bg-transparent"><img src="../../assets/img/flags/french_flag.jpg" alt="img" /></span>
+                                                                        <div className="d-flex">
+                                                                            <span className="mt-2">French</span>
+                                                                        </div>
+                                                                    </a>
+                                                                    <a href="#" className="dropdown-item d-flex">
+                                                                    <span className="avatar  me-3 align-self-center bg-transparent"><img src="../../assets/img/flags/germany_flag.jpg" alt="img" /></span>
+                                                                    <div className="d-flex">
+                                                                        <span className="mt-2">Germany</span>
+                                                                    </div>
+                                                                    </a>
+                                                                    <a href="#" className="dropdown-item d-flex">
+                                                                    <span className="avatar me-3 align-self-center bg-transparent"><img src="../../assets/img/flags/italy_flag.jpg" alt="img" /></span>
+                                                                    <div className="d-flex">
+                                                                        <span className="mt-2">Italy</span>
+                                                                    </div>
+                                                                    </a>
+                                                                    <a href="#" className="dropdown-item d-flex">
+                                                                    <span className="avatar me-3 align-self-center bg-transparent"><img src="../../assets/img/flags/russia_flag.jpg" alt="img" /></span>
+                                                                    <div className="d-flex">
+                                                                        <span className="mt-2">Russia</span>
+                                                                    </div>
+                                                                    </a>
+                                                                    <a href="#" className="dropdown-item d-flex">
+                                                                    <span className="avatar  me-3 align-self-center bg-transparent"><img src="../../assets/img/flags/spain_flag.jpg" alt="img" /></span>
+                                                                    <div className="d-flex">
+                                                                        <span className="mt-2">spain</span>
+                                                                    </div>
+                                                                    </a>
+                                                                </div>
+                                                            </div>
+                                                        </li>
+                                                    </ul>
                                                     <div className="mb-5 text-center">
                                                         <a href="#"><img src={localStorage.getItem('logo')} width="292" className="sign-favicon-a" alt="logo" />
                                                             <img src={localStorage.getItem('logo')} className="sign-favicon-b ht-40" alt="logo" />
