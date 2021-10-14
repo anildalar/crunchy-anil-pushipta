@@ -264,68 +264,70 @@ export default function ClientConnections() {
                         />
                       </div>
                       <div className="col-lg-4 col-xl-4 col-md-4 col-sm-4 mb-3">
-                        <p className="mg-b-10">SMS Capacity</p>
+                        <p className="mg-b-10">HTTP Username</p>
                         <input
                           className="form-control form-control"
                           placeholder="SMS Capacity"
+                          type="text"
+                        />
+                                                
+                      </div>
+                      <div className="col-lg-4 col-xl-4 col-md-4 col-sm-4 mb-3">
+                        <p className="mg-b-10">HTTP Password</p>
+                        <input
+                          className="form-control form-control"
+                          placeholder="HTTP Password"
                           type="text"
                         />
                       </div>
                       <div className="col-lg-4 col-xl-4 col-md-4 col-sm-4 mb-3">
-                        <p className="mg-b-10">SMS Capacity</p>
+                        <p className="mg-b-10">HTTP TOKEN</p>
                         <input
                           className="form-control form-control"
-                          placeholder="SMS Capacity"
+                          placeholder="HTTP TOKEN"
                           type="text"
                         />
                       </div>
                       <div className="col-lg-4 col-xl-4 col-md-4 col-sm-4 mb-3">
-                        <p className="mg-b-10">SMS Capacity</p>
+                        <p className="mg-b-10">HTTP DLR TYPE</p>
+                        <select className="form-control form-control-sm select2-no-search">
+                          <option label="Choose one"></option>
+                          <option value="0">GET</option>
+                          <option value="1">RECIEVE</option>
+                        </select>
+                      </div>
+                      <div className="col-lg-4 col-xl-4 col-md-4 col-sm-4 mb-3">
+                        <p className="mg-b-10">HTTP DLR URL</p>
                         <input
                           className="form-control form-control"
-                          placeholder="SMS Capacity"
+                          placeholder="https://example.com/dlr"
                           type="text"
                         />
                       </div>
                       <div className="col-lg-4 col-xl-4 col-md-4 col-sm-4 mb-3">
-                        <p className="mg-b-10">SMS Capacity</p>
-                        <input
-                          className="form-control form-control"
-                          placeholder="SMS Capacity"
-                          type="text"
-                        />
+                        <p className="mg-b-10">HTTP DLR Method</p>
+                        <select className="form-control form-control-sm select2-no-search">
+                          <option label="Choose one"></option>
+                          <option value="0">GET</option>
+                          <option value="1">POST</option>
+                        </select>
                       </div>
                       <div className="col-lg-4 col-xl-4 col-md-4 col-sm-4 mb-3">
-                        <p className="mg-b-10">SMS Capacity</p>
-                        <input
-                          className="form-control form-control"
-                          placeholder="SMS Capacity"
-                          type="text"
-                        />
+                        <p className="mg-b-10">HTTP DLR Param Type</p>
+                        <select className="form-control form-control-sm select2-no-search">
+                          <option label="Choose one"></option>
+                          <option value="0">Query</option>
+                          <option value="1">JSON</option>
+                          <option value="2">FORM DATA</option>
+                        </select>
                       </div>
                       <div className="col-lg-4 col-xl-4 col-md-4 col-sm-4 mb-3">
-                        <p className="mg-b-10">SMS Capacity</p>
-                        <input
-                          className="form-control form-control"
-                          placeholder="SMS Capacity"
-                          type="text"
-                        />
-                      </div>
-                      <div className="col-lg-4 col-xl-4 col-md-4 col-sm-4 mb-3">
-                        <p className="mg-b-10">SMS Capacity</p>
-                        <input
-                          className="form-control form-control"
-                          placeholder="SMS Capacity"
-                          type="text"
-                        />
-                      </div>
-                      <div className="col-lg-4 col-xl-4 col-md-4 col-sm-4 mb-3">
-                        <p className="mg-b-10">SMS Capacity</p>
-                        <input
-                          className="form-control form-control"
-                          placeholder="SMS Capacity"
-                          type="text"
-                        />
+                        <p className="mg-b-10">HTTP Response Type</p>
+                        <select className="form-control form-control-sm select2-no-search">
+                          <option label="Choose one"></option>
+                          <option value="0">Object</option>
+                          <option value="1">String</option>
+                        </select>
                       </div>
                     </div>
                     <div className="form-group mb-0 mt-3 justify-content-end">
