@@ -366,8 +366,7 @@ export default function Footer() {
             <a href="#top" id="back-to-top">
                 <i className="las la-angle-double-up"></i>
             </a>
-            <script src={process.env.PUBLIC_URL +"/assets/plugins/sidebar/sidebar.js"}></script>
-	        <script src={process.env.PUBLIC_URL +"/assets/plugins/sidebar/sidebar-custom.js"}></script>
+            
             <script src={process.env.PUBLIC_URL + "/assets/js/sticky.js"}></script>
             <script src={process.env.PUBLIC_URL + '/assets/plugins/chart.js/Chart.bundle.min.js'}></script>
 	        <script src={process.env.PUBLIC_URL+"/assets/js/apexcharts.js"}></script>
@@ -378,6 +377,7 @@ export default function Footer() {
             <script src={process.env.PUBLIC_URL+"/assets/plugins/jqvmap/maps/jquery.vmap.usa.js"}></script>	
             <script src={process.env.PUBLIC_URL+"/assets/js/jquery.vmap.sampledata.js"}></script>
             <script src={process.env.PUBLIC_URL+"/assets/plugins/jqvmap/jquery.vmap.min.js"}></script>
+            
         </React.Fragment >
     )
 }

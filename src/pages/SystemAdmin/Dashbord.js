@@ -4,15 +4,14 @@ import Layout from "../../component/Layout";
 import Sidebar from "../../component/Sidebar";
 
 import $ from "jquery";
+import { useTranslation } from "react-i18next";
+import i18n from "../../i18n";
 
 function Dashboard(props) {
-
-
   useEffect(() => {
-    //
-    //alert($('.main-content-title').html());
+    
   }, [])
-
+  const { t } = useTranslation();
   return (
     <Layout>
         <div className="main-content horizontal-content">
@@ -21,7 +20,7 @@ function Dashboard(props) {
               <div className="left-content">
                 <div>
                   <h2 className="main-content-title tx-24 mg-b-1 mg-b-lg-1">
-                    Hi, welcome System Admin Dashboard{props.username}! {props.token}
+                    Hi, {t('Welcome')} asd System Admin Dashboard{props.username}! {props.token}
                   </h2>
                   <p className="mg-b-0">Sales monitoring dashboard template.</p>
                 </div>

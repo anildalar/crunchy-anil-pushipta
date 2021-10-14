@@ -2,11 +2,12 @@ import React, { useEffect } from 'react'
 import Footer from './Footer'
 import Header from './Header'
 import { useHistory } from 'react-router-dom'
+import i18n from '../i18n';
 
 export default function Layout(props) {
     const history = useHistory();
     useEffect(() => {
-        //alert('ok');
+        i18n.changeLanguage('hi');
         if(!localStorage.getItem("jwt_token")){
            history.push('/');
         }

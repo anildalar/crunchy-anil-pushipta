@@ -3,6 +3,7 @@ import { useHistory } from 'react-router';
 import { NavLink } from 'react-router-dom';
 import ClientConnections from '../pages/SystemAdmin/ClientConnections';
 import Domain from "./Domain"
+import CountryDropDown from './UI/CountryDropDown';
 export default function Header() {
   const history = useHistory();
   const Logout = (e) => {
@@ -49,86 +50,7 @@ export default function Header() {
           </div>
           <div className="main-header-right">
             <ul className="nav">
-              <li className="">
-                <div className="dropdown  nav-itemd-none d-md-flex">
-                  <a
-                    href="#"
-                    className="d-flex  nav-item nav-link pe-0 country-flag1"
-                    data-bs-toggle="dropdown"
-                    aria-expanded="false"
-                  >
-                    <span className="avatar country-Flag me-0 align-self-center bg-transparent">
-                      <img
-                        src="../../assets/img/flags/us_flag.jpg"
-                        alt="img"
-                      />
-                    </span>
-                    <div className="my-auto">
-                      <strong className="me-2 ms-2 my-auto">English</strong>
-                    </div>
-                  </a>
-                  <div
-                    className="dropdown-menu dropdown-menu-left dropdown-menu-arrow"
-                    x-placement="bottom-end"
-                  >
-                    <a href="#" className="dropdown-item d-flex ">
-                      <span className="avatar  me-3 align-self-center bg-transparent">
-                        <img
-                          src="../../assets/img/flags/french_flag.jpg"
-                          alt="img"
-                        />
-                      </span>
-                      <div className="d-flex">
-                        <span className="mt-2">French</span>
-                      </div>
-                    </a>
-                    <a href="#" className="dropdown-item d-flex">
-                      <span className="avatar  me-3 align-self-center bg-transparent">
-                        <img
-                          src="../../assets/img/flags/germany_flag.jpg"
-                          alt="img"
-                        />
-                      </span>
-                      <div className="d-flex">
-                        <span className="mt-2">Germany</span>
-                      </div>
-                    </a>
-                    <a href="#" className="dropdown-item d-flex">
-                      <span className="avatar me-3 align-self-center bg-transparent">
-                        <img
-                          src="../../assets/img/flags/italy_flag.jpg"
-                          alt="img"
-                        />
-                      </span>
-                      <div className="d-flex">
-                        <span className="mt-2">Italy</span>
-                      </div>
-                    </a>
-                    <a href="#" className="dropdown-item d-flex">
-                      <span className="avatar me-3 align-self-center bg-transparent">
-                        <img
-                          src="../../assets/img/flags/russia_flag.jpg"
-                          alt="img"
-                        />
-                      </span>
-                      <div className="d-flex">
-                        <span className="mt-2">Russia</span>
-                      </div>
-                    </a>
-                    <a href="#" className="dropdown-item d-flex">
-                      <span className="avatar  me-3 align-self-center bg-transparent">
-                        <img
-                          src="../../assets/img/flags/spain_flag.jpg"
-                          alt="img"
-                        />
-                      </span>
-                      <div className="d-flex">
-                        <span className="mt-2">spain</span>
-                      </div>
-                    </a>
-                  </div>
-                </div>
-              </li>
+              <CountryDropDown />
             </ul>
             <div className="nav nav-item  navbar-nav-right ms-auto">
               <div className="nav-link" id="bs-example-navbar-collapse-1">
