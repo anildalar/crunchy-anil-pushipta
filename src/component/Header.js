@@ -21,19 +21,19 @@ export default function Header() {
             </a>
             <NavLink className="header-brand" to={"/"+localStorage.getItem('role')+"/dashboard"}>
               <img
-                src="../../assets/img/brand/logo-white.png"
+                src={ localStorage.getItem('logo') }
                 className="desktop-dark"
               />
               <img
-                src="../../assets/img/brand/logo.png"
+                src={ localStorage.getItem('logo') }
                 className="desktop-logo"
               />
               <img
-                src="../../assets/img/brand/favicon.png"
+                src={ localStorage.getItem('logo') }
                 className="desktop-logo-1"
               />
               <img
-                src="../../assets/img/brand/favicon-white.png"
+                src={ localStorage.getItem('logo') }
                 className="desktop-logo-dark"
               />
             </NavLink>

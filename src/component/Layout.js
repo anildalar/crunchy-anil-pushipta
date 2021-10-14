@@ -7,7 +7,7 @@ import Sidebar from './Sidebar';
 
 export default function Layout(props) {
     const history = useHistory();
-    i18n.changeLanguage(localStorage.getItem('lang'));
+    //i18n.changeLanguage(localStorage.getItem('lang'));
     useEffect(() => {
         if(!localStorage.getItem("jwt_token")){
            history.push('/');
