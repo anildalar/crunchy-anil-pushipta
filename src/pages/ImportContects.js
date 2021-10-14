@@ -1,7 +1,8 @@
 import React, { useState } from 'react'
 import Layout from '../component/Layout';
 import Sidebar from '../component/Sidebar';
-import $ from 'jquery'; 
+
+import { Collapse } from 'bootstrap'
 /**
 * @author
 * @function ImportContects
@@ -10,12 +11,12 @@ import $ from 'jquery';
 export const ImportContects = (props) => {
     const [csvFile, setCsvFile] = useState();
     const [textFile, setTextFile] = useState();
-    const [impoFileDate,setImpoFileDate]=useState({
-        "groupId":"",
-        "fileType":"",
-        "fileHeader":"",
-        "lineSpliter":"",
-        "rowSpliter":"",
+    const [impoFileDate, setImpoFileDate] = useState({
+        "groupId": "",
+        "fileType": "",
+        "fileHeader": "0",
+        "lineSpliter": "",
+        "rowSpliter": "",
     });
 
     const submit = (e) => {
@@ -45,11 +46,36 @@ export const ImportContects = (props) => {
 
     const handleFileType = (e) => {
         e.preventDefault();
-        alert(e.target.value);
-        $('#demo').collapse("hide");
-        /* $('#text').collapse("hide");
-         $('#csv').collapse("hide"); */
+        const dempC = new Collapse(document.getElementById('demo'), { toggle: false })
+        dempC.hide();
+        const csvC = new Collapse(document.getElementById('csv'), { toggle: false })
+        csvC.hide();
+        const textC = new Collapse(document.getElementById('text'), { toggle: false })
+        textC.hide();
+        switch (e.target.value) {
+            case "csv":
+                csvC.show();
+                break;
+            case "excel":
+                dempC.show();
+                break;
+            case "text":
+                textC.show();
+                break;
+            default:
+                break;
+        }
+        setImpoFileDate({ ...impoFileDate, [e.target.name]: e.target.value })
+        return true;
+    }
+    const handleData = (e) => {
+        e.preventDefault();
+        setImpoFileDate({ ...impoFileDate, [e.target.name]: e.target.value })
 
+    }
+    const check = (e) => {
+        e.preventDefault();
+        console.log(impoFileDate)
     }
     function downloadCSV() {
         const rows = [
@@ -170,12 +196,12 @@ export const ImportContects = (props) => {
                                         </div>
                                         <div id="menu1" className="container tab-pane fade mx-0"><br />
                                             <form id="uploadfiles" className   >
-                                                <input type="hidden" name="" />
+                                                <button className="btn btn-success" onClick={(e) => { check(e) }}>check</button>
                                                 <div className="row">
                                                     <div className="col-sm-6">
                                                         <div className="form-group">
-                                                            <label htmlFor="groups">Groups&nbsp;<sup className="text-danger">*</sup> : </label>
-                                                            <select className="form-control" name="group_id" id="groups" required>
+                                                            <label htmlFor="groupId">Groups&nbsp;<sup className="text-danger">*</sup> : </label>
+                                                            <select onBlur={(e) => { handleData(e) }} className="form-control" name="groupId" id="groupId" required>
                                                                 <option value>Select Groups</option>
                                                                 <option value={3}>anil tessta</option>
                                                                 <option value={4}>fsdafd</option>
@@ -195,7 +221,7 @@ export const ImportContects = (props) => {
                                                         <div className="form-group mb-2 ">
                                                             <div className="input-group rounded-start">
                                                                 <label htmlFor="excelfile" className=" btn btn-info bg-info ps-4">
-                                                                    <input onChange={(e)=>{handleFileType(e)}} type="radio" name="filetype" data-col="#demo" id="excelfile" className="form-check-input " defaultValue="excel" />
+                                                                    <input onChange={(e) => { handleFileType(e) }} type="radio" name="fileType" data-col="#demo" id="excelfile" className="form-check-input " defaultValue="excel" />
                                                                     Excell File
                                                                 </label>
                                                                 <span className="input-group-text rounded-end bg-info border-0 ps-4 " style={{ height: '39px' }} href="#demo" data-bs-toggle="collapse"><i className="fas fa-cog" /></span>
@@ -208,7 +234,7 @@ export const ImportContects = (props) => {
                                                         <div className="form-group mb-2">
                                                             <div className="input-group  mb-3  rounded-start">
                                                                 <label htmlFor="csvfile" className=" btn btn-warning bg-warning ps-4 ">
-                                                                    <input onChange={(e)=>{handleFileType(e)}} type="radio" name="filetype" data-col="#csv" id="csvfile" className="form-check-input " defaultValue="csv" />
+                                                                    <input onChange={(e) => { handleFileType(e) }} type="radio" name="fileType" data-col="#csv" id="csvfile" className="form-check-input " defaultValue="csv" />
                                                                     CSV File
                                                                 </label>
                                                                 <span className="input-group-text rounded-end bg-warning border-0 ps-4 " style={{ height: '39px' }} href="#csv" data-bs-toggle="collapse"><i className="fas fa-cog" /></span>
@@ -220,7 +246,7 @@ export const ImportContects = (props) => {
                                                         <div className="form-group mb-2">
                                                             <div className="input-group mb-3 rounded-start">
                                                                 <label htmlFor="textfile" className=" btn btn-primary bg-primary ps-4 ">
-                                                                    <input onChange={(e)=>{handleFileType(e)}} type="radio" name="filetype" data-col="#text" id="textfile" className="form-check-input  " defaultValue="text" required />
+                                                                    <input onChange={(e) => { handleFileType(e) }} type="radio" name="fileType" data-col="#text" id="textfile" className="form-check-input  " defaultValue="text" required />
                                                                     Text File
                                                                 </label>
                                                                 <span className=" input-group-text bg-primary rounded-end border-0 ps-4 " style={{ height: '39px' }} href="#text" data-bs-toggle="collapse"><i className="fas fa-cog" /></span>
@@ -234,8 +260,8 @@ export const ImportContects = (props) => {
                                                             <div className="row">
                                                                 <div className="col-sm-3">
                                                                     <div className="form-group mb-2">
-                                                                        <label htmlFor="s">header row:</label>
-                                                                        <input type="number" min={0} name="excelheader" id="excelheader" className="form-control form-control-sm" defaultValue={0} />
+                                                                        <label htmlFor="fileHeader">header row:</label>
+                                                                        <input type="number" min={0} name="fileHeader" id="fileHeader" onBlur={(e) => { handleData(e) }} className="form-control form-control-sm" defaultValue={0} />
                                                                     </div>
                                                                     <button type="button" id="button-a" className="btn btn-warning m-1  btn-sm">Download Sample file</button>
                                                                 </div>
@@ -245,8 +271,8 @@ export const ImportContects = (props) => {
                                                             <div className="row">
                                                                 <div className="col-sm-3">
                                                                     <div className="form-group mb-2">
-                                                                        <label htmlFor="csvheader">header row:</label>
-                                                                        <input type="number" min={0} name="csvheader" id="csvheader" className="form-control form-control-sm" defaultValue={0} />
+                                                                        <label htmlFor="fileHeader">header row:</label>
+                                                                        <input onBlur={(e) => { handleData(e) }} type="number" min={0} name="fileHeader" id="fileHeader" className="form-control form-control-sm" defaultValue={0} />
                                                                     </div>
                                                                     <button type="button" onClick={downloadCSV} className="btn btn-warning m-1  btn-sm">Download Sample file</button>
                                                                 </div>
@@ -256,14 +282,14 @@ export const ImportContects = (props) => {
                                                             <div className="row">
                                                                 <div className="col-sm-3">
                                                                     <div className="form-group mb-2">
-                                                                        <label htmlFor="textheader">header row:</label>
-                                                                        <input type="number" min={0} name="textheader" id="textheader" className="form-control" defaultValue={0} />
+                                                                        <label htmlFor="fileHeader">header row:</label>
+                                                                        <input onBlur={(e) => { handleData(e) }} type="number" min={0} name="fileHeader" id="fileHeader" className="form-control" defaultValue={0} />
                                                                     </div>
                                                                 </div>
                                                                 <div className="col-sm-4">
                                                                     <div className="form-group mb-2">
-                                                                        <label htmlFor="linesplitter">line Splitter</label>
-                                                                        <select className="form-control" name="linesplitter" id="linesplitter">
+                                                                        <label htmlFor="lineSpliter">line Splitter</label>
+                                                                        <select onBlur={(e) => { handleData(e) }} className="form-control" name="lineSpliter" id="lineSpliter">
                                                                             <option selected value="line">Line</option>
                                                                             <option value="none">None</option>
                                                                         </select>
@@ -271,8 +297,8 @@ export const ImportContects = (props) => {
                                                                 </div>
                                                                 <div className="col-sm-4">
                                                                     <div className="form-group mb-2">
-                                                                        <label htmlFor="columnsplitter">Row Splitter</label>
-                                                                        <input type="text" min={0} name="columnsplitter" id="columnsplitter" className="form-control" defaultValue="none" />
+                                                                        <label htmlFor="rowSpliter">Row Splitter</label>
+                                                                        <input onBlur={(e) => { handleData(e) }} type="text" min={0} name="rowSpliter" id="rowSpliter" className="form-control" defaultValue="none" />
                                                                         <div className="text-danger">Use (none) in case empty column splitter</div>
                                                                     </div>
                                                                 </div>
@@ -288,9 +314,7 @@ export const ImportContects = (props) => {
                                                         <div className="form-group my-2">
                                                             <div className="input-group py-2">
                                                                 <div className="custom-file">
-                                                                    <input onChange={(e) => {
-                                                                        setTextFile(e.target.files[0])
-                                                                    }} type="file" name="importFile" className="custom-file-input" id="importFile" required accept=".txt,.csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel" />
+                                                                    <input onChange={(e) => {setTextFile(e.target.files[0]) }} type="file" name="importFile" className="custom-file-input" id="importFile" required accept=".txt,.csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel" />
                                                                     <label className="custom-file-label" htmlFor="importFile">Choose File</label>
                                                                 </div>
                                                             </div>
@@ -322,7 +346,7 @@ export const ImportContects = (props) => {
             </div>
             {/* main-content closed */}
             <Sidebar />
-    </Layout>
+        </Layout>
     )
 
 }
