@@ -8,9 +8,7 @@ import { useTranslation } from "react-i18next";
 import i18n from "../../i18n";
 
 function Dashboard(props) {
-  useEffect(() => {
-    
-  }, [])
+  
   const { t } = useTranslation();
   return (
     <Layout>

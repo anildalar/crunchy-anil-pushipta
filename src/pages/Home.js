@@ -24,9 +24,11 @@ function Home(props) {
     const [userName, setUserName] = useState('crunchy@2021');//crunchy@2021
     const [error, setError] = useState("");
     const [password, setPassword] = useState('crunchy@admin');//'crunchy@admin'
+    
+    //i18n.changeLanguage(localStorage.getItem('lang'));
+    
     useEffect(() => {
         GetDomain(); 
-        i18n.changeLanguage(localStorage.getItem('lang'));
     }, [])
 
 
