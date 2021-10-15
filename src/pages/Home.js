@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react'
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useTranslation } from "react-i18next";
 import { useHistory } from 'react-router-dom';
 import { connect, useDispatch, } from 'react-redux';
@@ -8,15 +9,11 @@ import $ from "jquery";
 import axios from '../axios';
 import loginAttempt from '../redux/actions/loginAttempt';
 import i18n from '../i18n';
+
 import baseUrl from '../helpers/helper';
 import GetDomain from '../serviceprovider/GetDomain';
 import CountryDropDown from '../component/UI/CountryDropDown';
 
-
-function validateEmail(userName) {
-    const re = /[-!$%^&*()_+|~=`{}\[\]:";'<>?,.@\/]/;
-    return re.test(String(userName).toLowerCase());
-}
 function Home(props) {
 
     const history = useHistory();
@@ -26,10 +23,17 @@ function Home(props) {
     const [password, setPassword] = useState('crunchy@admin');//'crunchy@admin'
     
     //i18n.changeLanguage(localStorage.getItem('lang'));
-    
     useEffect(() => {
+
         GetDomain(); 
+        const setLanguage = async () => {
+            const language = await AsyncStorage.getItem("language");
+            i18n.changeLanguage(language)
+          }
+          setLanguage();
     }, [])
+
+  
 
 
     function login(e) {
