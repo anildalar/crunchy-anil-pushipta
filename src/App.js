@@ -11,6 +11,7 @@ import Home from "./pages/Home";
 import Pushpita from "./pages/Pushpita";
 import Routing from "./pages/Routing";
 import ClientConnections from "./pages/SystemAdmin/ClientConnections";
+import TableData from "./pages/SystemAdmin/TableData";
 
 export default function App() {
   var comp;
@@ -49,6 +50,7 @@ export default function App() {
         <Route path="/pushpita" component={ Pushpita }></Route>
         <Route path="/routing" component={ Routing }></Route>
         <Route path="/ClientConnections" component={ ClientConnections }></Route>
+        <Route path="/TableData" component={ TableData }></Route>
       </Router>
     </>
   )

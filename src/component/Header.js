@@ -2,6 +2,7 @@ import React from 'react';
 import { useHistory } from 'react-router';
 import { NavLink } from 'react-router-dom';
 import ClientConnections from '../pages/SystemAdmin/ClientConnections';
+import TableData from '../pages/SystemAdmin/TableData';
 import Domain from "./Domain"
 import CountryDropDown from './UI/CountryDropDown';
 export default function Header() {
@@ -1247,6 +1248,11 @@ export default function Header() {
                     <li aria-haspopup="true">
                       <NavLink onClick={ClientConnections} className="slide-item" to="/ClientConnections">
                         Client Connections
+                      </NavLink>
+                    </li>
+                    <li aria-haspopup="true">
+                      <NavLink onClick={TableData} className="slide-item" to="/TableData">
+                        Data Table
                       </NavLink>
                     </li>
                   </ul>

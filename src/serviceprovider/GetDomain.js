@@ -18,10 +18,11 @@ function getDomain(){
         localStorage.setItem('domainData',JSON.stringify(data));
         localStorage.setItem('domainTitle',data.data.domainTitle);
         localStorage.setItem('logo',baseUrl+'/'+data.data.path+data.data.logo);
-    })
-    .catch((error) => {
+    }).catch((error) => {
         console.error('Error:', error);
     });
 }
+
+
 
 module.exports = getDomain;

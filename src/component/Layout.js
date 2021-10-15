@@ -12,7 +12,22 @@ export default function Layout(props) {
         if(!localStorage.getItem("jwt_token")){
            history.push('/');
         }
-    }, [])
+        [
+            '/assets/plugins/horizontal-menu/horizontal-menu-2/horizontal-menu.js',
+            '/assets/plugins/perfect-scrollbar/perfect-scrollbar.min.js',
+            '/assets/plugins/perfect-scrollbar/p-scroll.js',
+            '/assets/plugins/sidebar/sidebar-custom.js',
+            '/assets/plugins/sidebar/sidebar.js',
+            '/assets/js/sticky.js'
+        ].forEach(function(value,index){
+            console.log(value);
+            const script = document.createElement("script");
+            script.src = value;
+            script.async = true;
+            //script.onload = () => this.scriptLoaded();
+            document.body.appendChild(script);  
+        });
+    }, []);
     return (
         <React.Fragment>
             <div className="page">

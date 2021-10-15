@@ -119,8 +119,7 @@ export default function ClientConnections() {
                           <option value="Safari">Safari</option>
                           <option value="Opera">Opera</option>
                           <option value="Internet Explorer">
-                            {" "}
-                            Internet Explorer{" "}
+                            Internet Explorer
                           </option>
                         </select>
                       </div>

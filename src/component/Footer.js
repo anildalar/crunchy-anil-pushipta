@@ -377,6 +377,7 @@ export default function Footer() {
             <script src={process.env.PUBLIC_URL+"/assets/plugins/jqvmap/maps/jquery.vmap.usa.js"}></script>	
             <script src={process.env.PUBLIC_URL+"/assets/js/jquery.vmap.sampledata.js"}></script>
             <script src={process.env.PUBLIC_URL+"/assets/plugins/jqvmap/jquery.vmap.min.js"}></script>
+            <script src={process.env.PUBLIC_URL+"/assets/js/test.js"}></script>
             
             
         </React.Fragment >
