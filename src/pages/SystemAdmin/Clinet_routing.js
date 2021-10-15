@@ -42,12 +42,11 @@ export default function Clinet_routing() {
                     </div>
                     <div className="row">
                         <div className="col-md-12 col-xl-12 col-xs-12 col-sm-12">
-                            {/* start next time hare  */}
-                            <div classname="card ">
+                            <div className="card ">
                                 <div className="card-header bg-info px-2 py-1">
-                                    <h5 className="m-2 text-white">SMPP Connection</h5>
+                                    <h5 className="m-2 text-white">Client Connection</h5>
                                 </div>
-                               <div className="card-body bg-white">
+                                <div className="card-body bg-white">
                                     <form method="post">
                                         <input type="hidden" name="csrf_test_name" defaultValue="67b8a119df747fe7507eeb73ebf6ab81" />
                                         <div className="row row-sm">
@@ -74,7 +73,7 @@ export default function Clinet_routing() {
                                                         <option value={1}>Afghanistan</option>
                                                         <option value={2}>Albania</option>
                                                         <option value={3}>Algeria</option>
-                                                       </select>
+                                                    </select>
                                                 </div>
                                             </div>
                                             <div className="col-sm-3">
@@ -89,10 +88,42 @@ export default function Clinet_routing() {
                                         </div>
                                     </form>
                                 </div>
-
+                            
                             </div>
-
                         </div>
+                        <div className="col-md-12 col-xl-12 col-xs-12 col-sm-12">
+                        <div className="card">
+                                <div className="card-header bg-info px-2 py-1">
+                                    <h5 className="m-2 text-white">SMPP Connection</h5>
+                                </div>
+                                 <div className="card-body">
+                  <div className="table-responsive">
+                    <table className="table text-md-nowrap" id="example1">
+                      <thead>
+                        <tr>
+                          <th className="wd-15p border-bottom-0">First name</th>
+                          <th className="wd-15p border-bottom-0">Last name</th>
+                          <th className="wd-20p border-bottom-0">Position</th>
+                          <th className="wd-15p border-bottom-0">Start date</th>
+                          <th className="wd-10p border-bottom-0">Salary</th>
+                          <th className="wd-25p border-bottom-0">E-mail</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr>
+                          <td>Bella</td>
+                          <td>Chloe</td>
+                          <td>System Developer</td>
+                          <td>2018/03/12</td>
+                          <td>$654,765</td>
+                          <td>b.Chloe@datatables.net</td>
+                        </tr>
+                       </tbody>
+                    </table>
+                  </div>
+                  </div>
+                            </div>
+                            </div>
                     </div>
                 </div>
             </div>
