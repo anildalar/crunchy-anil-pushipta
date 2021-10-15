@@ -13,12 +13,10 @@ export default function Layout(props) {
            history.push('/');
         }
         [
-            '/assets/plugins/horizontal-menu/horizontal-menu-2/horizontal-menu.js',
-            '/assets/plugins/perfect-scrollbar/perfect-scrollbar.min.js',
-            '/assets/plugins/perfect-scrollbar/p-scroll.js',
+            
             '/assets/plugins/sidebar/sidebar-custom.js',
             '/assets/plugins/sidebar/sidebar.js',
-            '/assets/js/sticky.js'
+            
         ].forEach(function(value,index){
             console.log(value);
             const script = document.createElement("script");

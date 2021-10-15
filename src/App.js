@@ -14,8 +14,7 @@ import ClientConnections from "./pages/SystemAdmin/ClientConnections";
 import TableData from "./pages/SystemAdmin/TableData";
 
 export default function App() {
-  var comp;
-  var role = localStorage.getItem('role');
+  var comp,role = localStorage.getItem('role');
   
     //alert(role);
     switch(role){
