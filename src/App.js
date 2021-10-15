@@ -12,6 +12,9 @@ import Pushpita from "./pages/Pushpita";
 import Routing from "./pages/Routing";
 import ClientConnections from "./pages/SystemAdmin/ClientConnections";
 import TableData from "./pages/SystemAdmin/TableData";
+import Createuser from "./pages/SystemAdmin/Createuser";
+import Vender_create from "./pages/SystemAdmin/Vender_create";
+import Clinet_routing from "./pages/SystemAdmin/Clinet_routing";
 
 export default function App() {
   var comp;
@@ -51,6 +54,10 @@ export default function App() {
         <Route path="/routing" component={ Routing }></Route>
         <Route path="/ClientConnections" component={ ClientConnections }></Route>
         <Route path="/TableData" component={ TableData }></Route>
+        <Route path="/Smmp" component={ Createuser }></Route>
+        <Route path="/Vendercreate" component={ Vender_create }></Route>
+        <Route path="/Clinet_routing" component={ Clinet_routing }></Route>
+
       </Router>
     </>
   )
