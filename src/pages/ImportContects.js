@@ -9,38 +9,72 @@ import { Collapse } from 'bootstrap'
 **/
 
 export const ImportContects = (props) => {
-    const [csvFile, setCsvFile] = useState();
-    const [textFile, setTextFile] = useState();
+    const [files, setfiles] = useState();
     const [impoFileDate, setImpoFileDate] = useState({
         "groupId": "",
         "fileType": "",
         "fileHeader": "0",
-        "lineSpliter": "",
-        "rowSpliter": "",
+        "lineSpliter": "none",
+        "rowSpliter": ",",
+        "preView": ""
     });
 
     const submit = (e) => {
         e.preventDefault()
-        if (csvFile) {
-            console.log(csvFile)
-            const file = csvFile;
-            const reader = new FileReader();
 
-            reader.onload = function (e) {
-                const text = e.target.result;
-                console.log(text);
+        // if (csvFile) {
+        //     console.log(csvFile)
+        //     const file = csvFile;
+        //     const reader = new FileReader();
+        //     reader.onload = function (e) {
+        //         const text = e.target.result;
+        //         console.log(text);
+        //     }
+
+        //     reader.readAsText(file);
+        // } else if (textFile) {
+        //     console.log(impoFileDate.preView);
+        //     console.log(textFile);
+        //     const file = textFile;
+        //     const reader = new FileReader();
+        //     reader.onload = function (e) {
+        //         const text = e.target.result.split(/\r\n|\n/);
+        //         console.log(text);
+        //     }
+        //     reader.readAsText(file);
+
+        // }
+
+
+    }
+    const fileRead = (e) => {
+        alert("okok")
+        let file = e.target.files[0];
+        setfiles(files);
+        if (impoFileDate.preView) {
+            switch (impoFileDate.fileType) {
+                case "text":
+                    const reader = new FileReader();
+                    reader.onload = function (e) {
+                        const text = e.target.result.split(/\r\n|\n/);
+                        console.log(text);
+                    }
+                    reader.readAsText(file);
+
+                    break;
+                case "csv":
+                    const csvReader = new FileReader();
+                    csvReader.onload = function (e) {
+                        const csv = e.target.result.split(/\r\n|\n/);
+                        console.log(csv);
+                    }
+
+                    csvReader.readAsText(file);
+                    break;
+
+                default:
+                    break;
             }
-
-            reader.readAsText(file);
-        } else if (textFile) {
-            const file = textFile;
-            const reader = new FileReader();
-            reader.onload = function (e) {
-                const text = e.target.result.split(/\r\n|\n/);
-                console.log(text);
-            }
-            reader.readAsText(file);
-
         }
     }
 
@@ -73,6 +107,11 @@ export const ImportContects = (props) => {
         setImpoFileDate({ ...impoFileDate, [e.target.name]: e.target.value })
 
     }
+    const checkValue = (e) => {
+        e.preventDefault()
+        //alert(e.target.name);
+        setImpoFileDate({ ...impoFileDate, [e.target.name]: e.target.checked })
+    }
     const check = (e) => {
         e.preventDefault();
         console.log(impoFileDate)
@@ -88,7 +127,7 @@ export const ImportContects = (props) => {
         link.setAttribute("href", encodedUri);
         link.setAttribute("download", "sample file.csv");
         document.body.appendChild(link); // Required for FF
-        link.click(); // This will downl
+        link.click(); // This will download
     }
     function saveTextFile() {
         let content = 'mobile *,name,email\n911234567890,test,test@gmail.com'
@@ -211,8 +250,8 @@ export const ImportContects = (props) => {
                                                 </div>
                                                 <div className="form-group mb-2">
                                                     <div className="form-check">
-                                                        <label className="form-check-label ms-1">
-                                                            <input type="checkbox" name="preview" id="preview" className="form-check-input " defaultValue={1} />File Preview (for better parformance preview file)										</label>
+                                                        <label htmlFor="preView" className="form-check-label ms-1">
+                                                            <input onChange={(e) => { checkValue(e) }} type="checkbox" name="preView" id="preView" className="form-check-input " />File Preview (for better parformance preview file)										</label>
                                                     </div>
                                                 </div>
                                                 <div className="row">
@@ -261,7 +300,7 @@ export const ImportContects = (props) => {
                                                                 <div className="col-sm-3">
                                                                     <div className="form-group mb-2">
                                                                         <label htmlFor="fileHeader">header row:</label>
-                                                                        <input type="number" min={0} name="fileHeader" id="fileHeader" onBlur={(e) => { handleData(e) }} className="form-control form-control-sm" defaultValue={0} />
+                                                                        <input type="number" min={0} name="fileHeader" id="fileHeader" value={impoFileDate.fileHeader} onChange={(e) => { handleData(e) }} className="form-control form-control-sm" defaultValue={0} />
                                                                     </div>
                                                                     <button type="button" id="button-a" className="btn btn-warning m-1  btn-sm">Download Sample file</button>
                                                                 </div>
@@ -272,7 +311,7 @@ export const ImportContects = (props) => {
                                                                 <div className="col-sm-3">
                                                                     <div className="form-group mb-2">
                                                                         <label htmlFor="fileHeader">header row:</label>
-                                                                        <input onBlur={(e) => { handleData(e) }} type="number" min={0} name="fileHeader" id="fileHeader" className="form-control form-control-sm" defaultValue={0} />
+                                                                        <input value={impoFileDate.fileHeader} onChange={(e) => { handleData(e) }} type="number" min={0} name="fileHeader" id="fileHeader" className="form-control form-control-sm" defaultValue={0} />
                                                                     </div>
                                                                     <button type="button" onClick={downloadCSV} className="btn btn-warning m-1  btn-sm">Download Sample file</button>
                                                                 </div>
@@ -283,14 +322,14 @@ export const ImportContects = (props) => {
                                                                 <div className="col-sm-3">
                                                                     <div className="form-group mb-2">
                                                                         <label htmlFor="fileHeader">header row:</label>
-                                                                        <input onBlur={(e) => { handleData(e) }} type="number" min={0} name="fileHeader" id="fileHeader" className="form-control" defaultValue={0} />
+                                                                        <input value={impoFileDate.fileHeader} onChange={(e) => { handleData(e) }} type="number" min={0} name="fileHeader" id="fileHeader" className="form-control" defaultValue={0} />
                                                                     </div>
                                                                 </div>
                                                                 <div className="col-sm-4">
                                                                     <div className="form-group mb-2">
                                                                         <label htmlFor="lineSpliter">line Splitter</label>
-                                                                        <select onBlur={(e) => { handleData(e) }} className="form-control" name="lineSpliter" id="lineSpliter">
-                                                                            <option selected value="line">Line</option>
+                                                                        <select value={impoFileDate.lineSpliter} onChange={(e) => { handleData(e) }} className="form-control" name="lineSpliter" id="lineSpliter">
+                                                                            <option value="line">Line</option>
                                                                             <option value="none">None</option>
                                                                         </select>
                                                                     </div>
@@ -298,7 +337,7 @@ export const ImportContects = (props) => {
                                                                 <div className="col-sm-4">
                                                                     <div className="form-group mb-2">
                                                                         <label htmlFor="rowSpliter">Row Splitter</label>
-                                                                        <input onBlur={(e) => { handleData(e) }} type="text" min={0} name="rowSpliter" id="rowSpliter" className="form-control" defaultValue="none" />
+                                                                        <input value={impoFileDate.rowSpliter} onChange={(e) => { handleData(e) }} type="text" min={0} name="rowSpliter" id="rowSpliter" className="form-control" defaultValue="none" />
                                                                         <div className="text-danger">Use (none) in case empty column splitter</div>
                                                                     </div>
                                                                 </div>
@@ -314,7 +353,7 @@ export const ImportContects = (props) => {
                                                         <div className="form-group my-2">
                                                             <div className="input-group py-2">
                                                                 <div className="custom-file">
-                                                                    <input onChange={(e) => {setTextFile(e.target.files[0]) }} type="file" name="importFile" className="custom-file-input" id="importFile" required accept=".txt,.csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel" />
+                                                                    <input onChange={(e) => { fileRead(e) }} type="file" name="importFile" className="custom-file-input" id="importFile" required accept=".txt,.csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel" />
                                                                     <label className="custom-file-label" htmlFor="importFile">Choose File</label>
                                                                 </div>
                                                             </div>
