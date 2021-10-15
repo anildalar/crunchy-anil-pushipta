@@ -10,12 +10,12 @@ import UserDashboard from "./pages/User/Dashbord";
 import Home from "./pages/Home";
 import Pushpita from "./pages/Pushpita";
 import ClientConnections from "./pages/SystemAdmin/ClientConnections";
+import TableData from "./pages/SystemAdmin/TableData";
 import { Groups } from "./pages/Groups";
 import { ImportContects } from "./pages/ImportContects";
 
 export default function App() {
-  var comp;
-  var role = localStorage.getItem('role');
+  var comp,role = localStorage.getItem('role');
   
     //alert(role);
     switch(role){
@@ -56,6 +56,7 @@ export default function App() {
       </Route>
         
         <Route path="/ClientConnections" component={ ClientConnections }></Route>
+        <Route path="/TableData" component={ TableData }></Route>
       </Router>
     </>
   )

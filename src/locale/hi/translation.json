@@ -1,5 +1,16 @@
 {
     "translation": {
-        "Welcome to React": "Welcome to React and react-i18next"
+        "Welcome": "स्वागत",
+        "Welcome to React": "Welcome to React and react-i18next",
+        "please sign in to continue": "कृपया जारी रखने के लिए साइन इन करें",
+        "Email":"ईमेल",
+        "Password":"पासवर्ड",
+        "Forgot password":"पासवर्ड भूल गए",
+        "Create an Account":"खाता बनाएं",
+        "Don't have an account":"खाता नहीं है",
+        "Signup with Twitter":"ट्विटर के साथ साइन अप करें",
+        "Signup with Facebook":"फेसबुक पर विवरण दे",
+        "Enter your password":"अपना कूटशब्द भरें",
+        "Enter your email":"अपना ईमेल दर्ज करें"
     }
 }

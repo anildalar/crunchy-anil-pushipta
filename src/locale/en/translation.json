@@ -1,5 +1,16 @@
 {
     "translation": {
-        "Welcome to React": "Welcome to React and react-i18next"
+        "Welcome": "Welcome.",
+        "Welcome to React": "Welcome to React and react-i18next",
+        "please sign in to continue": "please sign in to continue",
+        "Email":"Email",
+        "Password":"Password",
+        "Forgot password":"Forgot password",
+        "Create an Account":"Forgot password",
+        "Don't have an account":"Don't have an account",
+        "Signup with Twitter":"Signup with Twitter",
+        "Signup with Facebook":"Signup with Facebook",
+        "Enter your password":"Enter your password",
+        "Enter your email":"Enter your email"
     }
 }
