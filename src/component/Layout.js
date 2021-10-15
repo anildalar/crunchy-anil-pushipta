@@ -13,10 +13,6 @@ export default function Layout(props) {
            history.push('/');
         }
         [
-            '/assets/js/jszip.js',
-            '/assets/js/xlsx.full.min.js',
-            '/assets/js/Filesever.js',
-
             '/assets/plugins/sidebar/sidebar-custom.js',
             '/assets/plugins/sidebar/sidebar.js',
             

@@ -24,21 +24,17 @@ function Home(props) {
     
     //i18n.changeLanguage(localStorage.getItem('lang'));
     useEffect(() => {
-
         GetDomain(); 
         const setLanguage = async () => {
-            const language = await AsyncStorage.getItem("language");
+            const language = await AsyncStorage.getItem("lang");
             i18n.changeLanguage(language)
-          }
-          setLanguage();
+        }
+        setLanguage();
     }, [])
-
-  
-
 
     function login(e) {
         e.preventDefault();
-        
+
         let isValid = true;
 
         let data = {
