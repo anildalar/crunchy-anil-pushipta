@@ -1,6 +1,8 @@
 import React, { useState } from 'react'
 import Layout from '../component/Layout';
 import Sidebar from '../component/Sidebar';
+import * as FileSaver from "file-saver";
+import * as XLSX from 'xlsx';
 
 import { Collapse } from 'bootstrap'
 /**
@@ -48,7 +50,6 @@ export const ImportContects = (props) => {
 
     }
     const fileRead = (e) => {
-        alert("okok")
         let file = e.target.files[0];
         setfiles(files);
         if (impoFileDate.preView) {
@@ -70,6 +71,23 @@ export const ImportContects = (props) => {
                     }
 
                     csvReader.readAsText(file);
+                    break;
+                case "excel":
+                    const excelreader = new FileReader();
+                    const rABS = !!excelreader.readAsBinaryString
+                    excelreader.onload = (evt) => { // evt = on_file_select event
+                        /* Parse data */
+                        const bstr = file;
+                        const wb = XLSX.read(bstr, { type: 'array' });
+                        /* Get first worksheet */
+                        const wsname = wb.SheetNames[0];
+                        const ws = wb.Sheets[wsname];
+                        /* Convert array of arrays */
+                        const data = XLSX.utils.sheet_to_json(ws, { header: 1 });
+                        /* Update state */
+                        console.log("Data>>>" + data);
+                    };
+                    (rABS) ? excelreader.readAsBinaryString(file) : excelreader.readAsArrayBuffer(file);
                     break;
 
                 default:
@@ -109,13 +127,37 @@ export const ImportContects = (props) => {
     }
     const checkValue = (e) => {
         e.preventDefault()
-        //alert(e.target.name);
+
         setImpoFileDate({ ...impoFileDate, [e.target.name]: e.target.checked })
     }
     const check = (e) => {
         e.preventDefault();
         console.log(impoFileDate)
     }
+    function downloadXsxl() {
+        var wb = XLSX.utils.book_new();
+        wb.Props = {
+            Title: "sample file",
+            Subject: "sample file",
+            Author: "d",
+            CreatedDate: new Date()
+        };
+        wb.SheetNames.push("sample file");
+        var ws_data = [['mobile *', 'name', 'email'], ['911234567890', 'test', 'test@gmail.com']];
+        var ws = XLSX.utils.json_to_sheet(ws_data);
+        wb.Sheets["sample file"] = ws;
+        var wbout = XLSX.write(wb, { bookType: 'xlsx', type: 'binary' });
+
+        function s2ab(s) {
+            var buf = new ArrayBuffer(s.length);
+            var view = new Uint8Array(buf);
+            for (var i = 0; i < s.length; i++) view[i] = s.charCodeAt(i) & 0xFF;
+            return buf;
+        }
+        FileSaver.saveAs(new Blob([s2ab(wbout)], { type: "application/octet-stream" }), 'sample file.xlsx');
+
+    }
+
     function downloadCSV() {
         const rows = [
             ["mobile *", "name", "email"], ['911234567890', 'test', 'test@gmail.com'],
@@ -302,7 +344,7 @@ export const ImportContects = (props) => {
                                                                         <label htmlFor="fileHeader">header row:</label>
                                                                         <input type="number" min={0} name="fileHeader" id="fileHeader" value={impoFileDate.fileHeader} onChange={(e) => { handleData(e) }} className="form-control form-control-sm" defaultValue={0} />
                                                                     </div>
-                                                                    <button type="button" id="button-a" className="btn btn-warning m-1  btn-sm">Download Sample file</button>
+                                                                    <button onClick={downloadXsxl} type="button" id="button-a" className="btn btn-warning m-1  btn-sm">Download Sample file</button>
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -372,6 +414,39 @@ export const ImportContects = (props) => {
                                                 </div>
                                             </form>
                                         </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div className="col-sm-12">
+                            <div className="card">
+                                <div className="card-header bg-info">
+                                    <h4 className="mb-0 text-white card-title">Import Contacts</h4>
+                                </div>
+                                <div className="card-body">
+                                    <div className="table-responsive">
+                                        <table className="table text-md-nowrap" id="example1">
+                                            <thead>
+                                                <tr>
+                                                    <th className="wd-15p border-bottom-0">First name</th>
+                                                    <th className="wd-15p border-bottom-0">Last name</th>
+                                                    <th className="wd-20p border-bottom-0">Position</th>
+                                                    <th className="wd-15p border-bottom-0">Start date</th>
+                                                    <th className="wd-10p border-bottom-0">Salary</th>
+                                                    <th className="wd-25p border-bottom-0">E-mail</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td>Bella</td>
+                                                    <td>Chloe</td>
+                                                    <td>System Developer</td>
+                                                    <td>2018/03/12</td>
+                                                    <td>$654,765</td>
+                                                    <td>b.Chloe@datatables.net</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
                                     </div>
                                 </div>
                             </div>
