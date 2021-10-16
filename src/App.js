@@ -15,6 +15,7 @@ import TableData from "./pages/SystemAdmin/TableData";
 import Createuser from "./pages/SystemAdmin/Createuser";
 import Vender_create from "./pages/SystemAdmin/Vender_create";
 import Clinet_routing from "./pages/SystemAdmin/Clinet_routing";
+import SenderId_Rul from "./pages/SystemAdmin/SenderId_Rul";
 
 export default function App() {
   var comp;
@@ -57,6 +58,7 @@ export default function App() {
         <Route path="/Smmp" component={ Createuser }></Route>
         <Route path="/Vendercreate" component={ Vender_create }></Route>
         <Route path="/Clinet_routing" component={ Clinet_routing }></Route>
+        <Route path="/SenderId_Rul" component={ SenderId_Rul }></Route>
 
       </Router>
     </>

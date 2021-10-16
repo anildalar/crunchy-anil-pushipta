@@ -574,6 +574,9 @@ export default function Header() {
                       <NavLink  className="" to="/Clinet_routing">
                       Clinet_routing
                       </NavLink>
+                      <NavLink  className="" to="/SenderId_Rul">
+                      SenderId_Rul
+                      </NavLink>
                     </li>
                   </ul>
                 </li>

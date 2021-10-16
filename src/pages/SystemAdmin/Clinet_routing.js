@@ -5,6 +5,7 @@ import { fetchOption, url } from '../../url'
 export default function Clinet_routing() {
     const [client, setClient] = useState([])
     const [Country, setCountry] = useState([])
+    const [CountClient, setcountClient] = useState([])
     useEffect(() => {
         fetch(url + '/client/getClient', {
             ...fetchOption
@@ -35,13 +36,16 @@ export default function Clinet_routing() {
     }, [])
     const handleChange = (e) => {
         e.preventDefault();
-        fetch(url+'/example.com/profile', {
-           ...fetchOption,
-            body: JSON.stringify(),
+        let id = e.target.value
+        fetch(url + '/client/conn/getConnbyClient', {
+            ...fetchOption,
+            body: JSON.stringify({ 'clientId': id }),
         })
             .then(response => response.json())
             .then(data => {
                 console.log('Success:', data);
+                setcountClient(data.data)
+                console.log(CountClient)
             })
             .catch((error) => {
                 console.error('Error:', error);
@@ -85,6 +89,7 @@ export default function Clinet_routing() {
                             </div>
                         </div>
                     </div>
+                  
                     <div className="row">
                         <div className="col-md-12 col-xl-12 col-xs-12 col-sm-12">
                             <div className="card ">
@@ -100,6 +105,7 @@ export default function Clinet_routing() {
                                                     <label htmlFor="carrier_id">Client&nbsp;<sup className="text-danger">*</sup></label>
 
                                                     <select onChange={handleChange} className="form-control form-control-sm" id="carrier_id" name="carrier_id" data-target="product_idv" required="required">
+                                                        <option value="">Select one</option>
                                                         {client.map((e) => {
                                                             return (
                                                                 <option value={e.userId}>{e.firstName} {e.lastName}</option>
@@ -111,20 +117,26 @@ export default function Clinet_routing() {
                                             <div className="col-sm-3">
                                                 <div className="form-group">
                                                     <label htmlFor="product_idv">Products</label>
-                                                    <select className="form-control form-control-sm" id="product_idv" name="product_id"><option value>Select Product</option><option value={2} data-type="MCCMNC" data-currency="EUR">Promotional( 100.00000-EUR) </option><option value={5} data-type="MCCMNC" data-currency="EUR">Premium( 10.00000-EUR) </option><option value={6} data-type="MCC" data-currency="null">High Quality( 100) </option></select>
+                                                    <select className="form-control form-control-sm" id="product_idv" name="product_id">
+                                                        <option value="">Select Product</option>
+                                                        {CountClient.map((e) => {
+                                                            return (
+                                                                <option value={e.id} >{e.createdAt}</option>
+                                                            )
+                                                        })}
+                                                    </select>
                                                 </div>
                                             </div>
                                             <div className="col-sm-3">
                                                 <div className="form-group">
                                                     <label htmlFor="country_id">Countries</label>
                                                     <select className="form-control form-control-sm" id="country_id" name="country_id">
-                                                        {Country.map((e) => {
+                                                        <option value="">Select Countries</option>
+                                                        {Country.map((e, index) => {
                                                             return (
                                                                 <option value={e.id}>{e.country_name}</option>
                                                             )
-                                                        }
-                                                        )
-                                                        }
+                                                        })}
                                                     </select>
                                                 </div>
                                             </div>
@@ -140,9 +152,9 @@ export default function Clinet_routing() {
                                         </div>
                                     </form>
                                 </div>
-
                             </div>
                         </div>
+
                         <div className="col-md-12 col-xl-12 col-xs-12 col-sm-12">
                             <div className="card">
                                 <div className="card-header bg-info px-2 py-1">
