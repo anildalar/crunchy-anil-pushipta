@@ -20,6 +20,7 @@ export const ImportContects = (props) => {
         "rowSpliter": ",",
         "preView": ""
     });
+    
 
     const submit = (e) => {
         e.preventDefault()
@@ -74,22 +75,17 @@ export const ImportContects = (props) => {
                     break;
                 case "excel":
                     const excelreader = new FileReader();
-                    const rABS = !!excelreader.readAsBinaryString
-                    excelreader.onload = (evt) => { // evt = on_file_select event
-                        /* Parse data */
-                        const bstr = file;
-                        const wb = XLSX.read(bstr, { type: 'array' });
-                        /* Get first worksheet */
+                    excelreader.onload = (evt) => { 
+                        const bstr = evt.target.result;
+                        const wb = XLSX.read(bstr, { type: 'binary' });
                         const wsname = wb.SheetNames[0];
                         const ws = wb.Sheets[wsname];
-                        /* Convert array of arrays */
-                        const data = XLSX.utils.sheet_to_json(ws, { header: 1 });
-                        /* Update state */
-                        console.log("Data>>>" + data);
+                        const data = XLSX.utils.sheet_to_csv(ws, { header: 1 });
+                        const xlexData = data.split(/\r\n|\n/);
+                        console.log(xlexData);
                     };
-                    (rABS) ? excelreader.readAsBinaryString(file) : excelreader.readAsArrayBuffer(file);
+                    excelreader.readAsBinaryString(file);
                     break;
-
                 default:
                     break;
             }
@@ -276,7 +272,7 @@ export const ImportContects = (props) => {
                                             </div>
                                         </div>
                                         <div id="menu1" className="container tab-pane fade mx-0"><br />
-                                            <form id="uploadfiles" className   >
+                                            <form id="uploadfiles" className=""   >
                                                 <button className="btn btn-success" onClick={(e) => { check(e) }}>check</button>
                                                 <div className="row">
                                                     <div className="col-sm-6">
