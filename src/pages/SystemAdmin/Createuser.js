@@ -45,7 +45,7 @@ const Createuser = (props) => {
         "supportNo": ""
     })
     useEffect(() => {
-        swal("Success!", t('SMPP Conenction created Successfully!'), "success");
+        //swal("Success!", t('SMPP Conenction created Successfully!'), "success");
         fetch(url + "/master/route/getRouteType", {
             ...fetchOption
         })

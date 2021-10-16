@@ -1,7 +1,52 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import Header from '../../component/Header'
+import { fetchOption, url } from '../../url'
 
 export default function Clinet_routing() {
+    const [client, setClient] = useState([])
+    const [Country, setCountry] = useState([])
+    useEffect(() => {
+        fetch(url + '/client/getClient', {
+            ...fetchOption
+        })
+            .then(response => response.json())
+            .then(data => {
+                console.log('Success:', data);
+                setClient(data.data)
+                //console.log(JSON.stringify(client))
+            })
+            .catch((error) => {
+                console.error('Error:', error);
+            });
+
+    }, [])
+    useEffect(() => {
+        fetch(url + '/master/get/countries', {
+            ...fetchOption
+        }).then(response => response.json())
+            .then(data => {
+                console.log('Success +contries:', data);
+                setCountry(data.data)
+                console.log(Country)
+            })
+            .catch((error) => {
+                console.error('Error:', error);
+            });
+    }, [])
+    const handleChange = (e) => {
+        e.preventDefault();
+        fetch(url+'/example.com/profile', {
+           ...fetchOption,
+            body: JSON.stringify(),
+        })
+            .then(response => response.json())
+            .then(data => {
+                console.log('Success:', data);
+            })
+            .catch((error) => {
+                console.error('Error:', error);
+            });
+    }
     return (
         <React.Fragment>
             <Header />
@@ -52,10 +97,14 @@ export default function Clinet_routing() {
                                         <div className="row row-sm">
                                             <div className="col-sm-3">
                                                 <div className="form-group">
-                                                    <label htmlFor="carrier_id">Carrier&nbsp;<sup className="text-danger">*</sup></label>
-                                                    <select className="form-control form-control-sm" id="carrier_id" name="carrier_id" data-target="product_idv" required="required">
-                                                        <option value={0}>None</option>
-                                                        <option value={1}>TCL Admin</option>
+                                                    <label htmlFor="carrier_id">Client&nbsp;<sup className="text-danger">*</sup></label>
+
+                                                    <select onChange={handleChange} className="form-control form-control-sm" id="carrier_id" name="carrier_id" data-target="product_idv" required="required">
+                                                        {client.map((e) => {
+                                                            return (
+                                                                <option value={e.userId}>{e.firstName} {e.lastName}</option>
+                                                            )
+                                                        })}
                                                     </select>
                                                 </div>
                                             </div>
@@ -69,10 +118,13 @@ export default function Clinet_routing() {
                                                 <div className="form-group">
                                                     <label htmlFor="country_id">Countries</label>
                                                     <select className="form-control form-control-sm" id="country_id" name="country_id">
-                                                        <option value={0}>None</option>
-                                                        <option value={1}>Afghanistan</option>
-                                                        <option value={2}>Albania</option>
-                                                        <option value={3}>Algeria</option>
+                                                        {Country.map((e) => {
+                                                            return (
+                                                                <option value={e.id}>{e.country_name}</option>
+                                                            )
+                                                        }
+                                                        )
+                                                        }
                                                     </select>
                                                 </div>
                                             </div>
@@ -88,42 +140,42 @@ export default function Clinet_routing() {
                                         </div>
                                     </form>
                                 </div>
-                            
+
                             </div>
                         </div>
                         <div className="col-md-12 col-xl-12 col-xs-12 col-sm-12">
-                        <div className="card">
+                            <div className="card">
                                 <div className="card-header bg-info px-2 py-1">
                                     <h5 className="m-2 text-white">SMPP Connection</h5>
                                 </div>
-                                 <div className="card-body">
-                  <div className="table-responsive">
-                    <table className="table text-md-nowrap" id="example1">
-                      <thead>
-                        <tr>
-                          <th className="wd-15p border-bottom-0">First name</th>
-                          <th className="wd-15p border-bottom-0">Last name</th>
-                          <th className="wd-20p border-bottom-0">Position</th>
-                          <th className="wd-15p border-bottom-0">Start date</th>
-                          <th className="wd-10p border-bottom-0">Salary</th>
-                          <th className="wd-25p border-bottom-0">E-mail</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        <tr>
-                          <td>Bella</td>
-                          <td>Chloe</td>
-                          <td>System Developer</td>
-                          <td>2018/03/12</td>
-                          <td>$654,765</td>
-                          <td>b.Chloe@datatables.net</td>
-                        </tr>
-                       </tbody>
-                    </table>
-                  </div>
-                  </div>
+                                <div className="card-body">
+                                    <div className="table-responsive">
+                                        <table className="table text-md-nowrap" id="example1">
+                                            <thead>
+                                                <tr>
+                                                    <th className="wd-15p border-bottom-0">First name</th>
+                                                    <th className="wd-15p border-bottom-0">Last name</th>
+                                                    <th className="wd-20p border-bottom-0">Position</th>
+                                                    <th className="wd-15p border-bottom-0">Start date</th>
+                                                    <th className="wd-10p border-bottom-0">Salary</th>
+                                                    <th className="wd-25p border-bottom-0">E-mail</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td>Bella</td>
+                                                    <td>Chloe</td>
+                                                    <td>System Developer</td>
+                                                    <td>2018/03/12</td>
+                                                    <td>$654,765</td>
+                                                    <td>b.Chloe@datatables.net</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
                             </div>
-                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
