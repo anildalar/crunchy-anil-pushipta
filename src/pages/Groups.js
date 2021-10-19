@@ -7,8 +7,8 @@ import Layout from '../component/Layout'
 **/
 
 export const Groups = (props) => {
-  return(
-    <Layout>
+    return (
+        <Layout>
             {/* main-content opened */}
             <div className="main-content horizontal-content">
                 {/* container opened */}
@@ -49,53 +49,50 @@ export const Groups = (props) => {
                     {/* breadcrumb */}
                     {/* row  your work start here */}
                     <div className="row">
-                        <div className="col-3">
+                        <div className="col-xl-4">
                             <div className="card">
-                                <div className="card-header p-2 text-white rounded-0" style={{ background: "#03a9f3" }}>
-                                <h5>Create Group</h5>
+                                <div className="card-header bg-info">
+                                    <h4 className="mb-0 text-white card-title">Create Group</h4>
                                 </div>
-                                <div className="card-body">
-                                    <form>
-                                        <div className="mb-3">
-                                            <label htmlFor="group" className="form-label">Group Name  *</label>
-                                            <input type="text" className="form-control" id="group" aria-describedby="emailHelp" />
-
+                                <form id="groupfrom">
+                                    <input type="hidden" name="csrf_test_name"  />
+                                    <div className="card-body">
+                                        <div className="form-group">
+                                            <label htmlFor="group_name">Group Name &nbsp;<sup className="text-danger">*</sup></label>
+                                            <input type="text" className="form-control" name="group_name" id="group_name" required="required" />
                                         </div>
-                                        <div className="mb-3">
-                                            <label htmlFor="Description" className="form-label">Description  *</label>
-                                            <textarea type="password" className="form-control" id="exampleInputPassword1" ></textarea>
+                                        <div className="form-group mb-0">
+                                            <label htmlFor="discription">Description &nbsp;<sup className="text-danger">*</sup></label>
+                                            <textarea className="form-control" name="description" id="discription" required="required" rows={4} defaultValue={""} />
                                         </div>
-                                        <div className="mb-3">
-                                            <label htmlFor="Description" className="form-label">Status  *</label>
-                                            <select className="form-select" aria-label="Default select example">
-                                                <option selected>select status</option>
-
-                                                <option value="" >active</option>
-                                                <option value="">inactive</option>
+                                        <div className="form-group">
+                                            <label htmlFor="group_status">Status &nbsp;<sup className="text-danger">*</sup></label>
+                                            <select className="form-control" name="group_status" id="group_status" required="required">
+                                                <option value>Select Status</option>
+                                                <option value={1}>Active</option>
+                                                <option value={0}>Inactive</option>
                                             </select>
                                         </div>
-
-                                        <button type="button" className="btn " style={{ background: "#03a9f3" }}>Save</button>
-                                        <button type="button" className="btn  ms-2" style={{ background: "#dea701" }}>clear</button>
-                                    </form>
-
-                                </div>
+                                    </div>
+                                    <div className="card-footer">
+                                        <button type="submit" className="btn btn-sm btn-info submitBtn">Save</button>
+                                        <button type="reset" className="btn btn-sm btn-warning">Clear</button>
+                                    </div>
+                                </form>
                             </div>
-
-
                         </div>
-                        <div className="col-9">
+                        <div className="col-xl-8">
                             <div className="card">
-                                <div className="card-header text-white p-2 rounded-0" style={{ background: "#03a9f3" }}>
-                                    <h5>Create Group</h5>
+                                <div className="card-header bg-info">
+                                    <h4 className="mb-0 text-white card-title">Create Group</h4>
                                 </div>
                                 <div className="card-body">
-                                    <h5 className="card-title">Special title treatment</h5>
-                                    <p className="card-text">With supporting text below as a natural lead-in to additional content.</p>
-                                    <a href="#" className="btn btn-primary">Go somewhere</a>
                                 </div>
                             </div>
+
+
                         </div>
+
 
                     </div>
                     {/* row closed  end here*/}
@@ -103,7 +100,7 @@ export const Groups = (props) => {
                 {/* Container closed */}
             </div>
             {/* main-content closed */}
-        </Layout>
-   )
+        </Layout >
+    )
 
- }
+}

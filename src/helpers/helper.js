@@ -1,4 +1,4 @@
-const baseUrl = 'http://192.168.1.47:3000';
+const baseUrl = 'http://173.249.39.43:3000';
 
 let validateEmail = (userName)=>{
     const re = /[-!$%^&*()_+|~=`{}\[\]:";'<>?,.@\/]/;

@@ -3,7 +3,7 @@ import Layout from '../component/Layout';
 import Sidebar from '../component/Sidebar';
 import * as FileSaver from "file-saver";
 import * as XLSX from 'xlsx';
-import swal from 'sweetalert';
+
 import { Collapse } from 'bootstrap'
 /**
 * @author
@@ -39,35 +39,13 @@ export const ImportContects = (props) => {
                 case "text":
                     const reader = new FileReader();
                     reader.onload =  (e)=> {
-                        const textResult = e.target.result;
-                        //.split(/\r\n|\n/);
+                        const text = e.target.result.split(/\r\n|\n/);
 
-                        console.log(textResult);
-                        // setTable(previousState => {
-                        //     return [ ...previousState, ...text]
-                        // });
-                        // console.log(table);
-                        if(impoFileDate.lineSpliter=='none'){
-                            if(impoFileDate.rowSpliter=='none'){
-                                swal('Alert',"We couldn't process unsorted file with current Splitter",'warning');
-                            }else{
-                                let rowResult=textResult.split(impoFileDate.rowSpliter);
-                                console.log(rowResult);
-                                if(rowResult.length > 1){
-                                    console.log(rowResult);
-                                }else{
-                                    swal('Alert',"Please enter correct Column splitter.",'warning');
-                                }
-                            }
-                        }else{
-                            let lineResult=textResult.split(/\r\n|\n/);
-                            if(lineResult.length > 1){
-                                
-                            }else{
-                                swal('Alert',"We couldn't process unsorted file with current Splitter",'warning');
-                            }
-                        }
-                        
+                        console.log(text);
+                        setTable(previousState => {
+                            return [ ...previousState, ...text]
+                        });
+                        console.log(table);
 
                     }
                     reader.readAsText(file);
@@ -79,14 +57,29 @@ export const ImportContects = (props) => {
                     csvReader.onload = (e)=> {
                         const csv = e.target.result.split(/\r\n|\n/);
                        // console.log('ok',csv) ;
-                        // setTable(previousState => {
-                        //     return [ ...previousState, ...csv]
-                        // });
+                        setTable(previousState => {
+                            return [ ...previousState, ...csv]
+                        });
                        
                         console.log('ok',csv);
                         console.log(table);
                     }
+
+
                     csvReader.readAsText(file);
+
+                    // document.querySelector('#tbody').appendChild(`
+                    //     <tr>
+                    //         <td>1</td>
+                    //         <td>2</td>
+                    //         <td>3</td>
+                    //         <td>4</td>
+                    //         <td>5</td>
+                    //     </tr>
+                    // `);
+
+                    //console.log(table);
+                    
                     break;
                 case "excel":
                     const excelreader = new FileReader();
@@ -99,9 +92,9 @@ export const ImportContects = (props) => {
                         var xlexData = data.split(/\r\n|\n/);
                         console.log(xlexData);
 
-                        // setTable(previousState => {
-                        //     return [ ...previousState, ...xlexData]
-                        // });
+                        setTable(previousState => {
+                            return [ ...previousState, ...xlexData]
+                        });
                         console.log(table);
                     };
                     
