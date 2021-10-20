@@ -552,6 +552,11 @@ export default function Header() {
                         ImportContects
                       </NavLink>
                     </li>
+                    <li>
+                    <NavLink  className="" to="/datatable">
+                        Datatable
+                      </NavLink>
+                    </li>
                   </ul>
                 </li>
               </ul>

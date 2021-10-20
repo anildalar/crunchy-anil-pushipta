@@ -14,6 +14,8 @@ import TableData from "./pages/SystemAdmin/TableData";
 import { Groups } from "./pages/Groups";
 import { ImportContects } from "./pages/ImportContects";
 
+import { Abc } from "./pages/Abc";
+
 export default function App() {
   var comp,role = localStorage.getItem('role');
   
@@ -50,6 +52,9 @@ export default function App() {
         <Route path="/pushpita" component={ Pushpita }></Route>
         <Route path="/group">
         <Groups />
+      </Route>
+      <Route path="/datatable">
+        <Abc />
       </Route>
       <Route path="/importcontects">
         <ImportContects />

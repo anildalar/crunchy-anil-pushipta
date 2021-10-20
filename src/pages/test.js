@@ -3,8 +3,9 @@ import Layout from '../component/Layout';
 import Sidebar from '../component/Sidebar';
 import * as FileSaver from "file-saver";
 import * as XLSX from 'xlsx';
-
+import swal from 'sweetalert';
 import { Collapse } from 'bootstrap'
+import $ from 'jquery'
 /**
 * @author
 * @function ImportContects
@@ -12,7 +13,7 @@ import { Collapse } from 'bootstrap'
 
 export const ImportContects = (props) => {
     const [files, setfiles] = useState();
-    const [table, setTable] = useState([]);
+    const [tableData, setTable] = useState([]);
     const [impoFileDate, setImpoFileDate] = useState({
         "groupId": "",
         "fileType": "",
@@ -22,83 +23,102 @@ export const ImportContects = (props) => {
         "preView": ""
     });
 
-   
+
 
     const submit = (e) => {
         e.preventDefault()
 
-        
+
 
     }
     const fileRead = (e) => {
-        
-        let file = e.target.files[0];
+
+        var file = e.target.files[0];
         setfiles(files);
         if (impoFileDate.preView) {
             switch (impoFileDate.fileType) {
                 case "text":
-                    const reader = new FileReader();
-                    reader.onload =  (e)=> {
-                        const text = e.target.result.split(/\r\n|\n/);
+                    if (file.name.toLowerCase().lastIndexOf(".text") == -1) {
+                        swal('Warning !', 'Please select .xlsx file.', 'warning');
+                        document.getElementById('importFile').value = ''
+                    } else {
+                        const reader = new FileReader();
+                        reader.onload = (e) => {
+                            const textResult = e.target.result;
+                            //.split(/\r\n|\n/);
 
-                        console.log(text);
-                        setTable(previousState => {
-                            return [ ...previousState, ...text]
-                        });
-                        console.log(table);
+                            console.log(textResult);
+                            // setTable(previousState => {
+                            //     return [ ...previousState, ...text]
+                            // });
+                            // console.log(table);
+                            if (impoFileDate.lineSpliter == 'none') {
+                                if (impoFileDate.rowSpliter == 'none') {
+                                    swal('Alert', "We couldn't process unsorted file with current Splitter", 'warning');
 
+                                } else {
+                                    let rowResult = textResult.split(impoFileDate.rowSpliter);
+                                    console.log(rowResult);
+                                    if (rowResult.length > 1) {
+                                        console.log(rowResult);
+                                    } else {
+                                        swal('Alert', "Please enter correct Column splitter.", 'warning');
+                                    }
+                                }
+                            } else {
+                                let lineResult = textResult.split(/\r\n|\n/);
+                                if (lineResult.length > 1) {
+
+                                } else {
+                                    swal('Alert', "We couldn't process unsorted file with current Splitter", 'warning');
+                                }
+                            }
+
+
+                        }
+                        reader.readAsText(file);
                     }
-                    reader.readAsText(file);
 
                     break;
                 case "csv":
-                    const csvReader = new FileReader();
+                    if (file.name.toLowerCase().lastIndexOf(".csv") == -1) {
+                        swal('Warning !', 'Please select .csv file.', 'warning');
+                        document.getElementById('importFile').value = ''
+                    } else {
+                        const csvReader = new FileReader();
 
-                    csvReader.onload = (e)=> {
-                        const csv = e.target.result.split(/\r\n|\n/);
-                       // console.log('ok',csv) ;
-                        setTable(previousState => {
-                            return [ ...previousState, ...csv]
-                        });
-                       
-                        console.log('ok',csv);
-                        console.log(table);
+                        csvReader.onload = (e) => {
+                            const csv = e.target.result;
+                            //console.log('ok', csv);
+                            setTable([...tableData, csv]);
+
+                            console.log('ok', csv);
+                            console.log(tableData);
+                        }
+                        csvReader.readAsText(file);
                     }
-
-
-                    csvReader.readAsText(file);
-
-                    // document.querySelector('#tbody').appendChild(`
-                    //     <tr>
-                    //         <td>1</td>
-                    //         <td>2</td>
-                    //         <td>3</td>
-                    //         <td>4</td>
-                    //         <td>5</td>
-                    //     </tr>
-                    // `);
-
-                    //console.log(table);
-                    
                     break;
                 case "excel":
-                    const excelreader = new FileReader();
-                    excelreader.onload = (evt) => {
-                        const bstr = evt.target.result;
-                        const wb = XLSX.read(bstr, { type: 'binary' });
-                        const wsname = wb.SheetNames[0];
-                        const ws = wb.Sheets[wsname];
-                        const data = XLSX.utils.sheet_to_csv(ws, { header: 1 });
-                        var xlexData = data.split(/\r\n|\n/);
-                        console.log(xlexData);
+                    if (file.name.toLowerCase().lastIndexOf(".xlsx") == -1) {
+                        swal('Warning !', 'Please select .xlsx file.', 'warning');
+                        document.getElementById('importFile').value = ''
+                    } else {
+                        const excelreader = new FileReader();
+                        excelreader.onload = (evt) => {
+                            const bstr = evt.target.result;
+                            const wb = XLSX.read(bstr, { type: 'binary' });
+                            const wsname = wb.SheetNames[0];
+                            const ws = wb.Sheets[wsname];
+                            const data = XLSX.utils.sheet_to_csv(ws, { header: 1 });
+                            var xlexData = data.split(/\r\n|\n/);
+                           // console.log(xlexData);
+                            setTable([...tableData, xlexData]);
+                            console.log('hello', tableData);
+                            
+                        };
 
-                        setTable(previousState => {
-                            return [ ...previousState, ...xlexData]
-                        });
-                        console.log(table);
-                    };
-                    
-                    excelreader.readAsBinaryString(file);
+                        excelreader.readAsBinaryString(file);
+                    }
                     break;
                 default:
                     break;
@@ -106,13 +126,13 @@ export const ImportContects = (props) => {
         }
     }
 
-    const processData =(e)=>{
-    e.preventDefault();
-    //alert('ok');
-    setTable(previousState => {
-           return [ ...previousState]
-         });
-    console.log(table);
+    const processData = (e) => {
+        e.preventDefault();
+        //alert('ok');
+        setTable(previousState => {
+            return [...previousState]
+        });
+        console.log(tableData);
     }
 
     const handleFileType = (e) => {
@@ -444,27 +464,45 @@ export const ImportContects = (props) => {
                                 </div>
                                 <div className="card-body">
                                     <div className="table-responsive">
-                                         {/* {console.log(table)} */}
+                                        {/* {console.log(table)} */}
                                         <table className="table text-md-nowrap" id="example1">
                                             <thead>
                                                 <tr>
-                                                    <th className="wd-15p border-bottom-0">First name</th>
-                                                    <th className="wd-15p border-bottom-0">Last name</th>
-                                                    <th className="wd-20p border-bottom-0">Position</th>
-                                                    <th className="wd-15p border-bottom-0">Start date</th>
-                                                    <th className="wd-10p border-bottom-0">Salary</th>
-                                                    <th className="wd-25p border-bottom-0">E-mail</th>
+                                                    <th className="wd-15p border-bottom-0"> Mobile</th>
+                                                    <th className="wd-15p border-bottom-0">Name</th>
+                                                    <th className="wd-20p border-bottom-0">Email</th>
+
+
                                                 </tr>
                                             </thead>
                                             <tbody id="tbody">
-                                                <tr>
-                                                    <td></td>
-                                                    <td>Chloe</td>
-                                                    <td>System Developer</td>
-                                                    <td>2018/03/12</td>
-                                                    <td>$654,765</td>
-                                                    <td>b.Chloe@datatables.net</td>
-                                                </tr>
+                                                {
+                                                    tableData.map((key,index) => {
+                                                     
+                                                       if(impoFileDate.fileHeader-1 > index ){
+                                                                return false;
+                                                       }
+                                                    //    } else {
+                                                    //        var lines = tableData.split('\n')
+                                                    //        var header = lines[0]
+                                                    //        var body = lines.slice(1,lines.length);
+                                                    //        var res = header.split(",");
+                                                    //        console.log(body);
+                                                    //         console.log(res);
+                                                    //    }
+                                                        return (
+
+                                                            <tr>
+
+                                                                <td>{key[0]}</td>
+                                                                <td>{key[1]}</td>
+
+                                                            </tr>
+
+                                                        )
+                                                    })
+                                                }
+
                                             </tbody>
                                         </table>
                                     </div>

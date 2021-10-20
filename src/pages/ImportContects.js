@@ -14,6 +14,8 @@ import $ from 'jquery'
 export const ImportContects = (props) => {
     const [files, setfiles] = useState();
     const [tableData, setTable] = useState([]);
+    const [tblBody, setTblBody] = useState([]);
+    const [tblHeader, setTblHeader] = useState([]);
     const [impoFileDate, setImpoFileDate] = useState({
         "groupId": "",
         "fileType": "",
@@ -32,94 +34,80 @@ export const ImportContects = (props) => {
 
     }
     const fileRead = (e) => {
-
-        let file = e.target.files[0];
+        var file = e.target.files[0];
         setfiles(files);
         if (impoFileDate.preView) {
             switch (impoFileDate.fileType) {
                 case "text":
-                    if(file.name.toLowerCase().lastIndexOf(".text")==-1){
-                        swal('Warning !','Please select .xlsx file.','warning');
+                    if (file.name.toLowerCase().lastIndexOf(".text") == -1) {
+                        swal('Warning !', 'Please select .xlsx file.', 'warning');
                         document.getElementById('importFile').value = ''
-                    }else{
-                    const reader = new FileReader();
-                    reader.onload = (e) => {
-                        const textResult = e.target.result;
-                        //.split(/\r\n|\n/);
-
-                        console.log(textResult);
-                        // setTable(previousState => {
-                        //     return [ ...previousState, ...text]
-                        // });
-                        // console.log(table);
-                        if (impoFileDate.lineSpliter == 'none') {
-                            if (impoFileDate.rowSpliter == 'none') {
-                                swal('Alert', "We couldn't process unsorted file with current Splitter", 'warning');
-                               
-                            } else {
-                                let rowResult = textResult.split(impoFileDate.rowSpliter);
-                                console.log(rowResult);
-                                if (rowResult.length > 1) {
-                                    console.log(rowResult);
+                    } else {
+                        const reader = new FileReader();
+                        reader.onload = (e) => {
+                            const textResult = e.target.result;
+                            if (impoFileDate.lineSpliter == 'none') {
+                                if (impoFileDate.rowSpliter == 'none') {
+                                    swal('Alert', "We couldn't process unsorted file with current Splitter", 'warning');
                                 } else {
-                                    swal('Alert', "Please enter correct Column splitter.", 'warning');
+                                    let rowResult = textResult.split(impoFileDate.rowSpliter);
+                                    if (rowResult.length > 1) {
+                                        setTable(rowResult);
+                                    } else {
+                                        swal('Alert', "Please enter correct Column splitter.", 'warning');
+                                    }
+                                }
+                            } else {
+                                let lineResult = textResult.split(/\r\n|\n/);
+                                if (lineResult.length > 1) {
+                                    setTable(lineResult);
+                                } else {
+                                    swal('Alert', "We couldn't process unsorted file with current Splitter", 'warning');
                                 }
                             }
-                        } else {
-                            let lineResult = textResult.split(/\r\n|\n/);
-                            if (lineResult.length > 1) {
-
-                            } else {
-                                swal('Alert', "We couldn't process unsorted file with current Splitter", 'warning');
-                            }
                         }
-
-
+                        reader.readAsText(file);
                     }
-                    reader.readAsText(file);
-                }
 
                     break;
                 case "csv":
-                    if(file.name.toLowerCase().lastIndexOf(".csv")==-1){
-                        swal('Warning !','Please select .csv file.','warning');
+                    if (file.name.toLowerCase().lastIndexOf(".csv") == -1) {
+                        swal('Warning !', 'Please select .csv file.', 'warning');
                         document.getElementById('importFile').value = ''
-                    }else{
-                    const csvReader = new FileReader();
-
-                    csvReader.onload = (e) => {
-                        const csv = e.target.result.split(/\r\n|\n/);
-                        //console.log('ok', csv);
-                        setTable([...tableData,csv]);
-
-                        console.log('ok',csv);
-                        console.log(tableData);
+                    } else {
+                        const csvReader = new FileReader();
+                        csvReader.onload = (e) => {
+                            const csv = e.target.result.split(/\r\n|\n/);
+                            //console.log(csv)
+                            csv.splice(0,impoFileDate.fileHeader);
+                            setTblHeader(csv.splice(0,1));
+                            setTblBody(csv);
+                            //console.log(csv)
+                        }
+                        csvReader.readAsText(file);
                     }
-                    csvReader.readAsText(file);
-                }
                     break;
                 case "excel":
-                    if(file.name.toLowerCase().lastIndexOf(".xlsx")==-1){
-                        swal('Warning !','Please select .xlsx file.','warning');
+                    if (file.name.toLowerCase().lastIndexOf(".xlsx") == -1) {
+                        swal('Warning !', 'Please select .xlsx file.', 'warning');
                         document.getElementById('importFile').value = ''
-                    }else{
-                    const excelreader = new FileReader();
-                    excelreader.onload = (evt) => {
-                        const bstr = evt.target.result;
-                        const wb = XLSX.read(bstr, { type: 'binary' });
-                        const wsname = wb.SheetNames[0];
-                        const ws = wb.Sheets[wsname];
-                        const data = XLSX.utils.sheet_to_csv(ws, { header: 1 });
-                        var xlexData = data.split(/\r\n|\n/);
-                        console.log(xlexData);
-                        setTable([...tableData,xlexData]);
-                        console.log('',tableData);
-                    };
+                    } else {
+                        const excelreader = new FileReader();
+                        excelreader.onload = (evt) => {
+                            const bstr = evt.target.result
+                            const wb = XLSX.read(bstr, { type: 'binary' });
+                            const wsname = wb.SheetNames[0];
+                            const ws = wb.Sheets[wsname];
+                            const data = XLSX.utils.sheet_to_csv(ws, { header: 1 });
+                            var xlexData = data.split(/\r\n|\n/);
+                            setTable(xlexData);
+                        };
 
-                    excelreader.readAsBinaryString(file);
-                }
+                        excelreader.readAsBinaryString(file);
+                    }
                     break;
                 default:
+                    setTable([]);
                     break;
             }
         }
@@ -127,10 +115,6 @@ export const ImportContects = (props) => {
 
     const processData = (e) => {
         e.preventDefault();
-        //alert('ok');
-        setTable(previousState => {
-            return [...previousState]
-        });
         console.log(tableData);
     }
 
@@ -165,12 +149,11 @@ export const ImportContects = (props) => {
     }
     const checkValue = (e) => {
         e.preventDefault()
-
         setImpoFileDate({ ...impoFileDate, [e.target.name]: e.target.checked })
     }
     const check = (e) => {
         e.preventDefault();
-        console.log(impoFileDate)
+        console.log(tblHeader,tblBody);
     }
     function downloadXsxl() {
         var wb = XLSX.utils.book_new();
@@ -217,9 +200,8 @@ export const ImportContects = (props) => {
         atag.download = "sample file.txt";
         atag.click();
     }
-
-
-
+    const rowSpliter=(impoFileDate.fileType=='text')?impoFileDate.rowSpliter:',';                                         
+    
     return (
         <Layout>
             {/* main-content opened */}
@@ -314,7 +296,7 @@ export const ImportContects = (props) => {
                                             </div>
                                         </div>
                                         <div id="menu1" className="container tab-pane fade mx-0"><br />
-                                            <form id="uploadfiles" className=""   >
+                                            <form id="uploadfiles"   >
                                                 <button className="btn btn-success" onClick={(e) => { check(e) }}>check</button>
                                                 <div className="row">
                                                     <div className="col-sm-6">
@@ -331,7 +313,7 @@ export const ImportContects = (props) => {
                                                 <div className="form-group mb-2">
                                                     <div className="form-check">
                                                         <label htmlFor="preView" className="form-check-label ms-1">
-                                                            <input onChange={(e) => { checkValue(e) }} type="checkbox" name="preView" id="preView" className="form-check-input " />File Preview (for better parformance preview file)										</label>
+                                                            <input onChange={(e) => { checkValue(e) }} type="checkbox" name="preView" id="preView"   className="form-check-input " />File Preview (for better parformance preview file)										</label>
                                                     </div>
                                                 </div>
                                                 <div className="row">
@@ -340,7 +322,7 @@ export const ImportContects = (props) => {
                                                         <div className="form-group mb-2 ">
                                                             <div className="input-group rounded-start">
                                                                 <label htmlFor="excelfile" className=" btn btn-info bg-info ps-4">
-                                                                    <input onChange={(e) => { handleFileType(e) }} type="radio" name="fileType" data-col="#demo" id="excelfile" className="form-check-input " defaultValue="excel" />
+                                                                    <input onChange={(e) => { handleFileType(e) }} type="radio" name="fileType" data-col="#demo" id="excelfile" className="form-check-input " value="excel" />
                                                                     Excell File
                                                                 </label>
                                                                 <span className="input-group-text rounded-end bg-info border-0 ps-4 " style={{ height: '39px' }} href="#demo" data-bs-toggle="collapse"><i className="fas fa-cog" /></span>
@@ -353,7 +335,7 @@ export const ImportContects = (props) => {
                                                         <div className="form-group mb-2">
                                                             <div className="input-group  mb-3  rounded-start">
                                                                 <label htmlFor="csvfile" className=" btn btn-warning bg-warning ps-4 ">
-                                                                    <input onChange={(e) => { handleFileType(e) }} type="radio" name="fileType" data-col="#csv" id="csvfile" className="form-check-input " defaultValue="csv" />
+                                                                    <input onChange={(e) => { handleFileType(e) }} type="radio" name="fileType" data-col="#csv" id="csvfile" value="csv" className="form-check-input "  />
                                                                     CSV File
                                                                 </label>
                                                                 <span className="input-group-text rounded-end bg-warning border-0 ps-4 " style={{ height: '39px' }} href="#csv" data-bs-toggle="collapse"><i className="fas fa-cog" /></span>
@@ -365,7 +347,7 @@ export const ImportContects = (props) => {
                                                         <div className="form-group mb-2">
                                                             <div className="input-group mb-3 rounded-start">
                                                                 <label htmlFor="textfile" className=" btn btn-primary bg-primary ps-4 ">
-                                                                    <input onChange={(e) => { handleFileType(e) }} type="radio" name="fileType" data-col="#text" id="textfile" className="form-check-input  " defaultValue="text" required />
+                                                                    <input onChange={(e) => { handleFileType(e) }} type="radio" name="fileType" data-col="#text" id="textfile" className="form-check-input  " value="text"  required />
                                                                     Text File
                                                                 </label>
                                                                 <span className=" input-group-text bg-primary rounded-end border-0 ps-4 " style={{ height: '39px' }} href="#text" data-bs-toggle="collapse"><i className="fas fa-cog" /></span>
@@ -380,7 +362,7 @@ export const ImportContects = (props) => {
                                                                 <div className="col-sm-3">
                                                                     <div className="form-group mb-2">
                                                                         <label htmlFor="fileHeader">header row:</label>
-                                                                        <input type="number" min={0} name="fileHeader" id="fileHeader" value={impoFileDate.fileHeader} onChange={(e) => { handleData(e) }} className="form-control form-control-sm" defaultValue={0} />
+                                                                        <input type="number" min={0} name="fileHeader" id="fileHeader" value={impoFileDate.fileHeader} onChange={(e) => { handleData(e) }} className="form-control form-control-sm"  />
                                                                     </div>
                                                                     <button onClick={downloadXsxl} type="button" id="button-a" className="btn btn-warning m-1  btn-sm">Download Sample file</button>
                                                                 </div>
@@ -391,7 +373,7 @@ export const ImportContects = (props) => {
                                                                 <div className="col-sm-3">
                                                                     <div className="form-group mb-2">
                                                                         <label htmlFor="fileHeader">header row:</label>
-                                                                        <input value={impoFileDate.fileHeader} onChange={(e) => { handleData(e) }} type="number" min={0} name="fileHeader" id="fileHeader" className="form-control form-control-sm" defaultValue={0} />
+                                                                        <input value={impoFileDate.fileHeader} onChange={(e) => { handleData(e) }} type="number" min={0} name="fileHeader" id="fileHeader" className="form-control form-control-sm"  />
                                                                     </div>
                                                                     <button type="button" onClick={downloadCSV} className="btn btn-warning m-1  btn-sm">Download Sample file</button>
                                                                 </div>
@@ -402,7 +384,7 @@ export const ImportContects = (props) => {
                                                                 <div className="col-sm-3">
                                                                     <div className="form-group mb-2">
                                                                         <label htmlFor="fileHeader">header row:</label>
-                                                                        <input value={impoFileDate.fileHeader} onChange={(e) => { handleData(e) }} type="number" min={0} name="fileHeader" id="fileHeader" className="form-control" defaultValue={0} />
+                                                                        <input value={impoFileDate.fileHeader} onChange={(e) => { handleData(e) }} type="number" min={0} name="fileHeader" id="fileHeader" className="form-control"  />
                                                                     </div>
                                                                 </div>
                                                                 <div className="col-sm-4">
@@ -417,7 +399,7 @@ export const ImportContects = (props) => {
                                                                 <div className="col-sm-4">
                                                                     <div className="form-group mb-2">
                                                                         <label htmlFor="rowSpliter">Row Splitter</label>
-                                                                        <input value={impoFileDate.rowSpliter} onChange={(e) => { handleData(e) }} type="text" min={0} name="rowSpliter" id="rowSpliter" className="form-control" defaultValue="none" />
+                                                                        <input value={impoFileDate.rowSpliter} onChange={(e) => { handleData(e) }} type="text" min={0} name="rowSpliter" id="rowSpliter" className="form-control"  />
                                                                         <div className="text-danger">Use (none) in case empty column splitter</div>
                                                                     </div>
                                                                 </div>
@@ -466,31 +448,43 @@ export const ImportContects = (props) => {
                                         {/* {console.log(table)} */}
                                         <table className="table text-md-nowrap" id="example1">
                                             <thead>
-                                                <tr>
-                                                    <th className="wd-15p border-bottom-0"> Mobile</th>
-                                                    <th className="wd-15p border-bottom-0">Name</th>
-                                                    <th className="wd-20p border-bottom-0">Email</th>
-                                                    
-                                                   
-                                                </tr>
-                                            </thead>
-                                            <tbody id="tbody">
                                                 {
-                                                    tableData.map((key) => {
+                                                    tblHeader.map((item,index)=>{
+                                                        let rowColumns=item.split(rowSpliter);
                                                         return (
-                                                       
                                                             <tr>
-                                                                <td>{console.log("pushpita",key[0])}</td>
-                                                                <td>{key[0]}</td>
-                                                                <td>{key[1]}</td>
-                                                                
+                                                                {
+                                                                    rowColumns.map((element,seconIndex)=>{
+                                                                        return(
+                                                                            <th>{element}</th>
+                                                                        )
+                                                                    })
+                                                                }
                                                             </tr>
-
                                                         )
+                                                        
                                                     })
                                                 }
-
-                                            </tbody>
+                                            </thead>
+                                            <tbody>
+                                                {
+                                                    tblBody.map((item,index)=>{
+                                                        let rowColumns=item.split(rowSpliter);
+                                                        return (
+                                                            <tr>
+                                                                {
+                                                                    rowColumns.map((element,seconIndex)=>{
+                                                                        return(
+                                                                            <th>{element}</th>
+                                                                        )
+                                                                    })
+                                                                }
+                                                            </tr>
+                                                        )
+                                                        
+                                                    }) 
+                                                }
+                                            </tbody>       
                                         </table>
                                     </div>
                                 </div>
