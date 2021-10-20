@@ -4,15 +4,17 @@ import i18n from '../../i18n';
 import $ from 'jquery';
 
 export default function CountryDropDown() {
-  const changeLanguage = (lng) => {
-    i18n.changeLanguage(lng);
-    localStorage.setItem('lang',lng);
-  } 
+  const changeLang = (e,l) => {
+    i18n.changeLanguage(l);
+    localStorage.setItem('lang',l);
+  }
+ 
   return (
+    
       <li className="nav">
         <div className="dropdown  nav-itemd-none d-md-flex">
           <a
-            onClick={()=> changeLanguage("en") }
+            onClick={(e)=> changeLang(e,"en") }
             href="#"
             className="d-flex  nav-item country-flag1"
             data-bs-toggle="dropdown"
@@ -30,7 +32,7 @@ export default function CountryDropDown() {
             x-placement="bottom-end"
           >
             <a
-              onClick={()=> changeLanguage("hi") }
+              onClick={(e)=> changeLang(e,"hi") }
               href="#"
               className="dropdown-item d-flex "
             >
@@ -42,7 +44,7 @@ export default function CountryDropDown() {
               </div>
             </a>
             <a
-              onClick={(e)=> changeLanguage(e,"fr")}
+              onClick={(e)=> changeLang(e,"fr")}
               href="#"
               className="dropdown-item d-flex "
             >
@@ -54,7 +56,7 @@ export default function CountryDropDown() {
               </div>
             </a>
             <a
-              onClick={()=>changeLanguage("de")}
+              onClick={(e)=>changeLang(e,"de")}
               href="#"
               className="dropdown-item d-flex"
             >
@@ -66,7 +68,7 @@ export default function CountryDropDown() {
               </div>
             </a>
             <a
-              onClick={()=>changeLanguage("it")}
+              onClick={(e)=>changeLang(e,"it")}
               href="#"
               className="dropdown-item d-flex"
             >
@@ -78,7 +80,7 @@ export default function CountryDropDown() {
               </div>
             </a>
             <a
-              onClick={()=>changeLanguage("ru")}
+              onClick={(e)=>changeLang(e,"ru")}
               href="#"
               className="dropdown-item d-flex"
             >
@@ -90,7 +92,7 @@ export default function CountryDropDown() {
               </div>
             </a>
             <a
-              onClick={()=>changeLanguage("es")}
+              onClick={(e)=>changeLang(e,"es")}
               href="#"
               className="dropdown-item d-flex"
             >

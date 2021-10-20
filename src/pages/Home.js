@@ -10,9 +10,10 @@ import axios from '../axios';
 import loginAttempt from '../redux/actions/loginAttempt';
 import i18n from '../i18n';
 
-import baseUrl from '../helpers/helper';
 import GetDomain from '../serviceprovider/GetDomain';
 import CountryDropDown from '../component/UI/CountryDropDown';
+
+import baseUrl from '../helpers/helper';
 
 function Home(props) {
 
@@ -24,6 +25,7 @@ function Home(props) {
     
     //i18n.changeLanguage(localStorage.getItem('lang'));
     useEffect(() => {
+
         GetDomain(); 
         const setLanguage = async () => {
             const language = await AsyncStorage.getItem("lang");
@@ -48,7 +50,7 @@ function Home(props) {
             headers: {
                 'Content-Type': 'application/json',
             },
-            body: JSON.stringify(data),
+            body: JSON.stringify(data)
         })
             .then(response => response.json())
             .then(data => {

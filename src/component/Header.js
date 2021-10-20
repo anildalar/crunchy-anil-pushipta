@@ -8,8 +8,11 @@ import CountryDropDown from './UI/CountryDropDown';
 export default function Header() {
   const history = useHistory();
   const Logout = (e) => {
-    e.preventDefault();
+    e.preventDefault(); 
+    var l = localStorage.getItem('lang')
     localStorage.clear();
+    localStorage.setItem('lang',l);
+
     history.push('/');
   }
   return (
