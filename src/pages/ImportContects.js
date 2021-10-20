@@ -5,6 +5,7 @@ import * as FileSaver from "file-saver";
 import * as XLSX from 'xlsx';
 import swal from 'sweetalert';
 import { Collapse } from 'bootstrap'
+import $ from 'jquery'
 /**
 * @author
 * @function ImportContects
@@ -37,6 +38,10 @@ export const ImportContects = (props) => {
         if (impoFileDate.preView) {
             switch (impoFileDate.fileType) {
                 case "text":
+                    if(file.name.toLowerCase().lastIndexOf(".text")==-1){
+                        swal('Warning !','Please select .xlsx file.','warning');
+                        document.getElementById('importFile').value = ''
+                    }else{
                     const reader = new FileReader();
                     reader.onload = (e) => {
                         const textResult = e.target.result;
@@ -50,6 +55,7 @@ export const ImportContects = (props) => {
                         if (impoFileDate.lineSpliter == 'none') {
                             if (impoFileDate.rowSpliter == 'none') {
                                 swal('Alert', "We couldn't process unsorted file with current Splitter", 'warning');
+                               
                             } else {
                                 let rowResult = textResult.split(impoFileDate.rowSpliter);
                                 console.log(rowResult);
@@ -71,9 +77,14 @@ export const ImportContects = (props) => {
 
                     }
                     reader.readAsText(file);
+                }
 
                     break;
                 case "csv":
+                    if(file.name.toLowerCase().lastIndexOf(".csv")==-1){
+                        swal('Warning !','Please select .csv file.','warning');
+                        document.getElementById('importFile').value = ''
+                    }else{
                     const csvReader = new FileReader();
 
                     csvReader.onload = (e) => {
@@ -85,8 +96,13 @@ export const ImportContects = (props) => {
                         console.log(tableData);
                     }
                     csvReader.readAsText(file);
+                }
                     break;
                 case "excel":
+                    if(file.name.toLowerCase().lastIndexOf(".xlsx")==-1){
+                        swal('Warning !','Please select .xlsx file.','warning');
+                        document.getElementById('importFile').value = ''
+                    }else{
                     const excelreader = new FileReader();
                     excelreader.onload = (evt) => {
                         const bstr = evt.target.result;
@@ -101,6 +117,7 @@ export const ImportContects = (props) => {
                     };
 
                     excelreader.readAsBinaryString(file);
+                }
                     break;
                 default:
                     break;
