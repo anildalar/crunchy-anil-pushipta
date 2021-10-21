@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
-import Layout from '../component/Layout';
-import Sidebar from '../component/Sidebar';
+import Layout from '../../component/Layout';
+import Sidebar from '../../component/Sidebar';
 import * as FileSaver from "file-saver";
 import * as XLSX from 'xlsx';
 import swal from 'sweetalert';
@@ -24,15 +24,11 @@ export const ImportContects = (props) => {
         "rowSpliter": ",",
         "preView": ""
     });
-
-
-
+    
     const submit = (e) => {
         e.preventDefault()
-
-
-
     }
+
     const fileRead = (e) => {
         var file = e.target.files[0];
         setfiles(files);

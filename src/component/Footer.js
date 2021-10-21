@@ -357,10 +357,10 @@ export default function Footer() {
             </div>
             <div className="main-footer ht-40">
                 <div className="container-fluid pd-t-0-f ht-100p">
-                    <span>
+                    {/* <span>
                         Copyright © {new Date().getFullYear()} <a href="#">{localStorage.getItem('domainTitle').toUpperCase()}</a>. Designed by
                         <a href="#"> {localStorage.getItem('domainTitle').toUpperCase()}</a> All rights reserved.
-                    </span>
+                    </span> */}
                 </div>
             </div>
             <a href="#top" id="back-to-top">

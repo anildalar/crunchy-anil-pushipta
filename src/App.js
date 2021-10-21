@@ -11,8 +11,8 @@ import Home from "./pages/Home";
 import Pushpita from "./pages/Pushpita";
 import ClientConnections from "./pages/SystemAdmin/ClientConnections";
 import TableData from "./pages/SystemAdmin/TableData";
-import { Groups } from "./pages/Groups";
-import { ImportContects } from "./pages/ImportContects";
+import { Groups } from "./pages/Admin/Groups";
+import { ImportContects } from "./pages/Admin/ImportContects";
 
 import { Abc } from "./pages/Abc";
 
