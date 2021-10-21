@@ -12,8 +12,8 @@ import i18n from '../i18n';
 
 import GetDomain from '../serviceprovider/GetDomain';
 import CountryDropDown from '../component/UI/CountryDropDown';
+import { url } from '../helpers/helper';
 
-import baseUrl from '../helpers/helper';
 
 function Home(props) {
 
@@ -45,7 +45,7 @@ function Home(props) {
             domainId: '1'
         }
     
-        fetch(baseUrl+'/auth/login', {
+        fetch(url+'/auth/login', {
             method: 'POST', // or 'PUT'
             headers: {
                 'Content-Type': 'application/json',
