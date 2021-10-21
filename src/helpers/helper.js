@@ -22,12 +22,12 @@ const SSLTypes = {
     "3":"TLSv1"
 }                    
 const LogLevels = {
-    "0":"debug",
-    "1":"info",
-    "2":"warning",
-    "3":"error",
-    "4":"panic",
-    "5":"verbose",
+    "0":"Debug",
+    "1":"Info",
+    "2":"Warning",
+    "3":"Error",
+    "4":"Panic",
+    "5":"Verbose",
 }            
 
 module.exports = { url,fetchOption,SSLTypes,LogLevels};

@@ -3,8 +3,9 @@ import Layout from "../../component/Layout";
 import Select from 'react-select';
 import TimePicker from 'react-time-picker';
 
-import { url, fetchOption, SSLTypes } from "../../helpers/helper";
+import { url, fetchOption, SSLTypes, LogLevels } from "../../helpers/helper";
 import { timeZone as options } from "../../helpers/helper2";
+import swal from "sweetalert";
 
 export default function ClientConnections() {
   const [routeTypes, setRouteTypes] = useState([{}]);
@@ -109,6 +110,12 @@ export default function ClientConnections() {
     .catch();
 
   }, []);
+
+  const submit = (e)=>{
+    e.preventDefault();
+
+    swal("Done!", "Client Created Successfully!", "success");
+  }
   return (
     <Layout>
       <div className="main-content horizontal-content">
@@ -188,7 +195,7 @@ export default function ClientConnections() {
                   Client Connections
                 </div>
                 <div className="card-body">
-                  <form className="form-horizontal">
+                  <form className="form-horizontal" onSubmit={submit}>
                     <div className="panel panel-primary tabs-style-2">
                       <div className=" tab-menu-heading">
                         <div className="tabs-menu1">
@@ -288,8 +295,8 @@ export default function ClientConnections() {
                                 </p>
                                 <input
                                   className="form-control form-control"
-                                  placeholder="Credits"
-                                  type="text"
+                                  placeholder="addrTON"
+                                  type="number"
                                 />
                               </div>
                               <div className="col-lg-4 col-xl-4 col-md-4 col-sm-4 mb-3">
@@ -303,8 +310,8 @@ export default function ClientConnections() {
                                 </p>
                                 <input
                                   className="form-control form-control"
-                                  placeholder="Credits"
-                                  type="text"
+                                  placeholder="addrNPI"
+                                  type="number"
                                 />
                               </div>
                               <div className="col-lg-4 col-xl-4 col-md-4 col-sm-4 mb-3">
@@ -312,7 +319,7 @@ export default function ClientConnections() {
                                 <input
                                   className="form-control form-control"
                                   placeholder="Address Range"
-                                  type="text"
+                                  type="number"
                                 />
                               </div>
                               <div className="col-lg-4 col-xl-4 col-md-4 col-sm-4 mb-3">
@@ -320,17 +327,18 @@ export default function ClientConnections() {
                                 <input
                                   className="form-control form-control"
                                   placeholder="Priority"
-                                  type="text"
+                                  type="number"
                                 />
                               </div>
                               <div className="col-lg-4 col-xl-4 col-md-4 col-sm-4 mb-3">
                                 <p className="mg-b-10">logLevel</p>
                                 <select className="form-control form-control-sm select2-no-search">
                                   <option label="Choose one"></option>
-                                  <option value="Firefox">1</option>
-                                  <option value="Chrome">2</option>
-                                  <option value="Safari">3</option>
-                                  <option value="Opera">Verbose</option>
+                                  {
+                                    Object.keys(LogLevels).map((key, index) => {
+                                      return <option value={key}>{LogLevels[key]}</option>
+                                    })
+                                  }
                                 </select>
                               </div>
                               <div className="col-lg-4 col-xl-4 col-md-4 col-sm-4 mb-3">
@@ -353,7 +361,7 @@ export default function ClientConnections() {
                                 <input
                                   className="form-control form-control"
                                   placeholder="DCS"
-                                  type="text"
+                                  type="number"
                                 />
                               </div>
                               <div className="col-lg-4 col-xl-4 col-md-4 col-sm-4 mb-3">
@@ -361,15 +369,7 @@ export default function ClientConnections() {
                                 <input
                                   className="form-control form-control"
                                   placeholder="SMS Capacity"
-                                  type="text"
-                                />
-                              </div>
-                              <div className="col-lg-4 col-xl-4 col-md-4 col-sm-4 mb-3">
-                                <p className="mg-b-10">SMS Capacity</p>
-                                <input
-                                  className="form-control form-control"
-                                  placeholder="SMS Capacity"
-                                  type="text"
+                                  type="number"
                                 />
                               </div>
                             </div>
@@ -449,11 +449,11 @@ export default function ClientConnections() {
                     <div className="form-group row mb-0 mt-3 justify-content-end">
                       <div className="col-lg-4 col-xl-4 col-md-4 col-sm-4 mb-3">
                           <p className="mg-b-10">Start Time</p>
-                          <TimePicker
-                          />
+                          <TimePicker />
                       </div>
                       <div className="col-lg-4 col-xl-4 col-md-4 col-sm-4 mb-3">
-                          <p className="mg-b-10">Close Time</p>    
+                          <p className="mg-b-10">Close Time</p> 
+                          <TimePicker  />   
                       </div>
                       <div className="col-lg-4 col-xl-4 col-md-4 col-sm-4 mb-3">
                           <p className="mg-b-10">TimeZone</p>
