@@ -1,4 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
+import { Link } from "react-router-dom";
 import Header from "../../component/Header";
 import { fetchOption, url } from "../../url";
 
@@ -134,7 +135,7 @@ export default function Clinet_routing() {
                                                     <select ref={clientRef} onChange={handleChange} className="form-control form-control-sm" name="carrier_id" data-target="product_idv" required="required" >
                                                         <option value="">Select one</option>
                                                         {client.map((e, index) => {
-                                                            return (<option key={index} value={e.userId}>  {e.firstName} {e.lastName}  </option>
+                                                            return (<option key={index} value={e.userId}>{e.firstName}{e.lastName}</option>
                                                             );
                                                         })}
                                                     </select>
@@ -170,6 +171,7 @@ export default function Clinet_routing() {
                                                 <div className="form-group mt-1"> <input type="hidden" name="type" defaultValue="view" />
                                                     <button type="submit" className="btn btn-success btn-sm mt-4 me-1"> Search </button>
                                                     <input type="reset" className="btn btn-info btn-sm mt-4" defaultValue="Reset" />
+                                                    <Link  to="/Add_field" className="btn btn-success btn-sm mt-4 ms-1"> Add </Link>
                                                 </div>
                                             </div>
                                             <div className="col-sm-12"></div>
@@ -200,8 +202,7 @@ export default function Clinet_routing() {
                                                 </tr>
                                             </thead>
                                             <tbody>
-
-                                                {
+                                                  {
                                                     tabdata.map((e) => {
                                                         return (
                                                             <tr>

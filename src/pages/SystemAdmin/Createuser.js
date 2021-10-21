@@ -94,9 +94,7 @@ const Createuser = (props) => {
                         console.log(arrayItem.param);
                         //$(selector).action()
                         $('[name=' + arrayItem.param + ']').css("border", "1px solid red").siblings('span.text-danger').html(arrayItem.msg);
-
                     });
-
                 } else {
                     //Sweet alrt
                     console.log('Success:', data);
@@ -149,7 +147,7 @@ const Createuser = (props) => {
                     <div className="row">
                         <div className="col-md-12 col-xl-12 col-xs-12 col-sm-12">
                             {/* start next time hare  */}
-          <div classname="card ">
+                            <div classname="card ">
                                 <div className="card-header bg-info px-2 py-1">
                                     <h5 className="m-2 text-white">SMPP Connection</h5>
                                 </div>
