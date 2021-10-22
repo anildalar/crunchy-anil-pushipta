@@ -50,13 +50,13 @@ export default function Clinet_routing() {
             })
                 .then((response) => response.json())
                 .then((data) => {
-                    // if(data.status==200){
+                     if(data.status==200){
                     console.log("Success:", data);
                     setcountClient(data.data);
                     console.log(CountClient);
-                    // }else{
-
-                    // }
+                 }else{
+                  console.log(data.msg)
+                     }
 
                 })
                 .catch((error) => {
