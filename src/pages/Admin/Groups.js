@@ -1,6 +1,8 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import Layout from '../../component/Layout'
 import { fetchOption, url } from '../../helpers/helper';
+import swal from 'sweetalert';
+import $ from "jquery"
 
 /**
 * @author
@@ -13,27 +15,60 @@ export const Groups = (props) => {
         "desc": "",
         "status": ""
     });
+    const [tbldata, setTbldata] = useState([]);
+
+    useEffect(() => {
+        fetch(url + '/admin/phonebook/group/get', {
+            ...fetchOption
+        })
+            .then(response => response.json())
+            .then(data => {
+                console.log('Success:', data);
+                //console.log(data.data);
+                setTbldata(data.data);
+                //console.log(JSON.stringify( tbldata))
+            })
+            .catch((error) => {
+                console.error('Error:', error);
+            });
+    }, []);
 
     const groupDetails = (e) => {
         e.preventDefault();
         setGroup({ ...group, [e.target.name]: e.target.value });
-        
+
     }
 
     const submit = (e) => {
+        $('[name]').css('border', '1px solid gray').siblings('.text-danger').html('');
         e.preventDefault();
         // console.log(group);
         console.log(group);
-      
-       
-        fetch(url, {
+
+
+        fetch(url + '/admin/phonebook/group/create', {
             ...fetchOption,
             body: JSON.stringify(group),
         })
             .then(response => response.json())
             .then(data => {
                 console.log('Success:', data);
-                console.log(data.status);
+                console.log(group);
+                //console.log(data.status);
+                if (data.status == 200) {
+                    swal("success", data.msg, "success");
+
+                } else if (data.status == 400) {
+                    console.log(data.errors);
+                    data.errors.forEach(function (arrayItem) {
+                        //console.log(arrayItem);
+                        //console.log(arrayItem.param);
+                        //$(selector).action()
+                        $('[name=' + arrayItem.param + ']').css("border", "1px solid red").siblings('span.text-danger').html(arrayItem.msg);
+                    })
+                } else if (data.status == 403) {
+                    swal("warning", data.msg, "warning");
+                }
             })
             .catch((error) => {
                 console.error('Error:', error);
@@ -81,7 +116,7 @@ export const Groups = (props) => {
                     {/* breadcrumb */}
                     {/* row  your work start here */}
                     <div className="row">
-                        <div className="col-xl-4">
+                        <div className="col-xl-3">
                             <div className="card">
                                 <div className="card-header bg-info">
                                     <h4 className="mb-0 text-white card-title">Create Group</h4>
@@ -92,10 +127,11 @@ export const Groups = (props) => {
                                         <div className="form-group">
                                             <label htmlFor="groupName">Group Name &nbsp;<sup className="text-danger">*</sup></label>
                                             <input onChange={(e) => { groupDetails(e) }} type="text" className="form-control" name="groupName" id="groupName" required="required" />
+                                            <span className="text-danger error"></span>
                                         </div>
                                         <div className="form-group mb-0">
                                             <label htmlFor="desc">Description &nbsp;<sup className="text-danger">*</sup></label>
-                                            <textarea  onChange={(e) => { groupDetails(e) }} className="form-control" name="desc" id="desc" required="required" rows={4} defaultValue={""} />
+                                            <textarea onChange={(e) => { groupDetails(e) }} className="form-control" name="desc" id="desc" required="required" rows={4} defaultValue={""} />
                                         </div>
                                         <div className="form-group">
                                             <label htmlFor="status">Status &nbsp;<sup className="text-danger">*</sup></label>
@@ -104,6 +140,7 @@ export const Groups = (props) => {
                                                 <option value={1}>Active</option>
                                                 <option value={0}>Inactive</option>
                                             </select>
+                                            <span className="text-danger error"></span>
                                         </div>
                                     </div>
                                     <div className="card-footer">
@@ -113,12 +150,49 @@ export const Groups = (props) => {
                                 </form>
                             </div>
                         </div>
-                        <div className="col-xl-8">
+                        <div className="col-xl-9">
                             <div className="card">
                                 <div className="card-header bg-info">
                                     <h4 className="mb-0 text-white card-title">Create Group</h4>
                                 </div>
                                 <div className="card-body">
+                                    <div className="table-responsive">
+                                        <table className="table text-md-nowrap" id="example1">
+                                            <thead>
+                                                <tr>
+                                                    <th >Group User ID</th>
+                                                    <th >Group Name</th>
+                                                    <th >Description</th>
+                                                    <th >State</th>
+                                                    <th >Action</th>
+                                                    <th >Created At</th>
+
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+
+                                                {
+                                                    tbldata.map((element) => {
+                                                       
+                                                       
+                                                        return (
+                                                            <tr>
+                                                                <td>{element.uuid}</td>
+                                                                <td>{element.groupName}</td>
+                                                                <td>{element.desc}</td>
+                                                                <td>{(element.status==1)?<span className="badge rounded-pill bg-success">Active</span>:<span className="badge rounded-pill bg-warning">Inactive</span>}</td>
+                                                                <td>
+                                                                </td>
+                                                                <td>{element.createdAt}</td>
+                                                            </tr>
+                                                        )
+
+                                                    })
+                                                }
+
+                                            </tbody>
+                                        </table>
+                                    </div>
                                 </div>
                             </div>
 

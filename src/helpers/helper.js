@@ -5,7 +5,7 @@ const baseUrl = 'http://173.249.39.43:3000';
 //     return re.test(String(userName).toLowerCase());
 // }
 
-const url = 'http://173.249.39.43:3000/admin/phonebook/group/create'
+const url = 'http://173.249.39.43:3000'
 const fetchOption = { 
     method: 'POST', // or 'PUT'
     headers: {
