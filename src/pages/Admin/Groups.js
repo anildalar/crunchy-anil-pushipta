@@ -3,6 +3,7 @@ import Layout from '../../component/Layout'
 import { fetchOption, url } from '../../helpers/helper';
 import swal from 'sweetalert';
 import $ from "jquery"
+import TableData from '../SystemAdmin/TableData';
 
 /**
 * @author
@@ -20,17 +21,12 @@ export const Groups = (props) => {
     useEffect(() => {
         fetch(url + '/admin/phonebook/group/get', {
             ...fetchOption
-        })
-            .then(response => response.json())
-            .then(data => {
-                console.log('Success:', data);
-                //console.log(data.data);
-                setTbldata(data.data);
-                //console.log(JSON.stringify( tbldata))
-            })
-            .catch((error) => {
-                console.error('Error:', error);
-            });
+        }).then(response => response.json())
+        .then(data => {
+            (data.status==200)?setTbldata(data.data):setTbldata([]);
+        }).catch((error) => {
+            console.error('Error:', error);
+        });
     }, []);
 
     const groupDetails = (e) => {
@@ -38,41 +34,36 @@ export const Groups = (props) => {
         setGroup({ ...group, [e.target.name]: e.target.value });
 
     }
-
+    let anil;
+    useEffect(()=>{
+        console.log('test - test ');
+    },[anil]);
     const submit = (e) => {
-        $('[name]').css('border', '1px solid gray').siblings('.text-danger').html('');
         e.preventDefault();
-        // console.log(group);
-        console.log(group);
-
-
-        fetch(url + '/admin/phonebook/group/create', {
+        $('[name]').css('border', '1px solid gray').siblings('.text-danger').html('');
+        fetch(url + '/admin/phonebook/group/create',{
             ...fetchOption,
             body: JSON.stringify(group),
-        })
-            .then(response => response.json())
-            .then(data => {
-                console.log('Success:', data);
-                console.log(group);
-                //console.log(data.status);
-                if (data.status == 200) {
-                    swal("success", data.msg, "success");
-
-                } else if (data.status == 400) {
-                    console.log(data.errors);
-                    data.errors.forEach(function (arrayItem) {
-                        //console.log(arrayItem);
-                        //console.log(arrayItem.param);
-                        //$(selector).action()
-                        $('[name=' + arrayItem.param + ']').css("border", "1px solid red").siblings('span.text-danger').html(arrayItem.msg);
-                    })
-                } else if (data.status == 403) {
-                    swal("warning", data.msg, "warning");
-                }
-            })
-            .catch((error) => {
-                console.error('Error:', error);
-            });
+        }).then(response => response.json())
+        .then(data => {
+            
+            if (data.status == 200) {
+                swal("success", data.msg, "success");
+                let mydata=tbldata;
+                console.log(tbldata);
+                mydata.push({...group,...data.data});
+                setTbldata(mydata);
+                console.log(tbldata);
+            } else if (data.status == 400) {
+                data.errors.forEach(function (arrayItem) {
+                    $('[name=' + arrayItem.param + ']').css("border", "1px solid red").siblings('span.text-danger').html(arrayItem.msg);
+                })
+            } else if (data.status == 403) {
+                swal("warning", data.msg, "warning");
+            }
+        }).catch((error) => {
+            console.error('Error:', error);
+        });
     }
     return (
         <Layout>
@@ -172,11 +163,11 @@ export const Groups = (props) => {
                                             <tbody>
 
                                                 {
-                                                    tbldata.map((element) => {
+                                                    tbldata.map((element,index) => {
                                                        
                                                        
                                                         return (
-                                                            <tr>
+                                                            <tr key={index}>
                                                                 <td>{element.uuid}</td>
                                                                 <td>{element.groupName}</td>
                                                                 <td>{element.desc}</td>
