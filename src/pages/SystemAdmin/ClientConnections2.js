@@ -3,19 +3,20 @@ import Layout from "../../component/Layout";
 import Select from 'react-select';
 import TimePicker from 'react-time-picker';
 
-import { url, fetchOption, SSLTypes, LogLevels, HTTP_DLR_Param_Types, HTTP_DLR_Method, HTTP_DLR_Type, HTTP_Response_Type, timeZone, Bill_Mode} from "../../helpers/helper";
+import { url, fetchOption, SSLTypes, LogLevels,LogLevel2 } from "../../helpers/helper";
+import { timeZone as options } from "../../helpers/helper2";
+
 import swal from "sweetalert";
 
-export default function ClientConnections() {
-  const [value, onChange] = useState('07:00');
-
-  const [routeTypes, setRouteTypes] = useState([{}]);
-  const [routesByType, setRoutesByType] = useState([{}]);
-  const [currencies,setCurrencies ] = useState([{}]);
+function ClientConnections() {
+  const [routeTypes, setRouteTypes] = useState();
+  const [routesByType, setRoutesByType] = useState();
+  const [currencies,setCurrencies ] = useState();
 
   const balance = useRef();
   const credits = useRef();
   const currency = useRef();
+  
 
   const handleChange = (e)=>{
 
@@ -44,15 +45,35 @@ export default function ClientConnections() {
       //Credit
       console.log(e.target.value); 
       console.log(credits.current);
+      credits.current.removeAttribute('readonly');
+      credits.current.removeAttribute('disabled');
+      currency.current.setAttribute('readonly',"readonly");
+      currency.current.setAttribute('disabled',"disabled");
+      balance.current.setAttribute('readonly',"readonly");
+      balance.current.setAttribute('readonly',"readonly");
     }
     if( e.target.name == 'billmode' && e.target.value == 1){
       //MCCMNC
+
       console.log(balance.current);
+      credits.current.setAttribute('readonly',"readonly");
+      credits.current.setAttribute('disabled',"disabled");
+      balance.current.removeAttribute('readonly');
+      balance.current.removeAttribute('disabled');
+      currency.current.removeAttribute('readonly');
+      currency.current.removeAttribute('disabled');
     }
     if( e.target.name == 'billmode' && e.target.value == ''){
       console.log(balance.current);
+      credits.current.setAttribute('readonly',"readonly");
+      credits.current.setAttribute('disabled',"disabled");
+      balance.current.setAttribute('readonly',"readonly");
+      balance.current.setAttribute('readonly',"readonly");
+      currency.current.setAttribute('readonly',"readonly");
+      currency.current.setAttribute('readonly',"readonly");
     }
   }
+
 
   useEffect(() => {
     //const setCurrencies
@@ -65,7 +86,9 @@ export default function ClientConnections() {
     .then(data => {
       //check if the data is availble
       if(data.data && data.data !=''){
-        console.log('Success:123 ',data.data);
+        console.log('Success:123 ',data);
+
+        //data.data.map
         setRouteTypes(data.data);
 
         console.log('inside',routeTypes);
@@ -80,14 +103,9 @@ export default function ClientConnections() {
     .then(data => {
       //check if the data is availble
       if(data.data && data.data != ''){
-        //console.log('currencies',data);
-        setCurrencies(data.data.map((currentValue,index,arr)=>{
-          currentValue['label']=currentValue['currency_code'];
-          currentValue['value']=currentValue['currency_code'];
-          return currentValue;
-        }));
+        console.log('currencies',data);
+        setCurrencies(data.data);
 
-        //console.log(currencies);
       }
     })
     .catch();
@@ -96,6 +114,7 @@ export default function ClientConnections() {
 
   const submit = (e)=>{
     e.preventDefault();
+
     swal("Done!", "Client Created Successfully!", "success");
   }
   return (
@@ -204,7 +223,7 @@ export default function ClientConnections() {
                               </div>
                               <div className="col-lg-4 col-xl-4 col-md-4 col-sm-4 mb-3">
                                 <p className="mg-b-10">Route</p>
-                                <select name="routetype" className="form-control form-control-sm select2" onChange={handleChange}>
+                                <select name="routetype" className="form-control form-control-sm select2-no-search" onChange={handleChange}>
                                   <option value="">Select Route Type</option>
                                   { 
                                     routesByType.map(function(currentValue,index,arr){
@@ -215,7 +234,11 @@ export default function ClientConnections() {
                               </div>
                               <div className="col-lg-4 col-xl-4 col-md-4 col-sm-4 mb-3">
                                 <p className="mg-b-10">Bill Mode</p>
-                                <Select options={Bill_Mode} />
+                                <select name="billmode" className="form-control form-control" onChange={handleChange}>
+                                  <option value="" label="Choose one"></option>
+                                  <option value="0">Credit</option>
+                                  <option value="1">MCCMNC</option>
+                                </select>
                               </div>
                               <div className="col-lg-4 col-xl-4 col-md-4 col-sm-4 mb-3">
                                 <p className="mg-b-10">Credits</p>
@@ -223,6 +246,8 @@ export default function ClientConnections() {
                                   className="form-control form-control"
                                   placeholder="Credits"
                                   type="number"
+                                  readOnly
+                                  disabled
                                   ref={ credits }
                                 />
                               </div>
@@ -232,16 +257,33 @@ export default function ClientConnections() {
                                   className="form-control form-control"
                                   placeholder="Balance"
                                   type="number"
+                                  readOnly
+                                  disabled
                                   ref={ balance }
                                 />
                               </div>
                               <div className="col-lg-4 col-xl-4 col-md-4 col-sm-4 mb-3">
                                 <p className="mg-b-10">Currency</p>
-                                <Select ref={ currency } options={currencies} />
+                                <select className="form-control form-control-sm select2" readOnly disabled ref={currency} onChange={handleChange}>
+                                  <option label="Choose one"></option>
+                                  { 
+                                    currencies.map(function(currentValue,index,arr){
+                                        return <option key={index} value={currentValue.currency_code}>{currentValue.currency_code}</option>
+                                    })
+                                  }
+                                </select>
                               </div>
                               <div className="col-lg-4 col-xl-4 col-md-4 col-sm-4 mb-3">
                                 <p className="mg-b-10">SSL Type</p>
-                                <Select options={SSLTypes} />
+                                <select>
+                                   <option label="Select ONe" data-ssl="1">Select One</option>
+                                  {
+                                    
+                                    Object.keys(SSLTypes).map((key, index) => {
+                                      return <option value={key}>{SSLTypes[key]}</option>
+                                    })
+                                  }
+                                </select>
                               </div>
                               <div className="col-lg-4 col-xl-4 col-md-4 col-sm-4 mb-3">
                                 <p
@@ -290,8 +332,15 @@ export default function ClientConnections() {
                                 />
                               </div>
                               <div className="col-lg-4 col-xl-4 col-md-4 col-sm-4 mb-3">
-                                <p className="mg-b-10">logLevel</p>
-                                <Select options={LogLevels} />
+                                <p className="mg-b-10">Log Level</p>
+                                <select className="form-control form-control-sm select2-no-search">
+                                  <option label="Choose one"></option>
+                                  {
+                                    Object.keys(LogLevels).map((key, index) => {
+                                      return <option value={key}>{LogLevels[key]}</option>
+                                    })
+                                  }
+                                </select>
                               </div>
                               <div className="col-lg-4 col-xl-4 col-md-4 col-sm-4 mb-3">
                                 <p className="mg-b-10">System Type</p>
@@ -330,10 +379,9 @@ export default function ClientConnections() {
                           <div className="row row-sm">
                               <div className="col-lg-4 col-xl-4 col-md-4 col-sm-4 mb-3">
                                 <p className="mg-b-10">HTTP Username</p>
-                                
                                 <input
                                   className="form-control form-control"
-                                  placeholder="HTTP Username"
+                                  placeholder="SMS Capacity"
                                   type="text"
                                 />                  
                               </div>
@@ -355,7 +403,11 @@ export default function ClientConnections() {
                               </div>
                               <div className="col-lg-4 col-xl-4 col-md-4 col-sm-4 mb-3">
                                 <p className="mg-b-10">HTTP DLR TYPE</p>
-                                <Select options={HTTP_DLR_Method} />
+                                <select className="form-control form-control-sm select2-no-search">
+                                  <option label="Choose one"></option>
+                                  <option value="0">GET</option>
+                                  <option value="1">RECIEVE</option>
+                                </select>
                               </div>
                               <div className="col-lg-4 col-xl-4 col-md-4 col-sm-4 mb-3">
                                 <p className="mg-b-10">HTTP DLR URL</p>
@@ -367,15 +419,28 @@ export default function ClientConnections() {
                               </div>
                               <div className="col-lg-4 col-xl-4 col-md-4 col-sm-4 mb-3">
                                 <p className="mg-b-10">HTTP DLR Method</p>
-                                <Select options={HTTP_DLR_Type} />
+                                <select className="form-control form-control-sm select2-no-search">
+                                  <option label="Choose one"></option>
+                                  <option value="0">GET</option>
+                                  <option value="1">POST</option>
+                                </select>
                               </div>
                               <div className="col-lg-4 col-xl-4 col-md-4 col-sm-4 mb-3">
                                 <p className="mg-b-10">HTTP DLR Param Type</p>
-                                <Select options={HTTP_DLR_Param_Types} />
+                                <select className="form-control form-control-sm select2-no-search">
+                                  <option label="Choose one"></option>
+                                  <option value="0">Query</option>
+                                  <option value="1">JSON</option>
+                                  <option value="2">FORM DATA</option>
+                                </select>
                               </div>
                               <div className="col-lg-4 col-xl-4 col-md-4 col-sm-4 mb-3">
                                 <p className="mg-b-10">HTTP Response Type</p>
-                                <Select options={HTTP_Response_Type} />
+                                <select className="form-control form-control-sm select2-no-search">
+                                  <option label="Choose one"></option>
+                                  <option value="0">Object</option>
+                                  <option value="1">String</option>
+                                </select>
                               </div>
                             </div>
                           </div>
@@ -385,24 +450,20 @@ export default function ClientConnections() {
                     <div className="form-group row mb-0 mt-3 justify-content-end">
                       <div className="col-lg-4 col-xl-4 col-md-4 col-sm-4 mb-3">
                           <p className="mg-b-10">Start Time</p>
-                          <TimePicker
-                            onChange={onChange}
-                            value={value}
-                          />
+                          <TimePicker />
                       </div>
                       <div className="col-lg-4 col-xl-4 col-md-4 col-sm-4 mb-3">
                           <p className="mg-b-10">Close Time</p> 
-                          <TimePicker
-                            onChange={onChange}
-                            value={value}
-                          />
+                          <TimePicker  />   
                       </div>
                       <div className="col-lg-4 col-xl-4 col-md-4 col-sm-4 mb-3">
                           <p className="mg-b-10">TimeZone</p>
-                          <Select options={timeZone} />
+                          <Select options={options} />
                       </div>
                       <div>
-                        <button type="submit" className="btn btn-success me-2">Save</button>
+                        <button type="submit" className="btn btn-success me-2">
+                          Save
+                        </button>
                       </div>
                     </div>
                   </form>
@@ -415,3 +476,5 @@ export default function ClientConnections() {
     </Layout>
   );
 }
+
+export default ClientConnections;
