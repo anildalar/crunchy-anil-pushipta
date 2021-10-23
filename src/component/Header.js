@@ -505,17 +505,17 @@ export default function Header() {
                       </a>
                     </li>
                     <li aria-haspopup="true">
-                      <NavLink onClick={Domain} className="slide-item" to="/Domain">
+                      <NavLink  className="slide-item" to="/Domain">
                         Domain
                       </NavLink>
                     </li>
                     <li aria-haspopup="true">
-                      <NavLink onClick={ClientConnections} className="slide-item" to="/ClientConnections">
+                      <NavLink className="slide-item" to="/ClientConnections">
                         Client Connections
                       </NavLink>
                     </li>
                     <li aria-haspopup="true">
-                      <NavLink onClick={TableData} className="slide-item" to="/TableData">
+                      <NavLink className="slide-item" to="/TableData">
                         Data Table
                       </NavLink>
                     </li>

@@ -9,7 +9,9 @@ import { url, fetchOption, SSLTypes, LogLevels, HTTP_DLR_Param_Types, HTTP_DLR_M
 import { useTranslation } from "react-i18next";
 
 function ClientConnections() {
-  const { t } = useTranslation();
+
+  
+  
   const [routeTypes, setRouteTypes] = useState([]);
   const [routesByType, setRoutesByType] = useState([]);
   const [currencies,setCurrencies ] = useState([]);
@@ -59,8 +61,6 @@ function ClientConnections() {
 
   const [value, onChange] = useState('07:00');
 
-  
-
   const balance = useRef();
   const credits = useRef();
   const currency = useRef();
@@ -107,7 +107,7 @@ function ClientConnections() {
   const handleChange = (e)=>{
     console.log(e.value);
 
-    /* if(e.target.value && e.target.name != 'billmode'){
+    if(e.target.value && e.target.name != 'billmode'){
       fetch(url+'/master/route/routesByType',{
         ...fetchOption,
         body: JSON.stringify({
@@ -139,7 +139,7 @@ function ClientConnections() {
     }
     if( e.target.name == 'billmode' && e.target.value == ''){
       console.log(balance.current);
-    } */
+    }
   }
 
   const submit = (e)=>{
@@ -163,7 +163,7 @@ function ClientConnections() {
     }
     swal("Done!", "Client Created Successfully!", "success");
   }
- 
+  const { t } = useTranslation();
   return (
     <Layout>
       <div className="main-content horizontal-content">

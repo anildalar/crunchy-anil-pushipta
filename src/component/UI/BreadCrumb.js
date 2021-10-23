@@ -2,7 +2,7 @@ import React from "react";
 import { useTranslation } from "react-i18next";
 
 export default function BreadCrumb() {
-  const t = useTranslation();
+  const {t} = useTranslation();
   return (
     <div className="breadcrumb-header justify-content-between">
       <div className="my-auto">

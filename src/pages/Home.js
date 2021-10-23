@@ -65,10 +65,8 @@ function Home(props) {
                     window.location.href = data.data.user.role+'/dashboard';
 
                 } else if(data.msg === 'invalid credentials') {
-
                     //alert(data.msg);
                     //$(selector).action();
-                   
                     swal("Oops!", data.msg , "error");
                     $('input').css('border',"1px solid red")
                 }else{
