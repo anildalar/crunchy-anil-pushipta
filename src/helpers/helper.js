@@ -1,5 +1,5 @@
 //const baseUrl = 'http://192.168.1.47:3000';
-const url = 'http://192.168.1.47:3000'; //173.249.39.43
+const url = 'http://173.249.39.43:3000'; //173.249.39.43
 
 let validateEmail = (userName)=>{
     const re = /[-!$%^&*()_+|~=`{}\[\]:";'<>?,.@\/]/;
@@ -94,6 +94,22 @@ const timeZone= [
     { label: "(GMT +13:00) Apia, Nukualofa", value: "+13:00"},
     { label: "(GMT +14:00) Line Islands, Tokelau", value: "+14:00"}
 ];
+
+
+
+function toDataUrl(url, callback) {
+    var xhr = new XMLHttpRequest();
+    xhr.onload = function() {
+        var reader = new FileReader();
+        reader.onloadend = function() {
+            callback(reader.result);
+        }
+        reader.readAsDataURL(xhr.response);
+    };
+    xhr.open('GET', url);
+    xhr.responseType = 'blob';
+    xhr.send();
+}
 module.exports = {
                     url,
                     fetchOption,
@@ -104,5 +120,6 @@ module.exports = {
                     HTTP_DLR_Method,
                     HTTP_DLR_Type,
                     HTTP_Response_Type,
-                    timeZone                    
+                    timeZone,
+                    toDataUrl                    
                 };

@@ -1,10 +1,10 @@
-const baseUrl = require("../helpers/helper");
+const { url, toDataUrl } = require("../helpers/helper");
 
 const data = { domain: window.location.hostname };
 
 function getDomain(){
     
-    fetch(baseUrl+'/domain/verify', {
+    fetch(url+'/domain/verify', {
         method: 'POST', 
         headers: {
             'Content-Type': 'application/json',
@@ -16,8 +16,15 @@ function getDomain(){
         console.log('Success:', data);
         //alert(JSON.stringify(data));
         localStorage.setItem('domainData',JSON.stringify(data));
+        localStorage.setItem('domainId',data.data.domainId);
         localStorage.setItem('domainTitle',data.data.domainTitle);
-        localStorage.setItem('logo',baseUrl+'/'+data.data.path+data.data.logo);
+        localStorage.setItem('logo',url+'/'+data.data.path+data.data.logo);
+        toDataUrl(url+'/'+data.data.path+data.data.logo, function(myBase64) {
+            console.log(myBase64); // myBase64 is the base64 string
+            localStorage.setItem('logoData',myBase64);
+        });
+
+        
     }).catch((error) => {
         console.error('Error:', error);
     });
