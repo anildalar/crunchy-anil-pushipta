@@ -48,8 +48,7 @@ const Createuser = (props) => {
         //swal("Success!", t('SMPP Conenction created Successfully!'), "success");
         fetch(url + "/master/route/getRouteType", {
             ...fetchOption
-        })
-            .then(response => response.json())
+        }).then(response => response.json())
             .then(data => {
                 setData(data.data);
             }).catch((error) => {

@@ -2,6 +2,8 @@ import React, { useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import Header from "../../component/Header";
 import { fetchOption, url } from "../../url";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 export default function Clinet_routing() {
     const [client, setClient] = useState([]);
@@ -13,72 +15,83 @@ export default function Clinet_routing() {
     const productRef = useRef("");
     const countriesRef = useRef("");
     useEffect(() => {
-        fetch(url + "/client/getClient", {
-            ...fetchOption,
-        }).then((response) => response.json())
-            .then((data) => {
-                console.log("Success:", data);
-                setClient(data.data);
-                //console.log(JSON.stringify(client))
-            })
-            .catch((error) => {
-                console.error("Error:", error);
-            });
+        try {
+            fetch(url + "/client/getClient", {
+                ...fetchOption,
+            }).then((response) => response.json())
+                .then((data) => {
+                    if (data.status === 200) {
+                        // console.log("Success:", data);
+                        setClient(data.data);
+                        //console.log(JSON.stringify(client))
+                    } else {
+                        toast(data.msg)
+                    }
+                }).catch((error) => {
+                    console.error("Error:", error);
+                });
+        } catch (err) {
+            toast("srever error")
+        }
     }, []);
     useEffect(() => {
-        fetch(url + "/master/get/countries", {
-            ...fetchOption,
-        })
-            .then((response) => response.json())
-            .then((data) => {
-                console.log("Success +contries:", data);
-                setCountry(data.data);
-                console.log(Country);
-            })
-            .catch((error) => {
-                console.error("Error:", error);
-            });
+        try {
+            fetch(url + "/master/get/countries", {
+                ...fetchOption,
+            }).then((response) => response.json())
+                .then((data) => {
+                    console.log("Success +contries:", data);
+                    setCountry(data.data);
+                    console.log(Country);
+                })
+                .catch((error) => {
+                    console.error("Error:", error);
+                });
+        } catch (err) {
+            toast("srever error")
+        }
     }, []);
     const handleChange = (e) => {
         e.preventDefault();
         let id = e.target.value;
         if (id) {
-            // alert( e.target.value)
             fetch(url + "/client/conn/getConnbyClient", {
                 ...fetchOption,
                 body: JSON.stringify({ clientId: id }),
-            })
-                .then((response) => response.json())
+            }).then((response) => response.json())
                 .then((data) => {
-                     if(data.status==200){
-                    console.log("Success:", data);
-                    setcountClient(data.data);
-                    console.log(CountClient);
-                 }else{
-                  console.log(data.msg)
-                     }
-
-                })
-                .catch((error) => {
+                    if (data.status == 200) {
+                        console.log("Success:", data);
+                        setcountClient(data.data);
+                        console.log(CountClient);
+                    } else {
+                        toast(data.msg)
+                    }
+                }).catch((error) => {
                     console.error("Error:", error);
                 });
         }
-
     };
-
     let submitData = (e) => {
         e.preventDefault();
-        fetch(url + '/client/conn/routing', {
-            ...fetchOption,
-            body: JSON.stringify({ "clientId": clientRef.current.value, "connId": productRef.current.value, "countyId": countriesRef.current.value }),
-        }).then(response => response.json())
-            .then(data => {
-                console.log('Success:', data.data);
-                setTableData(data.data)
-            })
-            .catch((error) => {
-                console.error('Error:', error);
-            });
+        try {
+            fetch(url + '/client/conn/routing', {
+                ...fetchOption,
+                body: JSON.stringify({ "clientId": clientRef.current.value, "connId": productRef.current.value, "countyId": countriesRef.current.value }),
+            }).then(response => response.json())
+                .then(data => {
+                    console.log('Success:', data.data);
+                    if (data.error) {
+                        toast("data.msg")
+                    } else {
+                        setTableData(data.data)
+                    }
+                }).catch((error) => {
+                    console.error('Error:', error);
+                });
+        } catch (err) {
+            toast("server error")
+        }
     }
     return (
         <React.Fragment>
@@ -148,7 +161,7 @@ export default function Clinet_routing() {
                                                         <option value="">Select Product</option>
                                                         {CountClient.map((e, index) => {
                                                             return (
-                                                                <option value={e.id}>{e.createdAt}</option>
+                                                                <option key={index} value={e.id}>{e.createdAt}</option>
                                                             );
                                                         })}
                                                     </select>
@@ -171,11 +184,12 @@ export default function Clinet_routing() {
                                                 <div className="form-group mt-1"> <input type="hidden" name="type" defaultValue="view" />
                                                     <button type="submit" className="btn btn-success btn-sm mt-4 me-1"> Search </button>
                                                     <input type="reset" className="btn btn-info btn-sm mt-4" defaultValue="Reset" />
-                                                    <Link  to="/Add_field" className="btn btn-success btn-sm mt-4 ms-1"> Add </Link>
+                                                    <Link to="/Add_field" className="btn btn-success btn-sm mt-4 ms-1"> Add </Link>
                                                 </div>
                                             </div>
                                             <div className="col-sm-12"></div>
                                         </div>
+                                        <ToastContainer />
                                     </form>
                                 </div>
                             </div>
@@ -202,7 +216,7 @@ export default function Clinet_routing() {
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                                  {
+                                                {
                                                     tabdata.map((e) => {
                                                         return (
                                                             <tr>
@@ -214,9 +228,11 @@ export default function Clinet_routing() {
                                                                 <td>{e.createdAt}</td>
                                                                 <td>{e.updateAt}</td>
                                                                 <td>
-                                                                    <a href="#" className="btn btn-sm btn-success">Edit</a>
-                                                                    <a href="#" className="btn btn-sm btn-danger">Delete</a>
-                                                                </td>
+                                                                    <div class="btn-group btn-group-sm" role="group" aria-label="Basic example">
+                                                                        <button type="button" class="btn btn-primary">Edit</button>
+                                                                        <button type="button" class="btn btn-danger">Delete</button>
+                                                                       </div>
+                                                                       </td>
                                                             </tr>
                                                         )
                                                     })
@@ -224,6 +240,7 @@ export default function Clinet_routing() {
                                             </tbody>
                                         </table>
                                     </div>
+
                                 </div>
                             </div>
                         </div>
