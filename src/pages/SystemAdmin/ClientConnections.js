@@ -9,9 +9,6 @@ import { url, fetchOption, SSLTypes, LogLevels, HTTP_DLR_Param_Types, HTTP_DLR_M
 import { useTranslation } from "react-i18next";
 
 function ClientConnections() {
-
-  
-  
   const [routeTypes, setRouteTypes] = useState([]);
   const [routesByType, setRoutesByType] = useState([]);
   const [currencies,setCurrencies ] = useState([]);
@@ -130,8 +127,8 @@ function ClientConnections() {
       //Credit
       console.log(e.target.name); 
       console.log(e.target.value); 
-
       console.log(credits.current);
+      
     }
     if( e.target.name == 'billmode' && e.target.value == 1){
       //MCCMNC
@@ -153,7 +150,7 @@ function ClientConnections() {
       .then(response => response.json())
       .then(data => {
         console.log('Success:', data);
-        swal("Done!", "Client Created Successfully!", "success");
+        swal(t("Done!"), t("Client Created Successfully!"), "success");
       })
       .catch((error) => {
         console.error('Error:', error);
@@ -161,14 +158,14 @@ function ClientConnections() {
     }catch(e){
 
     }
-    swal("Done!", "Client Created Successfully!", "success");
+    swal(t("Done!"), t("Client Created Successfully!"), "success");
   }
   const { t } = useTranslation();
   return (
     <Layout>
       <div className="main-content horizontal-content">
         <div className="container">
-          <BreadCrumb />
+          <BreadCrumb  />
           <div className="row row-sm">
             <div className="col-lg-12 col-xl-12 col-md-12 col-sm-12">
               <div className="card  box-shadow-0">
