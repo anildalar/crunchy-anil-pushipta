@@ -43,7 +43,7 @@ function Home(props) {
             domainId: '1'
         }
     
-        fetch('http://192.168.1.47:3000/auth/login', {
+        fetch('http://173.249.39.43:3000/auth/login', {
             method: 'POST', // or 'PUT'
             headers: {
                 'Content-Type': 'application/json',
