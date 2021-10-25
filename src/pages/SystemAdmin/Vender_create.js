@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from 'react'
-import { fetchOption, url } from '../../url';
-
-import Header from '../../component/Header'
+import { fetchOption, Toast, url } from '../../url';
 import $, { event } from 'jquery';
 import { useTranslation } from 'react-i18next';
 import swal from 'sweetalert';
+import Layout from '../../component/Layout';
+import BreadCrumb from '../../component/UI/BreadCrumb';
+import { ToastContainer, toast } from 'react-toastify';
 // import { url } from "../url";
 function Vender_create() {
     const { t } = useTranslation();
@@ -42,8 +43,6 @@ function Vender_create() {
         },
         "apidlrType": "",
         "apiRespo": [],
-
-
     })
     const [apiData, setVendorHttp] = useState({ // camelCase
         "sender": "",
@@ -108,14 +107,23 @@ function Vender_create() {
     }
     useEffect(() => {
         // localStorage.setItem({ "key": hhtpCollection })
-        fetch(url + "/master/route/getRouteType", {
-            ...fetchOption
-        }).then(response => response.json())
-            .then(data => {
-                setData(data.data);
-            }).catch((error) => {
-                console.error('Error:', error);
-            });
+        try {
+            fetch(url + "/master/route/getRouteType", {
+                ...fetchOption
+            }).then(response => response.json())
+                .then(data => {
+                    setData(data.data);
+                }).catch((error) => {
+                    console.error('Error:', error);
+                });
+        } catch (err) {
+            toast.error("sever error",
+                {
+                    ...Toast,
+                    position: "top-right"
+                });
+        }
+
     }, [])
     const handleChange = (e) => {
         $('.route').html('<option value="">' + t('Select Route Type') + '</option>');
@@ -274,51 +282,17 @@ function Vender_create() {
                     });
                 } else {
                     swal("Vendor smpp connecton successfully stored.");
+                    document.getElementById("myForm").reset();
                 }
             }).catch((error) => {
                 console.error('Error antim:', error);
             });
-
-
     }
     return (
-        <React.Fragment>
-            <Header />
+        <Layout>
             <div className="main-content horizontal-content">
                 <div className="container">
-                    <div className="breadcrumb-header justify-content-between">
-                        <div className="my-auto">
-                            <div className="d-flex">
-                                <h4 className="content-title mb-0 my-auto">Forms</h4><span className="text-muted mt-1 tx-13 ms-2 mb-0">/ Form-Elements</span>
-                            </div>
-                        </div>
-                        <div className="d-flex my-xl-auto right-content">
-                            <div className="pe-1  mb-xl-0">
-                                <button type="button" className="btn btn-info btn-icon me-2 btn-b"><i className="mdi mdi-filter-variant" /></button>
-                            </div>
-                            <div className="pe-1  mb-xl-0">
-                                <button type="button" className="btn btn-danger btn-icon me-2"><i className="mdi mdi-star" /></button>
-                            </div>
-                            <div className="mb-xl-0">
-                                <button type="button" className="btn btn-warning  btn-icon me-2"><i className="mdi mdi-refresh" /></button>
-                            </div>
-                            <div className="mb-xl-0">
-                                <div className="btn-group dropdown">
-                                    <button type="button" className="btn btn-primary">14 Aug 2019</button>
-                                    <button type="button" className="btn btn-primary dropdown-toggle dropdown-toggle-split" id="dropdownMenuDate" data-bs-toggle="dropdown"
-                                        aria-expanded="false">
-                                        <span className="sr-only">Toggle Dropdown</span>
-                                    </button>
-                                    <div className="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuDate" x-placement="bottom-end">
-                                        <a className="dropdown-item" href="#">2015</a>
-                                        <a className="dropdown-item" href="#">2016</a>
-                                        <a className="dropdown-item" href="#">2017</a>
-                                        <a className="dropdown-item" href="#">2018</a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                    <BreadCrumb></BreadCrumb>
                     <div className="row">
                         <div className="col-md-12 col-xl-12 col-xs-12 col-sm-12">
                             {/* start next time hare  */}
@@ -326,13 +300,12 @@ function Vender_create() {
                                 <div className="card-header bg-info px-2 py-1">
                                     <h5 className="m-2 text-white">SMPP Connection</h5>
                                 </div>
-                                <form onSubmit={submit}>
+                                <form  id="myForm" onSubmit={submit}>
                                     <div className="card-body bg-white">
                                         <div className="row">
-
-                                            <div className="col-md-3">
+                                              <div className="col-md-3">
                                                 <label htmlFor="masprotypeld">Route Type&nbsp; <sup className="text-danger">*</sup></label>
-                                                <select onChange={handleChange} name="routeType" id="masprotypeld" className="form-select form-select-sm" required >
+                                                <select onChange={handleChange} name="routeType" id="masprotypeld" className="form-select form-select-lg" required >
                                                     <option value="">Select Route Type</option>
                                                     {mastProd.map((d) => {
                                                         return <option value={d.id} key={d.id}>{d.title}</option>
@@ -342,7 +315,7 @@ function Vender_create() {
                                             </div>
                                             <div className="col-md-3">
                                                 <label htmlFor="masprold">Route&nbsp; <sup className="text-danger">*</sup></label>
-                                                <select id="masprold" onChange={handleHttpColl} name="route" className="form-select form-select-sm route" required>
+                                                <select id="masprold" onChange={handleHttpColl} name="route" className="form-select form-select-lg route" required>
                                                     <option value="" >Select One</option>
 
                                                     {mroute.map((items, index) => {
@@ -356,7 +329,7 @@ function Vender_create() {
                                             </div>
                                             <div className="col-md-3">
                                                 <label htmlFor="sslType" className="mg-b-10">SSL Type&nbsp; <sup className="text-danger">*</sup></label>
-                                                <select id="sslType" onChange={handleHttpColl} className="form-select form-select-sm" name="sslType" required>
+                                                <select id="sslType" onChange={handleHttpColl} className="form-select form-select-lg" name="sslType" required>
                                                     <option value=" ">Select One</option>
                                                     <option value="0" >SSLv2</option>
                                                     <option value="1" > SSLv3</option>
@@ -368,23 +341,23 @@ function Vender_create() {
                                             </div>
                                             <div className="col-md-3">
                                                 <label htmlFor="addrTON">AddrTON</label>
-                                                <input onBlur={handleHttpColl} type="text" className="form-control form-control-sm" name="addrTON" id="addrTON" placeholder="" />
+                                                <input onBlur={handleHttpColl} type="text" className="form-control " name="addrTON" id="addrTON" />
                                             </div>
                                             <div className="col-md-3">
                                                 <label htmlFor="addrNPI">AddrNPI</label>
-                                                <input onBlur={handleHttpColl} type="text" className="form-control form-control-sm" name="addrNPI" id="addrNPI" placeholder="" />
+                                                <input onBlur={handleHttpColl} type="text" className="form-control " name="addrNPI" id="addrNPI" />
                                             </div>
                                             <div className="col-md-3">
                                                 <label htmlFor="addrRange">AddrRange</label>
-                                                <input onBlur={handleHttpColl} type="text" className="form-control form-control-sm" name="addrRange" id="addrRange" placeholder="" />
+                                                <input onBlur={handleHttpColl} type="text" className="form-control " name="addrRange" id="addrRange" />
                                             </div>
                                             <div className="col-md-3">
                                                 <label htmlFor="priority">Priority</label>
-                                                <input onBlur={handleHttpColl} type="text" className="form-control form-control-sm" name="priority" id="priority" placeholder="" />
+                                                <input onBlur={handleHttpColl} type="text" className="form-control " name="priority" id="priority" />
                                             </div>
                                             <div className="col-md-3 mg-t-20 mg-lg-t-0">
                                                 <p className="mg-b-10">Loglevel&nbsp; <sup className="text-danger">*</sup></p> {/* message on payload */}
-                                                <select onChange={handleHttpColl} className="form-select form-select-sm" name="logLevel"  >
+                                                <select onChange={handleHttpColl} className="form-select form-select-lg" name="logLevel"  >
                                                     <option value=""> select one</option>
                                                     <option value="0" >debug </option>
                                                     <option value="1" > info</option>
@@ -396,34 +369,34 @@ function Vender_create() {
                                             </div>
                                             <div className="col-md-3">
                                                 <label htmlFor="systype">Systype</label>
-                                                <input onBlur={handleHttpColl} type="text" className="form-control form-control-sm" name="sysType" id="systype" placeholder="" />
+                                                <input onBlur={handleHttpColl} type="text" className="form-control " name="sysType" id="systype" />
 
                                             </div>
 
                                             <div className="col-md-3">
                                                 <label htmlFor="dsc">Data Coding schema</label>
-                                                <input onBlur={handleHttpColl} type="text" className="form-control form-control-sm" name="dsc" id="dsc" placeholder="" />
+                                                <input onBlur={handleHttpColl} type="text" className="form-control " name="dsc" id="dsc" />
                                                 <span className="text-danger error"></span>
                                             </div>
 
                                             <div className="col-md-3">
                                                 <label htmlFor="smscapcity">Throughtput</label>
-                                                <input onBlur={handleHttpColl} type="text" className="form-control form-control-sm" name="smsCapacity" id="smscapcity" placeholder="" />
+                                                <input onBlur={handleHttpColl} type="text" className="form-control " name="smsCapacity" id="smscapcity" />
 
                                             </div>
                                             <div className="col-md-3">
                                                 <label htmlFor="openTime">Open Time</label>
-                                                <input onBlur={handleHttpColl} type="time" className="form-control form-control-sm" name="openTime" id="openTime" placeholder="" />
+                                                <input onBlur={handleHttpColl} type="time" className="form-control " name="openTime" id="openTime" />
 
                                             </div>
                                             <div className="col-md-3">
                                                 <label htmlFor="closeTime">Close Time</label>
-                                                <input onBlur={handleHttpColl} type="time" className="form-control form-control-sm" name="closeTime" id="closeTime" placeholder="" />
+                                                <input onBlur={handleHttpColl} type="time" className="form-control " name="closeTime" id="closeTime" />
 
                                             </div>
                                             <div className="col-md-3 mg-t-20 mg-lg-t-0">
                                                 <label className="mg-b-10">Active</label> {/* message on payload */}
-                                                <select onChange={handleHttpColl} className="form-select form-select-sm " name="active" >
+                                                <select onChange={handleHttpColl} className="form-select form-select-lg " name="active" >
                                                     <option value=""> select one</option>
                                                     <option value="0" >Active </option>
                                                     <option value="1" >Inactive</option>
@@ -434,12 +407,12 @@ function Vender_create() {
                                         <div className="row">
                                             <div className="col-md-3 mg-t-20 mg-lg-t-0">
                                                 <label htmlFor="apiPushUrl">API Push Url</label>
-                                                <input onBlur={handleHttpColl} type="text" name="apiPushUrl" id="apiPushUrl" className="form-control form-control-sm" />
+                                                <input onBlur={handleHttpColl} type="text" name="apiPushUrl" id="apiPushUrl" className="form-control " />
                                                 <span className="text-danger error"></span>
                                             </div>
                                             <div className="col-md-3 mg-t-20 mg-lg-t-0">
                                                 <p className="mg-b-10">API Method&nbsp; <sup className="text-danger">*</sup></p> {/* message on payload */}
-                                                <select onChange={handleHttpColl} className="form-select form-select-sm" name="apiMeth"  >
+                                                <select onChange={handleHttpColl} className="form-select form-select-lg" name="apiMeth"  >
                                                     <option value=""> none</option>
                                                     <option value="0" >POST</option>
                                                     <option value="1" >GET</option>
@@ -448,7 +421,7 @@ function Vender_create() {
                                             </div>
                                             <div className="col-md-3 mg-t-20 mg-lg-t-0">
                                                 <p className="mg-b-10">API Parameter&nbsp; <sup className="text-danger">*</sup></p> {/* message on payload */}
-                                                <select onChange={handleHttpColl} className="form-select form-select-sm" name="apiParType"  >
+                                                <select onChange={handleHttpColl} className="form-select form-select-lg" name="apiParType"  >
                                                     <option value=""> none</option>
                                                     <option value="0"> Quert</option>
                                                     <option value="1">Data</option>
@@ -458,7 +431,7 @@ function Vender_create() {
                                             </div>
                                             <div className="col-md-3 mg-t-20 mg-lg-t-0">
                                                 <p className="mg-b-10">API Auth&nbsp; <sup className="text-danger">*</sup></p> {/* message on payload */}
-                                                <select onChange={onchange} className="form-select form-select-sm apiauth" name="apiAuth"  >
+                                                <select onChange={onchange} className="form-select form-select-lg apiauth" name="apiAuth"  >
                                                     <option value="0">None</option>
                                                     <option value="1">Basic</option>
                                                     <option value="2">Bearer Token</option>
@@ -470,19 +443,19 @@ function Vender_create() {
                                             <div className="col-sm-6 col-md-4 d-none bearer_token">
                                                 <div className="form-group">
                                                     <label htmlFor="BearerToken">Bearer Token</label>
-                                                    <input onBlur={handlaApiauthadta} type="text" name="BearerToken" id="BearerToken" className="form-control form-control-sm" />
+                                                    <input onBlur={handlaApiauthadta} type="text" name="BearerToken" id="BearerToken" className="form-control " />
                                                 </div>
                                             </div>
                                             <div className="col-sm-6 col-md-3 d-none username ">
                                                 <div className="form-group ">
                                                     <label htmlFor="username">User Name</label>
-                                                    <input onBlur={handlaApiauthadta} type="text" name="userName" id="username" className="form-control form-control-sm basic_token" />
+                                                    <input onBlur={handlaApiauthadta} type="text" name="userName" id="username" className="form-control  basic_token" />
                                                 </div>
                                             </div>
                                             <div className="col-sm-6 col-md-3 d-none password">
                                                 <div className="form-group">
                                                     <label htmlFor="password">Password</label>
-                                                    <input onBlur={handlaApiauthadta} type="text" name="password" id="password" className="form-control form-control-sm basic_token" />
+                                                    <input onBlur={handlaApiauthadta} type="text" name="password" id="password" className="form-control  basic_token" />
                                                 </div>
                                             </div>
                                         </div>
@@ -492,7 +465,7 @@ function Vender_create() {
                                                 <div className="form-group">
                                                     <label htmlFor="apiData.sender">To&nbsp; <sup className="text-danger">*</sup></label>
                                                     <p>Use for destination address.</p>
-                                                    <input onChange={handleDesAdd} type="text" name="sender" id="sender" className="form-control form-control-sm" />
+                                                    <input onChange={handleDesAdd} type="text" name="sender" id="sender" className="form-control " />
                                                     <span className="text-danger error"></span>
                                                 </div>
                                             </div>
@@ -500,14 +473,14 @@ function Vender_create() {
                                                 <div className="form-group">
                                                     <label htmlFor="from">From&nbsp; <sup className="text-danger">*</sup></label>
                                                     <p>Use for source address or sender id.</p>
-                                                    <input onChange={handleDesAdd} type="text" name="from" id="from" className="form-control form-control-sm" />
+                                                    <input onChange={handleDesAdd} type="text" name="from" id="from" className="form-control " />
                                                 </div>
                                             </div>
                                             <div className="col-sm-6 col-md-3">
                                                 <div className="form-group">
                                                     <label htmlFor="msg">MSG&nbsp; <sup className="text-danger">*</sup></label>
                                                     <p>Use for content (message).</p>
-                                                    <input onChange={handleDesAdd} type="text" name="msg" id="msg" className="form-control form-control-sm ps ps--theme_default" data-ps-id="e3819da9-57e8-e0c6-a66f-24315f5adce4" />
+                                                    <input onChange={handleDesAdd} type="text" name="msg" id="msg" className="form-control  ps ps--theme_default" data-ps-id="e3819da9-57e8-e0c6-a66f-24315f5adce4" />
                                                 </div>
                                             </div>
                                         </div>
@@ -516,7 +489,7 @@ function Vender_create() {
                                                 <div className="form-group">
                                                     <label htmlFor="flash">flash&nbsp; <sup className="text-danger">*</sup></label>
                                                     <p>Use for flash message.</p>
-                                                    <input onBlur={handleDesAdd} type="text" name="flash" id="flash" className="form-control form-control-sm" />
+                                                    <input onBlur={handleDesAdd} type="text" name="flash" id="flash" className="form-control " />
                                                 </div>
                                             </div>
 
@@ -527,21 +500,21 @@ function Vender_create() {
                                                     <div className="col-sm-4">
                                                         <div className="form-group">
                                                             <label htmlFor="flash_yes">Yes</label>
-                                                            <input type="text" onBlur={handleDesAdd} data-parent="flash_obj" name="yes" id="flash_yes" className="form-control-sm form-control" />
+                                                            <input type="text" onBlur={handleDesAdd} data-parent="flash_obj" name="yes" id="flash_yes" className=" form-control" />
                                                         </div>
                                                         <span className="text-danger error"></span>
                                                     </div>
                                                     <div className="col-sm-4">
                                                         <div className="form-group">
                                                             <label htmlFor="flash_no">No</label>
-                                                            <input type="text" onBlur={handleDesAdd} data-parent="flash_obj" name="no" id="flash_no" className="form-control-sm form-control" />
+                                                            <input type="text" onBlur={handleDesAdd} data-parent="flash_obj" name="no" id="flash_no" className=" form-control" />
                                                         </div>
                                                         <span className="text-danger error"></span>
                                                     </div>
                                                     <div className="col-sm-4">
                                                         <div className="form-group">
                                                             <label htmlFor="flash_default">flash default value</label>
-                                                            <input type="text" onBlur={handleDesAdd} data-parent="flash_obj" name="def" id="flash_default" className="form-control-sm form-control" />
+                                                            <input type="text" onBlur={handleDesAdd} data-parent="flash_obj" name="def" id="flash_default" className=" form-control" />
                                                         </div>
                                                         <span className="text-danger error"></span>
                                                     </div>
@@ -553,7 +526,7 @@ function Vender_create() {
                                                 <div className="form-group">
                                                     <label htmlFor="unicode">Unicoded&nbsp; <sup className="text-danger">*</sup></label>
                                                     <p>Use for unicode message.</p>
-                                                    <input onBlur={handleDesAdd} type="text" name="uc" id="unicode" className="form-control form-control-sm" />
+                                                    <input onBlur={handleDesAdd} type="text" name="uc" id="unicode" className="form-control " />
                                                 </div>
                                                 <span className="text-danger error"></span>
                                             </div>
@@ -562,21 +535,21 @@ function Vender_create() {
                                                     <div className="col-sm-4">
                                                         <div className="form-group">
                                                             <label htmlFor="uc_yes">Yes</label>
-                                                            <input onBlur={handleDesAdd} type="text" data-parent="uc_obj" name="yes" id="uc_yes" className="form-control-sm form-control" />
+                                                            <input onBlur={handleDesAdd} type="text" data-parent="uc_obj" name="yes" id="uc_yes" className=" form-control" />
                                                         </div>
                                                         <span className="text-danger error"></span>
                                                     </div>
                                                     <div className="col-sm-4">
                                                         <div className="form-group">
                                                             <label htmlFor="uc_no">No</label>
-                                                            <input onBlur={handleDesAdd} type="text" data-parent="uc_obj" name="no" id="uc_no" className="form-control-sm form-control" />
+                                                            <input onBlur={handleDesAdd} type="text" data-parent="uc_obj" name="no" id="uc_no" className=" form-control" />
                                                         </div>
                                                         <span className="text-danger error"></span>
                                                     </div>
                                                     <div className="col-sm-4">
                                                         <div className="form-group">
                                                             <label htmlFor="uc_default">Unicode defaultv value</label>
-                                                            <input onBlur={handleDesAdd} type="text" data-parent="uc_obj" name="def" id="uc_default" className="form-control-sm form-control" />
+                                                            <input onBlur={handleDesAdd} type="text" data-parent="uc_obj" name="def" id="uc_default" className=" form-control" />
                                                         </div>
                                                         <span className="text-danger error"></span>
                                                     </div>
@@ -587,37 +560,37 @@ function Vender_create() {
                                             <h4 className="text-danger">api custom data parameter</h4>
                                             {formValues.map((element, index) => {
                                                 // console.log('ok', element);
-                                               
-                                                    return (
-                                                        <div className="col-sm-6  custfieldcol1" key={index}>
-                                                            <div className="row">
-                                                                <div className="col-sm-5">
-                                                                    <div className="form-group">
-                                                                        <label htmlFor>Dynamic field</label>
-                                                                        <input value={element.custLabel_1 || ""} onChange={e => handleChangew(index, e)} type="text" name="custLabel_1" id="cust_label" className="form-control form-control-sm custLabel" />
-                                                                    </div>
-                                                                </div>
-                                                                <div className="col-sm-5">
-                                                                    <div className="form-group">
-                                                                        <label htmlFor>Dynamic field value</label>
-                                                                        <input value={element.custField_1 || ""} onChange={e => handleChangew(index, e)} type="text" name="custField_1" id="cust_value" className="form-control form-control-sm custValue" />
-                                                                    </div>
-                                                                </div>
-                                                                <div className="col-sm-2 d-flex align-items-center">
-                                                                    {/* update.bind(null, props.x) */}
-                                                                    <button type="button" onClick={(e) => removeFormFields(index, e)} className="btn btn-sm btn-danger">Remove</button>
+
+                                                return (
+                                                    <div className="col-sm-6  custfieldcol1" key={index}>
+                                                        <div className="row">
+                                                            <div className="col-sm-5">
+                                                                <div className="form-group">
+                                                                    <label htmlFor>Dynamic field</label>
+                                                                    <input value={element.custLabel_1 || ""} onChange={e => handleChangew(index, e)} type="text" name="custLabel_1" id="cust_label" className="form-control  custLabel" />
                                                                 </div>
                                                             </div>
+                                                            <div className="col-sm-5">
+                                                                <div className="form-group">
+                                                                    <label htmlFor>Dynamic field value</label>
+                                                                    <input value={element.custField_1 || ""} onChange={e => handleChangew(index, e)} type="text" name="custField_1" id="cust_value" className="form-control  custValue" />
+                                                                </div>
+                                                            </div>
+                                                            <div className="col-sm-2 d-flex align-items-center">
+                                                                {/* update.bind(null, props.x) */}
+                                                                <button type="button" onClick={(e) => removeFormFields(index, e)} className="btn btn-danger">Remove</button>
+                                                            </div>
                                                         </div>
-                                                    )
-                                                
+                                                    </div>
+                                                )
+
                                             })
                                             }
                                         </div>
                                         <div className="row">
                                             <div className="col-md-3">
                                                 <label htmlFor="apidlrType" className="mg-b-10">Api Dlr Type&nbsp; <sup className="text-danger">*</sup></label>
-                                                <select onBlur={handleHttpColl} id="apidlrType" className="form-select form-select-sm" name="apidlrType" >
+                                                <select onBlur={handleHttpColl} id="apidlrType" className="form-select form-select-lg " name="apidlrType" >
                                                     <option value=" ">Select One</option>
                                                     <option value="0" >Get</option>
                                                     <option value="1" >Recived</option>
@@ -626,11 +599,11 @@ function Vender_create() {
                                             </div>
                                             <div className="col-md-3">
                                                 <label htmlFor="url">Url</label>
-                                                <input onChange={handleapidlr} type="text" className="form-control form-control-sm" name="url" id="url" placeholder="" />
+                                                <input onChange={handleapidlr} type="text" className="form-control " name="url" id="url" placeholder="" />
                                             </div>
                                             <div className="col-md-3">
                                                 <label htmlFor="method" className="mg-b-10">Method</label>
-                                                <select onChange={handleapidlr} id="method" className="form-select form-select-sm" name="method" >
+                                                <select onChange={handleapidlr} id="method" className="form-select form-select-lg" name="method" >
                                                     <option value="">Select One</option>
                                                     <option value="0" >Get</option>
                                                     <option value="1" >Post</option>
@@ -638,7 +611,7 @@ function Vender_create() {
                                             </div>
                                             <div className="col-md-3">
                                                 <label htmlFor="paramType" className="mg-b-10">ParamType</label>
-                                                <select onChange={handleapidlr} id="paramType" className="form-select form-select-sm" name="paramType" >
+                                                <select onChange={handleapidlr} id="paramType" className="form-select form-select-lg" name="paramType" >
                                                     <option value="">Select One</option>
                                                     <option value="0" >Quert</option>
                                                     <option value="1" >Data</option>
@@ -647,11 +620,11 @@ function Vender_create() {
                                             </div>
                                             <div className="col-md-3">
                                                 <label htmlFor="apiRespoType" className="mg-b-10">Api Response Type</label>
-                                                <select onChange={handleHttpColl} id="apiRespoType" className="form-select form-select-sm" name="apiRespoType" >
+                                                <select onChange={handleHttpColl} id="apiRespoType" className="form-select form-select-lg" name="apiRespoType" >
                                                     <option value=" ">Select One</option>
                                                     <option value="0" >object</option>
                                                     <option value="1" >string</option>
-                                                 </select>
+                                                </select>
                                                 <span className="text-danger error"></span>
                                             </div>
                                             <div className="row">
@@ -667,18 +640,18 @@ function Vender_create() {
                                                                     <div className="col-sm-5">
                                                                         <div className="form-group">
                                                                             <label htmlFor="fieldname"> Field Name</label>
-                                                                            <input value={element.fieldname || ""} onChange={e => handleChangew2(index, e)} type="text" name="fieldname" id="fieldname" className="form-control form-control-sm " />
+                                                                            <input value={element.fieldname || ""} onChange={e => handleChangew2(index, e)} type="text" name="fieldname" id="fieldname" className="form-control  " />
                                                                         </div>
                                                                     </div>
                                                                     <div className="col-sm-5">
                                                                         <div className="form-group">
                                                                             <label htmlFor="fieldvalue">Field Value</label>
-                                                                            <input value={element.fieldvalue || ""} onChange={e => handleChangew2(index, e)} type="text" name="fieldvalue" id="fieldvalue" className="form-control form-control-sm " />
+                                                                            <input value={element.fieldvalue || ""} onChange={e => handleChangew2(index, e)} type="text" name="fieldvalue" id="fieldvalue" className="form-control  " />
                                                                         </div>
                                                                     </div>
                                                                     <div className="col-sm-2 d-flex align-items-center">
                                                                         {/* update.bind(null, props.x) */}
-                                                                        <button type="button" onClick={(e) => removeFormFields2(index, e)} className="btn btn-sm btn-danger">Remove</button>
+                                                                        <button type="button" onClick={(e) => removeFormFields2(index, e)} className="btn btn-danger">Remove</button>
                                                                     </div>
                                                                 </div>
                                                             </div>
@@ -688,7 +661,7 @@ function Vender_create() {
                                                 })
                                                 }
                                             </div>
-                               </div>
+                                        </div>
                                         <h4 className="text-danger">Api Respones Pattern</h4>
                                         <div className="row">
                                             <div className="col-md-3 mt-4 ">
@@ -704,11 +677,11 @@ function Vender_create() {
                                                         <div className="row">
                                                             <div className="col-md-4">
                                                                 <label htmlFor="succWord" className="mg-b-10">Success word</label>
-                                                                <input type="text" value={item.succWord} onChange={(e) => { handleApiDlrResObjValue(e, index) }} className="form-control form-control-sm" name="succWord" id="succWord" placeholder="" />
+                                                                <input type="text" value={item.succWord} onChange={(e) => { handleApiDlrResObjValue(e, index) }} className="form-control " name="succWord" id="succWord" placeholder="" />
                                                             </div>
                                                             <div className="col-md-4">
                                                                 <label htmlFor="errCode" className="mg-b-10"> Error Code </label>
-                                                                <input type="errCode" value={item.errCode} onChange={(e) => { handleApiDlrResObjValue(e, index) }} className="form-control form-control-sm" name="errCode" id="errCode" placeholder="" />
+                                                                <input type="errCode" value={item.errCode} onChange={(e) => { handleApiDlrResObjValue(e, index) }} className="form-control " name="errCode" id="errCode" placeholder="" />
                                                             </div>
                                                             <div className="col-md-4 mt-4">
                                                                 <button type="button" onClick={(e) => { removeApiDlrResObj(e, index) }} className="btn btn-sm btn-danger">Remove</button>
@@ -717,43 +690,43 @@ function Vender_create() {
                                                         <div className="row">
                                                             <div className="col-md-4">
                                                                 <label htmlFor="param" className="mg-b-10">Message Id Parameter</label>
-                                                                <input data-parent="msgId" value={item.msgId.param} onChange={(e) => { handleApiDlrResObjValue(e, index) }} type="text" className="form-control form-control-sm" name="param" id="param" placeholder="" />
+                                                                <input data-parent="msgId" value={item.msgId.param} onChange={(e) => { handleApiDlrResObjValue(e, index) }} type="text" className="form-control " name="param" id="param" placeholder="" />
                                                             </div>
                                                             <div className="col-md-4">
                                                                 <label htmlFor="spat" className="mg-b-10"> Message Start Pattern</label>
-                                                                <input data-parent="msgId" value={item.msgId.spat} onChange={(e) => { handleApiDlrResObjValue(e, index) }} type="text" className="form-control form-control-sm" name="spat" id="spat" placeholder="" />
+                                                                <input data-parent="msgId" value={item.msgId.spat} onChange={(e) => { handleApiDlrResObjValue(e, index) }} type="text" className="form-control " name="spat" id="spat" placeholder="" />
                                                             </div>
                                                             <div className="col-md-4">
                                                                 <label htmlFor="epat" className="mg-b-10"> Message End Pattern</label>
-                                                                <input data-parent="msgId" value={item.msgId.epat} onChange={(e) => { handleApiDlrResObjValue(e, index) }} type="text" className="form-control form-control-sm" name="epat" id="epat" placeholder="" />
+                                                                <input data-parent="msgId" value={item.msgId.epat} onChange={(e) => { handleApiDlrResObjValue(e, index) }} type="text" className="form-control " name="epat" id="epat" placeholder="" />
                                                             </div>
                                                         </div>
                                                         <div className="row">
                                                             <div className="col-md-4">
                                                                 <label htmlFor="param" className="mg-b-10">Status Id Parameter</label>
-                                                                <input type="text" value={item.stat.param} onChange={(e) => { handleApiDlrResObjValue(e, index) }} data-parent="stat" className="form-control form-control-sm" name="param" id="param" placeholder="" />
+                                                                <input type="text" value={item.stat.param} onChange={(e) => { handleApiDlrResObjValue(e, index) }} data-parent="stat" className="form-control " name="param" id="param" placeholder="" />
                                                             </div>
                                                             <div className="col-md-4">
                                                                 <label htmlFor="spat" className="mg-b-10"> Status Start Pattern</label>
-                                                                <input type="text" value={item.stat.spat} onChange={(e) => { handleApiDlrResObjValue(e, index) }} data-parent="stat" className="form-control form-control-sm" name="spat" id="spat" placeholder="" />
+                                                                <input type="text" value={item.stat.spat} onChange={(e) => { handleApiDlrResObjValue(e, index) }} data-parent="stat" className="form-control " name="spat" id="spat" placeholder="" />
                                                             </div>
                                                             <div className="col-md-4">
                                                                 <label htmlFor="epat" className="mg-b-10"> Status End Pattern</label>
-                                                                <input type="text" value={item.stat.epat} onChange={(e) => { handleApiDlrResObjValue(e, index) }} data-parent="stat" className="form-control form-control-sm" name="epat" id="epat" placeholder="" />
+                                                                <input type="text" value={item.stat.epat} onChange={(e) => { handleApiDlrResObjValue(e, index) }} data-parent="stat" className="form-control " name="epat" id="epat" placeholder="" />
                                                             </div>
                                                         </div>
                                                         <div className="row">
                                                             <div className="col-md-4">
                                                                 <label htmlFor="param" className="mg-b-10">Error Id Parameter</label>
-                                                                <input type="text" value={item.err.param} onChange={(e) => { handleApiDlrResObjValue(e, index) }} data-parent="err" className="form-control form-control-sm" name="param" id="param" placeholder="" />
+                                                                <input type="text" value={item.err.param} onChange={(e) => { handleApiDlrResObjValue(e, index) }} data-parent="err" className="form-control " name="param" id="param" placeholder="" />
                                                             </div>
                                                             <div className="col-md-4">
                                                                 <label htmlFor="spat" className="mg-b-10">Error Start Pattern</label>
-                                                                <input type="text" value={item.err.spat} onChange={(e) => { handleApiDlrResObjValue(e, index) }} className="form-control form-control-sm" data-parent="err" name="spat" id="spat" placeholder="" />
+                                                                <input type="text" value={item.err.spat} onChange={(e) => { handleApiDlrResObjValue(e, index) }} className="form-control " data-parent="err" name="spat" id="spat" placeholder="" />
                                                             </div>
                                                             <div className="col-md-4">
                                                                 <label htmlFor="epat" className="mg-b-10"> Error End Pattern</label>
-                                                                <input type="text" value={item.err.epat} onChange={(e) => { handleApiDlrResObjValue(e, index) }} data-parent="err" className="form-control form-control-sm" name="epat" id="epat" placeholder="" />
+                                                                <input type="text" value={item.err.epat} onChange={(e) => { handleApiDlrResObjValue(e, index) }} data-parent="err" className="form-control " name="epat" id="epat" placeholder="" />
                                                             </div>
                                                         </div>
                                                     </div>
@@ -764,46 +737,42 @@ function Vender_create() {
                                         <div className="row">
                                             <div className="col-md-3">
                                                 <label htmlFor="name">Name</label>
-                                                <input onBlur={handleHttpColl} type="text" className="form-control form-control-sm" name="name" id="name" placeholder="" />
+                                                <input onBlur={handleHttpColl} type="text" className="form-control " name="name" id="name" placeholder="" />
                                                 <span className="text-danger error"></span>
                                             </div>
                                             <div className="col-md-3">
                                                 <label htmlFor="name">Company Name</label>
-                                                <input onBlur={handleHttpColl} type="text" className="form-control form-control-sm" name="companyName" id="name" placeholder="" />
+                                                <input onBlur={handleHttpColl} type="text" className="form-control " name="companyName" id="name" placeholder="" />
                                                 <span className="text-danger error"></span>
                                             </div>
                                             <div className="col-md-3">
                                                 <label htmlFor="name">Email</label>
-                                                <input onBlur={handleHttpColl} type="email" className="form-control form-control-sm" name="email" id="name" placeholder="" />
+                                                <input onBlur={handleHttpColl} type="email" className="form-control " name="email" id="name" placeholder="" />
                                                 <span className="text-danger error"></span>
                                             </div>
                                             <div className="col-md-3">
                                                 <label htmlFor="name">Support Number</label>
-                                                <input onBlur={handleHttpColl} type="number" className="form-control form-control-sm" name="supportNo" id="name" placeholder="" />
+                                                <input onBlur={handleHttpColl} type="number" className="form-control " name="supportNo" id="name" placeholder="" />
                                                 <span className="text-danger error"></span>
                                             </div>
                                         </div>
                                         <div className="row">
                                             <div className="col-md-3 mt-4 float-end">
-                                                <input type="submit" className="text-white form-control form-control-sm  btn btn-info bg-primary border-secondary" value="Submit" />
+                                                <input type="submit" className="text-white form-control   btn btn-info bg-primary border-secondary" value="Submit" />
                                             </div>
                                             <div className="col-md-3 mt-4 float-start">
                                                 <button onClick={(e) => addFormFields(e)} className="btn btn-success">Add morefiled</button>
                                             </div>
-                                            {/* <div className="col-md-3 mt-4">
-                                                <button onClick={(e) => temp(e)} className="btn btn-success">temp</button>
-                                            </div> */}
                                         </div>
                                     </div>
+                                    <ToastContainer />
                                 </form>
                             </div>
                         </div>
                     </div>
-
-
                 </div>
             </div>
-        </React.Fragment>
+        </Layout>
 
     )
 }

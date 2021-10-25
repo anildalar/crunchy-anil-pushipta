@@ -1,16 +1,17 @@
 import React, { useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import Header from "../../component/Header";
-import { fetchOption, url } from "../../url";
+import { fetchOption, Toast, url } from "../../url";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import BreadCrumb from "../../component/UI/BreadCrumb";
+//import Toast from "../../component/Toast";
 
 export default function Clinet_routing() {
     const [client, setClient] = useState([]);
     const [Country, setCountry] = useState([]);
-    const [CountClient, setcountClient] = useState([]);
+    const [productConn, setProductConn] = useState([]);
     const [tabdata, setTableData] = useState([])
-    console.log("antim" + tabdata)
     const clientRef = useRef("");
     const productRef = useRef("");
     const countriesRef = useRef("");
@@ -31,7 +32,11 @@ export default function Clinet_routing() {
                     console.error("Error:", error);
                 });
         } catch (err) {
-            toast("srever error")
+            toast.error("sever error",
+                {
+                    ...Toast,
+                    position: "top-right"
+                });
         }
     }, []);
     useEffect(() => {
@@ -48,13 +53,19 @@ export default function Clinet_routing() {
                     console.error("Error:", error);
                 });
         } catch (err) {
-            toast("srever error")
+            toast.error("sever error",
+                {
+                    ...Toast,
+                    position: "top-right"
+                }
+            );
         }
     }, []);
     const handleChange = (e) => {
         e.preventDefault();
         let id = e.target.value;
-        if (id) {
+        if (id != '') {
+            setProductConn([]);
             fetch(url + "/client/conn/getConnbyClient", {
                 ...fetchOption,
                 body: JSON.stringify({ clientId: id }),
@@ -62,10 +73,15 @@ export default function Clinet_routing() {
                 .then((data) => {
                     if (data.status == 200) {
                         console.log("Success:", data);
-                        setcountClient(data.data);
-                        console.log(CountClient);
+                        setProductConn(data.data);
+                        console.log(productConn);
                     } else {
-                        toast(data.msg)
+                        toast.error(data.msg,
+                            {
+                                ...Toast,
+                                position: "top-right"
+                            }
+                        );
                     }
                 }).catch((error) => {
                     console.error("Error:", error);
@@ -82,7 +98,11 @@ export default function Clinet_routing() {
                 .then(data => {
                     console.log('Success:', data.data);
                     if (data.error) {
-                        toast("data.msg")
+                        toast.error(data.msg,
+                            {
+                                ...Toast,
+                                position: "top-right"
+                            })
                     } else {
                         setTableData(data.data)
                     }
@@ -90,7 +110,11 @@ export default function Clinet_routing() {
                     console.error('Error:', error);
                 });
         } catch (err) {
-            toast("server error")
+            toast.error("server error",
+                {
+                    ...Toast,
+                    position: "top-right"
+                })
         }
     }
     return (
@@ -98,40 +122,7 @@ export default function Clinet_routing() {
             <Header />
             <div className="main-content horizontal-content">
                 <div className="container">
-                    <div className="breadcrumb-header justify-content-between">
-                        <div className="my-auto">
-                            <div className="d-flex">
-                                <h4 className="content-title mb-0 my-auto">Forms</h4>
-                                <span className="text-muted mt-1 tx-13 ms-2 mb-0"> / Form-Elements</span>
-                            </div>
-                        </div>
-                        <div className="d-flex my-xl-auto right-content">
-                            <div className="pe-1  mb-xl-0">
-                                <button type="button" className="btn btn-info btn-icon me-2 btn-b" >  <i className="mdi mdi-filter-variant" /> </button>
-                            </div>
-                            <div className="pe-1  mb-xl-0">
-                                <button type="button" className="btn btn-danger btn-icon me-2"> <i className="mdi mdi-star" />  </button>
-                            </div>
-                            <div className="mb-xl-0">
-                                <button type="button" className="btn btn-warning  btn-icon me-2" >  <i className="mdi mdi-refresh" />  </button>
-                            </div>
-                            <div className="mb-xl-0">
-                                <div className="btn-group dropdown">
-                                    <button type="button" className="btn btn-primary">  14 Aug 2019  </button>
-                                    <button type="button" className="btn btn-primary dropdown-toggle dropdown-toggle-split" id="dropdownMenuDate" data-bs-toggle="dropdown" aria-expanded="false" >
-                                        <span className="sr-only">Toggle Dropdown</span>
-                                    </button>
-                                    <div className="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuDate" x-placement="bottom-end" >
-                                        <a className="dropdown-item" href="#">  2015  </a>
-                                        <a className="dropdown-item" href="#">  2016 </a>
-                                        <a className="dropdown-item" href="#"> 2017  </a>
-                                        <a className="dropdown-item" href="#"> 2018 </a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
+                    <BreadCrumb></BreadCrumb>
                     <div className="row">
                         <div className="col-md-12 col-xl-12 col-xs-12 col-sm-12">
                             <div className="card ">
@@ -140,12 +131,13 @@ export default function Clinet_routing() {
                                 </div>
                                 <div className="card-body bg-white">
                                     <form method="post" onSubmit={(e) => { submitData(e) }}>
+                                        <ToastContainer />
                                         <input type="hidden" name="csrf_test_name" />
                                         <div className="row row-sm">
                                             <div className="col-sm-3">
                                                 <div className="form-group">
                                                     <label htmlFor="carrier_id"> Client&nbsp;<sup className="text-danger">*</sup> </label>
-                                                    <select ref={clientRef} onChange={handleChange} className="form-control form-control-sm" name="carrier_id" data-target="product_idv" required="required" >
+                                                    <select ref={clientRef} onChange={handleChange} className="form-control" name="carrier_id" data-target="product_idv" required="required" >
                                                         <option value="">Select one</option>
                                                         {client.map((e, index) => {
                                                             return (<option key={index} value={e.userId}>{e.firstName}{e.lastName}</option>
@@ -157,9 +149,9 @@ export default function Clinet_routing() {
                                             <div className="col-sm-3">
                                                 <div className="form-group">
                                                     <label htmlFor="product_idv">Products</label>
-                                                    <select ref={productRef} className="form-control form-control-sm" id="product_idv" name="product_id" >
+                                                    <select ref={productRef} className="form-control" id="product_idv" name="product_id" >
                                                         <option value="">Select Product</option>
-                                                        {CountClient.map((e, index) => {
+                                                        {productConn.map((e, index) => {
                                                             return (
                                                                 <option key={index} value={e.id}>{e.createdAt}</option>
                                                             );
@@ -170,7 +162,7 @@ export default function Clinet_routing() {
                                             <div className="col-sm-3">
                                                 <div className="form-group">
                                                     <label htmlFor="country_id">Countries</label>
-                                                    <select ref={countriesRef} className="form-control form-control-sm" id="country_id" name="country_id" >
+                                                    <select ref={countriesRef} className="form-control" id="country_id" name="country_id" >
                                                         <option value="">Select Countries</option>
                                                         {Country.map((e, index) => {
                                                             return (
@@ -182,9 +174,9 @@ export default function Clinet_routing() {
                                             </div>
                                             <div className="col-sm-3">
                                                 <div className="form-group mt-1"> <input type="hidden" name="type" defaultValue="view" />
-                                                    <button type="submit" className="btn btn-success btn-sm mt-4 me-1"> Search </button>
-                                                    <input type="reset" className="btn btn-info btn-sm mt-4" defaultValue="Reset" />
-                                                    <Link to="/Add_field" className="btn btn-success btn-sm mt-4 ms-1"> Add </Link>
+                                                    <button type="submit" className="btn btn-success mt-4 me-1"> Search </button>
+                                                    <input type="reset" className="btn btn-info mt-4" defaultValue="Reset" />
+                                                    <Link to="/Add_field" className="btn btn-success mt-4 ms-1"> Add </Link>
                                                 </div>
                                             </div>
                                             <div className="col-sm-12"></div>
@@ -231,8 +223,8 @@ export default function Clinet_routing() {
                                                                     <div class="btn-group btn-group-sm" role="group" aria-label="Basic example">
                                                                         <button type="button" class="btn btn-primary">Edit</button>
                                                                         <button type="button" class="btn btn-danger">Delete</button>
-                                                                       </div>
-                                                                       </td>
+                                                                    </div>
+                                                                </td>
                                                             </tr>
                                                         )
                                                     })

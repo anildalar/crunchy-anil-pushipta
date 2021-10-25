@@ -1,16 +1,16 @@
 import React, { useEffect, useRef, useState } from 'react'
 import Header from '../../component/Header'
-import { fetchOption, url } from '../../url';
+import { fetchOption, Toast, url } from '../../url';
 import $ from 'jquery';
 import swal from 'sweetalert';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import Layout from '../../component/Layout';
 
 function Add_field() {
     const [client, setClient] = useState([]);
     const [Country, setCountry] = useState([]);
-    const [code, setContryPrfix] = useState({});
-    const [clientConn, setclientConn] = useState([]);
+    const [productConn, setProductConn] = useState([]);
     const product = useRef('')
     const fix_credit = useRef('')
     const fix_bal = useRef('')
@@ -38,17 +38,23 @@ function Add_field() {
                         setClient(data.data);
                         // console.log(client)
                     } else {
-                        toast(data.msg)
+                        toast.error(data.msg,
+                            {
+                                ...Toast,
+                                position: "top-right"
+                            });
                         // console.log(data.msg)
                     }
                 }).catch((error) => {
                     console.error("Error:", error);
                 });
         } catch (err) {
-            toast("srever error")
+            toast.error("sever error",
+                { ...Toast,
+                    position: "top-right"
+                });
         }
-
-    }, []);
+ }, []);
     useEffect(() => {
         try {
             fetch(url + "/master/get/countries", {
@@ -61,15 +67,19 @@ function Add_field() {
                     console.error("Error:", error);
                 });
         } catch (err) {
-            toast("server error")
+            toast.error("sever error",
+                {
+                    ...Toast,
+                    position: "top-right"
+                });
         }
-
-    }, []);
+}, []);
     const handleChange = (e) => {
         e.preventDefault();
-        setRouting({ ...routing, [e.target.name]: e.target.value })
-        let id = e.target.value;
-        if (id) {
+        if (e.target.value != '') {
+            setRouting({ ...routing, [e.target.name]: e.target.value })
+            let id = e.target.value;
+            setProductConn([]);
             try {
                 fetch(url + "/client/conn/getConnbyClient", {
                     ...fetchOption,
@@ -78,25 +88,32 @@ function Add_field() {
                     .then((data) => {
                         if (data.status === 200) {
                             console.log("Success:", data);
-                            setclientConn(data.data);
-                            console.log(clientConn);
+                            setProductConn(data.data);
+                            console.log(productConn);
                         } else {
-                            toast(data.msg)
-                          
+                            toast.error(data.msg,
+                                {
+                                    ...Toast,
+                                    position: "top-right"
+                                });
                         }
                     }).catch((error) => {
                         console.error("Error:", error);
                     });
             } catch (err) {
-                toast("server error");
+                toast.error("sever error",
+                    {
+                        ...Toast,
+                        position: "top-right"
+                    });
             }
         }
     };
     const handleCountry = (e) => {
         e.preventDefault();
         let prfix = parseInt(country.current.selectedOptions[0].getAttribute("data-prefix"))
-        setRouting({ ...routing, [e.target.name]: e.target.value,"code":prfix})
-     }
+        setRouting({ ...routing, [e.target.name]: e.target.value, "code": prfix })
+    }
     const handleProduct = (e) => {
         e.preventDefault();
         setRouting({ ...routing, [e.target.name]: e.target.value })
@@ -116,24 +133,22 @@ function Add_field() {
     }
     const handlerouting = (e) => {
         e.preventDefault();
-        if (e.target.name == "code") {
-            setContryPrfix(e.target.value)
-        }
-        setRouting({ ...routing, [e.target.name]: e.target.value })
+       setRouting({ ...routing, [e.target.name]: e.target.value })
+        console.log(routing)
     }
     const submit = (e) => {
         $('[name]').css('border', '1px solid gray').siblings('.text-danger').html('');
         e.preventDefault();
-      try {
+        try {
             fetch(url + '/client/conn/routing/create', {
                 ...fetchOption,
                 body: JSON.stringify(routing),
             }).then(response => response.json())
                 .then(data => {
                     if (data.errors) {
-                       // console.log('Error:', data.errors);
+                        // console.log('Error:', data.errors);
                         data.errors.forEach(function (arrayItem) {
-                        $('[name=' + arrayItem.param + ']').css("border", "1px solid red").siblings('span.text-danger').html(arrayItem.msg);
+                            $('[name=' + arrayItem.param + ']').css("border", "1px solid red").siblings('span.text-danger').html(arrayItem.msg);
                         });
                     } else {
                         //Sweet alrt
@@ -145,12 +160,15 @@ function Add_field() {
                     console.error('Error:', error);
                 });
         } catch (err) {
-            toast("server error");
+            toast.error("sever error",
+                {
+                    ...Toast,
+                    position: "top-right"
+                });
         }
     }
     return (
-        <React.Fragment>
-            <Header />
+        <Layout>
             <div className="main-content horizontal-content">
                 <div className="container">
                     <div className="row mt-5">
@@ -164,21 +182,20 @@ function Add_field() {
                                         <div className="row row-sm">
                                             <div className="col-sm-6">
                                                 <label htmlFor="carrierId">Client&nbsp;<sup className="text-danger">*</sup></label>
-                                                <select onChange={handleChange} id="carrierId" className="form-control form-control-sm tiggerRest" name="clientId" required data-target="product_ida">
+                                                <select onChange={handleChange} id="carrierId" className="form-control  tiggerRest" name="clientId" required data-target="product_ida">
                                                     <option value="">Select one</option>
                                                     {client.map((e, index) => {
                                                         return (<option key={index} value={e.userId}>{e.firstName}{e.lastName}</option>
                                                         );
                                                     })}
                                                 </select>
-
-                                            </div>
+</div>
                                             <div className="col-sm-6">
                                                 <div>
                                                     <label htmlFor="connId">Connection&nbsp;<sup className="text-danger">*</sup></label>
-                                                    <select ref={product} onChange={(e) => handleProduct(e)} id="connId" className="form-control form-control-sm tiggerRest" name="connId" >
+                                                    <select ref={product} onChange={(e) => handleProduct(e)} id="connId" className="form-control  tiggerRest" name="connId" >
                                                         <option value="">Select Product</option>
-                                                        {clientConn.map((e, index) => {
+                                                        {productConn.map((e, index) => {
                                                             return (
                                                                 <option key={index} data-billmode={e.billMode} value={e.id}>{e.createdAt}</option>
                                                             );
@@ -190,7 +207,7 @@ function Add_field() {
                                             <div className="col-sm-6">
                                                 <div>
                                                     <label htmlFor="country">Countries</label>
-                                                    <select ref={country} onChange={handleCountry} className="form-control form-control-sm" id="country" name="countyId" >
+                                                    <select ref={country} onChange={handleCountry} className="form-control " id="country" name="countyId" >
                                                         <option value="">Select Countries</option>
                                                         {Country.map((e, index) => {
                                                             return (<option key={index} data-prefix={e.dial_code} value={e.id}>{e.country_name}</option>);
@@ -201,19 +218,19 @@ function Add_field() {
                                             </div>
                                             <div className="col-sm-6">
                                                 <label htmlFor="prefix">Prefix&nbsp;<sup className="text-danger">*</sup></label>
-                                                <input onChange={e => handlerouting(e)} value={routing.code} type="number" min={0} name="code" className="form-control form-control-sm" id="prefix" />
+                                                <input onChange={e => handlerouting(e)} value={routing.code} type="number" min={0} name="code" className="form-control" id="prefix" />
                                                 <span className="text-danger error"></span>
                                             </div>
                                             <div className="col-sm-6">
                                                 <label htmlFor="fix_credit">Fix Credit&nbsp;<sup className="text-danger">*</sup></label>
-                                                <input onChange={(e) => handlerouting(e)} ref={fix_credit} type="number" step="any" min={0} name="credit" className="form-control form-control-sm" id="fix_credit" />
+                                                <input onChange={(e) => handlerouting(e)} ref={fix_credit} type="number" step="any" min={0} name="credit" className="form-control" id="fix_credit" />
                                                 <span className="text-danger error"></span>
                                             </div>
                                             <div className="col-sm-6">
                                                 <div className="row">
                                                     <div className="col-sm-8">
                                                         <label htmlFor="fix_bal">Fix Balance&nbsp;<sup className="text-danger">*</sup></label>
-                                                        <input onChange={(e) => handlerouting(e)} ref={fix_bal} type="number" step="any" min={0} name="bal" className="form-control form-control-sm" id="fix_bal" required />
+                                                        <input onChange={(e) => handlerouting(e)} ref={fix_bal} type="number" step="any" min={0} name="bal" className="form-control" id="fix_bal" required />
                                                         <span className="text-danger error"></span>
                                                     </div>
                                                     <div className="col-sm-4 p-4">
@@ -227,7 +244,7 @@ function Add_field() {
                                             <div className="col-sm-6">
                                                 <div>
                                                     <label htmlFor="routing_is_allow">Status&nbsp;<sup className="text-danger">*</sup></label>
-                                                    <select onChange={(e) => handlerouting(e)} className="form-control form-control-sm tiggerRest" id="routing_is_allow" name="isAllow" required="required">
+                                                    <select onChange={(e) => handlerouting(e)} className="form-control tiggerRest" id="routing_is_allow" name="isAllow" required="required">
                                                         <option value>Select Status</option>
                                                         <option value={1}>Allow</option>
                                                         <option value={0}>Not Allow</option>
@@ -249,7 +266,7 @@ function Add_field() {
                     </div>
                 </div>
             </div>
-        </React.Fragment>
+        </Layout>
     )
 }
 
