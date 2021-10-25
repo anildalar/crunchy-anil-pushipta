@@ -7,10 +7,12 @@ import { useTranslation } from "react-i18next";
 
 export default function CountryDropDown() {
   const changeLang = (e,l) => {
+    e.preventDefault();
     console.log(e.target.getAttribute('src'));
     localStorage.setItem('initialLangImg',e.target.getAttribute('src'));
   }
   const changeLang2 = (e,l) => {
+    e.preventDefault();
     i18n.changeLanguage(l);
     localStorage.setItem('lang',l);
     
@@ -48,7 +50,7 @@ export default function CountryDropDown() {
               <img 
                 ref={a_mainFlagRef}
                 className="a_mainFlag"
-                src={localStorage.getItem('langImg')?localStorage.getItem('langImg'):process.env.PUBLIC_URL+"/assets/img/flags/us_flag.jpg"}
+                src={localStorage.getItem('lang')==null?process.env.PUBLIC_URL+"/assets/img/flags/us_flag.jpg":process.env.PUBLIC_URL+"/assets/img/flags/"+localStorage.getItem('lang')+"_flag.jpg"}
                 alt="img"
               />
             </span>
@@ -66,7 +68,7 @@ export default function CountryDropDown() {
               className="dropdown-item d-flex "
             >
               <span className="avatar  me-3 align-self-center bg-transparent">
-                <img ref={ hiRef } src={process.env.PUBLIC_URL+"/assets/img/flags/india_flag.jpg"} alt="img" />
+                <img ref={ hiRef } src={process.env.PUBLIC_URL+"/assets/img/flags/hi_flag.jpg"} alt="img" />
               </span>
               <div className="d-flex">
                 <span className="mt-2">{t('Hindi')}</span>
@@ -78,7 +80,7 @@ export default function CountryDropDown() {
               className="dropdown-item d-flex "
             >
               <span className="avatar  me-3 align-self-center bg-transparent">
-                <img ref={frRef} src={process.env.PUBLIC_URL+"/assets/img/flags/french_flag.jpg"} alt="img" />
+                <img ref={frRef} src={process.env.PUBLIC_URL+"/assets/img/flags/fr_flag.jpg"} alt="img" />
               </span>
               <div className="d-flex">
                 <span className="mt-2">{t('French')}</span>
@@ -90,7 +92,7 @@ export default function CountryDropDown() {
               className="dropdown-item d-flex"
             >
               <span className="avatar  me-3 align-self-center bg-transparent">
-                <img ref={deRef} src={process.env.PUBLIC_URL+"/assets/img/flags/germany_flag.jpg"} alt="img" />
+                <img ref={deRef} src={process.env.PUBLIC_URL+"/assets/img/flags/de_flag.jpg"} alt="img" />
               </span>
               <div className="d-flex">
                 <span className="mt-2">{t('Germany')}</span>
@@ -102,7 +104,7 @@ export default function CountryDropDown() {
               className="dropdown-item d-flex"
             >
               <span className="avatar me-3 align-self-center bg-transparent">
-                <img ref={itRef} src={process.env.PUBLIC_URL+"/assets/img/flags/italy_flag.jpg"} alt="img" />
+                <img ref={itRef} src={process.env.PUBLIC_URL+"/assets/img/flags/it_flag.jpg"} alt="img" />
               </span>
               <div className="d-flex">
                 <span className="mt-2">{t('Italy')}</span>
@@ -114,7 +116,7 @@ export default function CountryDropDown() {
               className="dropdown-item d-flex"
             >
               <span className="avatar me-3 align-self-center bg-transparent">
-                <img ref={ruRef} src={process.env.PUBLIC_URL+"/assets/img/flags/russia_flag.jpg"} alt="img" />
+                <img ref={ruRef} src={process.env.PUBLIC_URL+"/assets/img/flags/ru_flag.jpg"} alt="img" />
               </span>
               <div className="d-flex">
                 <span className="mt-2">{t('Russia')}</span>
@@ -126,7 +128,7 @@ export default function CountryDropDown() {
               className="dropdown-item d-flex"
             >
               <span className="avatar  me-3 align-self-center bg-transparent">
-                <img ref={esRef} src={process.env.PUBLIC_URL+"/assets/img/flags/spain_flag.jpg"} alt="img" />
+                <img ref={esRef} src={process.env.PUBLIC_URL+"/assets/img/flags/es_flag.jpg"} alt="img" />
               </span>
               <div className="d-flex">
                 <span className="mt-2">{t('Spain')}</span>
