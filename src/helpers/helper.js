@@ -14,9 +14,18 @@ const fetchOption = {
                         }
                     }
 
+const yesNo = [
+    { value: '0', label: 'NO' },
+    { value: '1', label: 'YES' }
+];
+
 const Bill_Mode = [
     { value: '0', label: 'Credit' },
     { value: '1', label: 'MCCMNC' }
+];
+const ChargeType = [
+    { value: '0', label: 'On Submition' },
+    { value: '1', label: 'On Delivery' }
 ];
 const SSLTypes = [
     { value: '-1', label: 'Non secure' },
@@ -51,7 +60,14 @@ const HTTP_DLR_Type= [
 const HTTP_Response_Type= [
     { value: '0', label: 'OBJECT' },
     { value: '1', label: 'STRING' }
-];           
+];   
+
+const BindType= [
+    { value: 'TX', label: 'Bind Transmitter' },
+    { value: 'RX', label: 'Bind Receiver' },
+    { value: 'TR', label: 'Bind Transceiver' }
+]; 
+
 const timeZone= [
     { label: "(GMT -12:00) Eniwetok, Kwajalein", value: "-12:00"},
     { label: "(GMT -11:00) Midway Island, Samoa", value: "-11:00"},
@@ -114,6 +130,7 @@ module.exports = {
                     url,
                     fetchOption,
                     Bill_Mode,
+                    ChargeType,
                     SSLTypes,
                     LogLevels,
                     HTTP_DLR_Param_Types,
@@ -121,5 +138,7 @@ module.exports = {
                     HTTP_DLR_Type,
                     HTTP_Response_Type,
                     timeZone,
+                    yesNo,
+                    BindType,
                     toDataUrl                    
                 };

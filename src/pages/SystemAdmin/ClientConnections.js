@@ -5,15 +5,18 @@ import TimePicker from 'react-time-picker';
 import BreadCrumb from "../../component/UI/BreadCrumb";
 import swal from "sweetalert";
 
-import { url, fetchOption, SSLTypes, LogLevels, HTTP_DLR_Param_Types, HTTP_DLR_Method, HTTP_DLR_Type, HTTP_Response_Type, timeZone, Bill_Mode} from "../../helpers/helper";
+import { url, fetchOption, SSLTypes, LogLevels, HTTP_DLR_Param_Types, HTTP_DLR_Method, HTTP_DLR_Type, HTTP_Response_Type, timeZone, Bill_Mode, yesNo, BindType, ChargeType} from "../../helpers/helper";
 import { useTranslation } from "react-i18next";
+
+import $ from "jquery";
 
 function ClientConnections() {
   const [routeTypes, setRouteTypes] = useState([]);
   const [routesByType, setRoutesByType] = useState([]);
   const [currencies,setCurrencies ] = useState([]);
+  const [isDisabled,setIsDisabled] = useState(true);
 
-  const [data, setData] = useState({
+  const [submitData, setSubmitData] = useState({
                                     "routeType":"1",
                                     "route":1,
                                     "billMode":1,
@@ -33,8 +36,8 @@ function ClientConnections() {
                                     "openTime":"",
                                     "closeTime":"",
                                     "chargeType":"0",
-                                    "smppOn":"1",
-                                    "httpOn":1,
+                                    "smppOn":'1',
+                                    "httpOn":'1',
                                     "bindType":"TR",
                                     "port":"123",
                                     "userName":"twtt",
@@ -58,9 +61,11 @@ function ClientConnections() {
 
   const [value, onChange] = useState('07:00');
 
-  const balance = useRef();
   const credits = useRef();
+  const balance = useRef();
   const currency = useRef();
+
+  const httpDlrPramType = useRef();
 
   useEffect(() => {
     //const setCurrencies
@@ -80,6 +85,7 @@ function ClientConnections() {
       }
     })
     .catch();
+
     //get Route Type
     fetch(url+'/master/get/currencies',{
       ...fetchOption
@@ -101,10 +107,29 @@ function ClientConnections() {
     .catch();
 
   }, []);
-  const handleChange = (e)=>{
-    console.log(e.value);
+  const handleChange2 = (e)=>{
+    console.log(e);
+    if(e.label == 'MCCMNC'){
+      //MCCMNC
+      credits.current.setAttribute('disabled','disabled')
+      credits.current.setAttribute('readonly','readonly');
+      balance.current.removeAttribute('disabled')
+      balance.current.removeAttribute('readonly')
+      setIsDisabled(false);
+    }else{
+      //Credit
+      credits.current.removeAttribute('disabled');
+      credits.current.removeAttribute('readonly');
+      balance.current.setAttribute('disabled','disabled')
+      balance.current.setAttribute('readonly','readonly');
+      setIsDisabled(true);
+    }
+  }
 
+  const handleChange = (e)=>{
     if(e.target.value && e.target.name != 'billmode'){
+      console.log(e.target.value);
+      console.log(e.target.name);
       fetch(url+'/master/route/routesByType',{
         ...fetchOption,
         body: JSON.stringify({
@@ -122,35 +147,32 @@ function ClientConnections() {
       })
       .catch();
     }
-    //if the billmode
-    if( e.target.name == 'billmode' && e.target.value == 0){
-      //Credit
-      console.log(e.target.name); 
-      console.log(e.target.value); 
-      console.log(credits.current);
-      
-    }
-    if( e.target.name == 'billmode' && e.target.value == 1){
-      //MCCMNC
-      console.log(balance.current);
-    }
-    if( e.target.name == 'billmode' && e.target.value == ''){
-      console.log(balance.current);
-    }
   }
 
   const submit = (e)=>{
     e.preventDefault();
-    try{  
 
+    try{  
       fetch(url+'/client/conn/create', {
         ...fetchOption,
-        body: JSON.stringify(data),
+        body: JSON.stringify(submitData),
       })
       .then(response => response.json())
       .then(data => {
-        console.log('Success:', data);
-        swal(t("Done!"), t("Client Created Successfully!"), "success");
+        if(data.errors === ''){
+          console.log('Success:', data);
+          swal(t("Done!"), t("Client Created Successfully!"), "success");
+        }else{
+          console.log('Error block:', data);
+          //data.errors.foreach
+          data.errors.forEach((element,index,arr) => {
+            console.log($('.'+element.param))
+            $('.'+element.param).append(element.msg+'<br/>').prev().css('border','1px solid red');
+              
+          });
+          swal(t("Error!"), t("Error!"), "error");
+        }
+        
       })
       .catch((error) => {
         console.error('Error:', error);
@@ -158,7 +180,6 @@ function ClientConnections() {
     }catch(e){
 
     }
-    swal(t("Done!"), t("Client Created Successfully!"), "success");
   }
   const { t } = useTranslation();
   return (
@@ -189,7 +210,7 @@ function ClientConnections() {
                             <div className="row row-sm">
                               <div className="col-lg-4 col-xl-4 col-md-4 col-sm-4 mb-3">
                                 <p className="mg-b-10">{t('Route Type')}</p>
-                                <select name="routeid" className="form-control" onChange={handleChange}>
+                                <select name="routeid" className="form-control" onChange={e => handleChange(e)}>
                                   <option value="">{t('Select Route')}</option>
                                   { 
                                     routeTypes.map(function(currentValue,index,arr){
@@ -197,10 +218,11 @@ function ClientConnections() {
                                     })
                                   }
                                 </select>
+                                <span class="error routeType"></span>
                               </div>
                               <div className="col-lg-4 col-xl-4 col-md-4 col-sm-4 mb-3">
                                 <p className="mg-b-10">{t('Route')}</p>
-                                <select name="routetype" className="form-control form-control-sm select2" onChange={handleChange}>
+                                <select name="routetype" className="form-control select2" onChange={e => handleChange(e)}>
                                   <option value="">{t('Select Route Type')}</option>
                                   { 
                                     routesByType.map(function(currentValue,index,arr){
@@ -208,14 +230,25 @@ function ClientConnections() {
                                     })
                                   }
                                 </select>
+                                <span class="error route"></span>
                               </div>
                               <div className="col-lg-4 col-xl-4 col-md-4 col-sm-4 mb-3">
-                                <p className="mg-b-10">{t('Bill Mode')}</p>
+                                <p className="mg-b-10">{ t('Bill Mode') }</p>
                                 <Select 
                                   name="billmode"
-                                  options={Bill_Mode} 
-                                  onChange={e => handleChange(e)}
+                                  options={ Bill_Mode } 
+                                  onChange={e => handleChange2(e)}
                                 />
+                                <span class="error billMode"></span>
+                              </div>
+                              <div className="col-lg-4 col-xl-4 col-md-4 col-sm-4 mb-3">
+                                <p className="mg-b-10">{ t('Charge Type') }</p>
+                                <Select 
+                                  name="chargeType"
+                                  options={ ChargeType } 
+                                  onChange={e => handleChange2(e)}
+                                />
+                                <span class="error chargeType"></span>
                               </div>
                               <div className="col-lg-4 col-xl-4 col-md-4 col-sm-4 mb-3">
                                 <p className="mg-b-10">{t('Credits')}</p>
@@ -224,7 +257,10 @@ function ClientConnections() {
                                   placeholder="Credits"
                                   type="number"
                                   ref={ credits }
+                                  disabled
+                                  readOnly
                                 />
+                                <span class="error credits"></span>
                               </div>
                               <div className="col-lg-4 col-xl-4 col-md-4 col-sm-4 mb-3">
                                 <p className="mg-b-10">{t('Balance')}</p>
@@ -233,15 +269,24 @@ function ClientConnections() {
                                   placeholder="Balance"
                                   type="number"
                                   ref={ balance }
+                                  disabled
+                                  readOnly
                                 />
+                                <span class="error balance"></span>
                               </div>
                               <div className="col-lg-4 col-xl-4 col-md-4 col-sm-4 mb-3">
                                 <p className="mg-b-10">{t('Currency')}</p>
-                                <Select ref={ currency } options={currencies} />
+                                <Select 
+                                  ref={ currency } 
+                                  options={currencies} 
+                                  isDisabled={isDisabled}
+                                />
+                                <span class="error currency"></span>
                               </div>
                               <div className="col-lg-4 col-xl-4 col-md-4 col-sm-4 mb-3">
                                 <p className="mg-b-10">{t('SSL Type')}</p>
                                 <Select options={SSLTypes} />
+                                <span class="error sslType"></span>
                               </div>
                               <div className="col-lg-4 col-xl-4 col-md-4 col-sm-4 mb-3">
                                 <p
@@ -257,6 +302,7 @@ function ClientConnections() {
                                   placeholder="addrTON"
                                   type="number"
                                 />
+                                <span class="error addrTON"></span>
                               </div>
                               <div className="col-lg-4 col-xl-4 col-md-4 col-sm-4 mb-3">
                                 <p
@@ -272,6 +318,7 @@ function ClientConnections() {
                                   placeholder="addrNPI"
                                   type="number"
                                 />
+                                <span class="error addrNPI"></span>
                               </div>
                               <div className="col-lg-4 col-xl-4 col-md-4 col-sm-4 mb-3">
                                 <p className="mg-b-10">{t('addrRange')}</p>
@@ -280,6 +327,7 @@ function ClientConnections() {
                                   placeholder="Address Range"
                                   type="number"
                                 />
+                                <span class="error addrRange"></span>
                               </div>
                               <div className="col-lg-4 col-xl-4 col-md-4 col-sm-4 mb-3">
                                 <p className="mg-b-10">{t('Priority')}</p>
@@ -288,10 +336,12 @@ function ClientConnections() {
                                   placeholder="Priority"
                                   type="number"
                                 />
+                                <span class="error priority"></span>
                               </div>
                               <div className="col-lg-4 col-xl-4 col-md-4 col-sm-4 mb-3">
                                 <p className="mg-b-10">{t('Log Level')}</p>
                                 <Select options={LogLevels} />
+                                <span class="error logLevel"></span>
                               </div>
                               <div className="col-lg-4 col-xl-4 col-md-4 col-sm-4 mb-3">
                                 <p className="mg-b-10">{t('System Type')}</p>
@@ -300,6 +350,7 @@ function ClientConnections() {
                                   placeholder="System Type"
                                   type="text"
                                 />
+                                <span class="error sysType"></span>
                               </div>
                               <div className="col-lg-4 col-xl-4 col-md-4 col-sm-4 mb-3">
                                 <p
@@ -315,6 +366,7 @@ function ClientConnections() {
                                   placeholder="DCS"
                                   type="number"
                                 />
+                                <span class="error dsc"></span>
                               </div>
                               <div className="col-lg-4 col-xl-4 col-md-4 col-sm-4 mb-3">
                                 <p className="mg-b-10">{t('SMS Capacity')}</p>
@@ -323,11 +375,109 @@ function ClientConnections() {
                                   placeholder="SMS Capacity"
                                   type="number"
                                 />
+                                <span class="error smsCapacity"></span>
                               </div>
+                              <div className="col-lg-4 col-xl-4 col-md-4 col-sm-4 mb-3">
+                                <p className="mg-b-10">{t('SMPP Username')}</p>
+                                <input
+                                  className="form-control form-control"
+                                  placeholder="Username"
+                                  type="number"
+                                />
+                                <span class="error userName"></span>
+                              </div>
+                              <div className="col-lg-4 col-xl-4 col-md-4 col-sm-4 mb-3">
+                                <p className="mg-b-10">{t('SMPP Password')}</p>
+                                <input
+                                  className="form-control form-control"
+                                  placeholder="SMPP Password"
+                                  type="number"
+                                />
+                                <span class="error password"></span>
+                              </div>
+                              <div className="col-lg-4 col-xl-4 col-md-4 col-sm-4 mb-3">
+                                <p className="mg-b-10">{t('Port')}</p>
+                                <input
+                                  className="form-control form-control"
+                                  placeholder="Port"
+                                  type="number"
+                                />
+                                <span class="error port"></span>
+                              </div>
+                              <div className="col-lg-4 col-xl-4 col-md-4 col-sm-4 mb-3">
+                                <p className="mg-b-10">{t('Bind Type')}</p>
+                                <Select options={BindType} />
+                                <span class="error bindType"></span>
+                              </div>
+                              <div className="col-lg-4 col-xl-4 col-md-4 col-sm-4 mb-3">
+                                <p className="mg-b-10">{t('Is PayLoad')}</p>
+                                <Select options={yesNo} />
+
+                                <span class="error isPayLoad"></span>
+                              </div>
+                              <div className="col-lg-4 col-xl-4 col-md-4 col-sm-4 mb-3">
+                                <p className="mg-b-10">{t('Allowed Connection')}</p>
+                                <input
+                                  className="form-control form-control"
+                                  placeholder="Allowed Connection"
+                                  type="number"
+                                  value="10"
+                                />
+                                <span class="error allowConn"></span>
+                              </div>
+                              <div className="col-lg-4 col-xl-4 col-md-4 col-sm-4 mb-3">
+                                <p className="mg-b-10">{t('Window Size')}</p>
+                                <input
+                                  className="form-control form-control"
+                                  placeholder="Window Size"
+                                  type="number"
+                                />
+                                <span class="error windowSize"></span>
+                              </div>
+                              <div className="col-lg-4 col-xl-4 col-md-4 col-sm-4 mb-3">
+                                <p className="mg-b-10">{t('Whitelist IPs')}</p>
+                                <input
+                                  className="form-control form-control"
+                                  placeholder="Whitelist IPs"
+                                  type="text"
+                                />
+                                <span class="error wlistIp"></span>
+                              </div>
+                              <div className="col-lg-4 col-xl-4 col-md-4 col-sm-4 mb-3">
+                                <p className="mg-b-10">{t('Enquire Time')}</p>
+                                <input
+                                  className="form-control form-control"
+                                  placeholder="Enquire Time"
+                                  type="number"
+                                />
+                                <span class="error enqInterTime"></span>
+                              </div>
+                              
                             </div>
                           </div>
                           <div className="tab-pane" id="tab5">
                           <div className="row row-sm">
+                              <div className="col-lg-4 col-xl-4 col-md-4 col-sm-4 mb-3">
+                                <p className="mg-b-10">{t('HTTP Param Type')}</p>
+                                
+                                <input
+                                  className="form-control form-control"
+                                  placeholder="HTTP Param Type"
+                                  type="text"
+                                  name=""
+                                />
+                                <span class="error httpParamType"></span>                  
+                              </div>
+                              <div className="col-lg-4 col-xl-4 col-md-4 col-sm-4 mb-3">
+                                <p className="mg-b-10">{t('HTTP Auth')}</p> 
+                                <input
+                                  className="form-control form-control"
+                                  placeholder="HTTP Auth"
+                                  type="text"
+                                  name=""
+                                />
+                                <span class="error httpAuth"></span>                  
+                              </div>
                               <div className="col-lg-4 col-xl-4 col-md-4 col-sm-4 mb-3">
                                 <p className="mg-b-10">{t('HTTP Username')}</p>
                                 
@@ -335,7 +485,9 @@ function ClientConnections() {
                                   className="form-control form-control"
                                   placeholder="HTTP Username"
                                   type="text"
-                                />                  
+                                  name=""
+                                />
+                                <span class="error httpUserName"></span>                  
                               </div>
                               <div className="col-lg-4 col-xl-4 col-md-4 col-sm-4 mb-3">
                                 <p className="mg-b-10">{t('HTTP Password')}</p>
@@ -344,6 +496,7 @@ function ClientConnections() {
                                   placeholder="HTTP Password"
                                   type="text"
                                 />
+                                <span class="error httpPassword"></span>
                               </div>
                               <div className="col-lg-4 col-xl-4 col-md-4 col-sm-4 mb-3">
                                 <p className="mg-b-10">{t('HTTP TOKEN')}</p>
@@ -352,10 +505,12 @@ function ClientConnections() {
                                   placeholder="HTTP TOKEN"
                                   type="text"
                                 />
+                                <span class="error httpToken"></span>
                               </div>
                               <div className="col-lg-4 col-xl-4 col-md-4 col-sm-4 mb-3">
-                                <p className="mg-b-10">{t('HTTP DLR TYPE')}</p>
+                                <p className="mg-b-10">{t('HTTP DLR Method')}</p>
                                 <Select options={HTTP_DLR_Method} />
+                                <span class="error httpDlrMeth"></span>
                               </div>
                               <div className="col-lg-4 col-xl-4 col-md-4 col-sm-4 mb-3">
                                 <p className="mg-b-10">{t('HTTP DLR URL')}</p>
@@ -364,18 +519,22 @@ function ClientConnections() {
                                   placeholder="https://example.com/dlr"
                                   type="text"
                                 />
+                                <span class="error httpDlrUrl"></span>
                               </div>
                               <div className="col-lg-4 col-xl-4 col-md-4 col-sm-4 mb-3">
-                                <p className="mg-b-10">{t('HTTP DLR Method')}</p>
-                                <Select options={HTTP_DLR_Type} />
+                                <p className="mg-b-10">{t('HTTP DLR TYPE')}</p>
+                                <Select name="httpDlrType" options={HTTP_DLR_Type} />
+                                <span class="error httpDlrType"></span>
                               </div>
                               <div className="col-lg-4 col-xl-4 col-md-4 col-sm-4 mb-3">
                                 <p className="mg-b-10">{t('HTTP DLR Param Type')}</p>
-                                <Select options={HTTP_DLR_Param_Types} />
+                                <Select ref={ httpDlrPramType } options={HTTP_DLR_Param_Types} />
+                                <span class="error httpDlrPramType"></span>
                               </div>
                               <div className="col-lg-4 col-xl-4 col-md-4 col-sm-4 mb-3">
                                 <p className="mg-b-10">{t('HTTP Response Type')}</p>
-                                <Select options={HTTP_Response_Type} />
+                                <Select name="" options={HTTP_Response_Type} />
+                                <span class="error httpRespoType"></span>
                               </div>
                             </div>
                           </div>
@@ -384,23 +543,38 @@ function ClientConnections() {
                     </div>
                     <div className="form-group row mb-0 mt-3 justify-content-end">
                       <div className="col-lg-4 col-xl-4 col-md-4 col-sm-4 mb-3">
-                          <p className="mg-b-10">Start Time</p>
-                          <TimePicker
-                            onChange={onChange}
-                            value={value}
-                          />
+                          <p className="mg-b-10">{t('SMPP ON')}</p>
+                          <Select options={yesNo} />
+                          <span class="error smppOn"></span>
                       </div>
                       <div className="col-lg-4 col-xl-4 col-md-4 col-sm-4 mb-3">
-                          <p className="mg-b-10">Close Time</p> 
-                          <TimePicker
-                            onChange={onChange}
-                            value={value}
-                          />
+                          <p className="mg-b-10">HTTP ON</p>
+                          <Select options={yesNo} />
+                          <span class="error httpOn"></span>
                       </div>
                       <div className="col-lg-4 col-xl-4 col-md-4 col-sm-4 mb-3">
-                          <p className="mg-b-10">TimeZone</p>
+                          <p className="mg-b-10">{t('TimeZone')}</p>
                           <Select options={timeZone} />
+                          <span class="error"></span>
                       </div>
+                      <div className="col-lg-4 col-xl-4 col-md-4 col-sm-4 mb-3">
+                          <p className="mg-b-10">{t('Start Time')}</p>
+                          <TimePicker
+                            onChange={onChange}
+                            value={value}
+                          />
+                          <span class="error openTime"></span>
+                      </div>
+                      <div className="col-lg-4 col-xl-4 col-md-4 col-sm-4 mb-3">
+                          <p className="mg-b-10">{t('Close Time')}</p> 
+                          <TimePicker
+                            onChange={onChange}
+                            value={value}
+                          />
+                          <span class="error closeTime"></span>
+                      </div>
+                      
+                      
                       <div>
                         <button type="submit" className="btn btn-success me-2">Save</button>
                       </div>

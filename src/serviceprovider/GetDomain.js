@@ -20,7 +20,7 @@ function getDomain(){
         localStorage.setItem('domainTitle',data.data.domainTitle);
         localStorage.setItem('logo',url+'/'+data.data.path+data.data.logo);
         toDataUrl(url+'/'+data.data.path+data.data.logo, function(myBase64) {
-            console.log(myBase64); // myBase64 is the base64 string
+            //console.log(myBase64); // myBase64 is the base64 string
             localStorage.setItem('logoData',myBase64);
         });
 
