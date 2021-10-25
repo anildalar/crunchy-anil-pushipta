@@ -6,11 +6,11 @@ import { connect, useDispatch, } from 'react-redux';
 import swal from 'sweetalert';
 import $ from "jquery";
 
-import axios from '../axios';
+
 import loginAttempt from '../redux/actions/loginAttempt';
 import i18n from '../i18n';
 
-import baseUrl from '../helpers/helper';
+import  { url } from '../helpers/helper';
 import GetDomain from '../serviceprovider/GetDomain';
 import CountryDropDown from '../component/UI/CountryDropDown';
 
@@ -43,7 +43,7 @@ function Home(props) {
             domainId: '1'
         }
     
-        fetch('http://173.249.39.43:3000/auth/login', {
+        fetch(url+'/auth/login', {
             method: 'POST', // or 'PUT'
             headers: {
                 'Content-Type': 'application/json',

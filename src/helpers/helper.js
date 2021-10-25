@@ -14,4 +14,5 @@ const fetchOption = {
     }
 }
 
+
 module.exports = {baseUrl,url,fetchOption};

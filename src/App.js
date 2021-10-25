@@ -15,6 +15,8 @@ import { Groups } from "./pages/Admin/Groups";
 import { ImportContects } from "./pages/Admin/ImportContects";
 
 import { Abc } from "./pages/Abc";
+import { EditGroup } from "./pages/Admin/EditGroup";
+import { BreadCrumb } from "./component/UI/BreadCrumb";
 
 export default function App() {
   var comp,role = localStorage.getItem('role');
@@ -53,6 +55,7 @@ export default function App() {
         <Route path="/group">
         <Groups />
       </Route>
+     
       <Route path="/datatable">
         <Abc />
       </Route>
@@ -62,6 +65,10 @@ export default function App() {
         
         <Route path="/ClientConnections" component={ ClientConnections }></Route>
         <Route path="/TableData" component={ TableData }></Route>
+        <Route path="/breadcrumb" component={ BreadCrumb }></Route>
+        <Route path="/editgroup" >
+          <EditGroup/>
+        </Route>
       </Router>
     </>
   )
