@@ -266,7 +266,7 @@ function ClientConnections() {
                                 <p className="mg-b-10">{t('Balance')}</p>
                                 <input
                                   className="form-control form-control"
-                                  placeholder="Balance"
+                                  placeholder={t('Balance')}
                                   type="number"
                                   ref={ balance }
                                   disabled
@@ -299,7 +299,7 @@ function ClientConnections() {
                                 </p>
                                 <input
                                   className="form-control form-control"
-                                  placeholder="addrTON"
+                                  placeholder={ t('addrTON') }
                                   type="number"
                                 />
                                 <span class="error addrTON"></span>
@@ -315,7 +315,7 @@ function ClientConnections() {
                                 </p>
                                 <input
                                   className="form-control form-control"
-                                  placeholder="addrNPI"
+                                  placeholder={ t('addrNPI') }
                                   type="number"
                                 />
                                 <span class="error addrNPI"></span>
@@ -324,7 +324,7 @@ function ClientConnections() {
                                 <p className="mg-b-10">{t('addrRange')}</p>
                                 <input
                                   className="form-control form-control"
-                                  placeholder="Address Range"
+                                  placeholder={t('Address Range')}
                                   type="number"
                                 />
                                 <span class="error addrRange"></span>
@@ -333,7 +333,7 @@ function ClientConnections() {
                                 <p className="mg-b-10">{t('Priority')}</p>
                                 <input
                                   className="form-control form-control"
-                                  placeholder="Priority"
+                                  placeholder={t('Priority')}
                                   type="number"
                                 />
                                 <span class="error priority"></span>
@@ -347,7 +347,7 @@ function ClientConnections() {
                                 <p className="mg-b-10">{t('System Type')}</p>
                                 <input
                                   className="form-control form-control"
-                                  placeholder="System Type"
+                                  placeholder={t('System Type')}
                                   type="text"
                                 />
                                 <span class="error sysType"></span>
@@ -363,7 +363,7 @@ function ClientConnections() {
                                 </p>
                                 <input
                                   className="form-control form-control"
-                                  placeholder="DCS"
+                                  placeholder={t('DCS')}
                                   type="number"
                                 />
                                 <span class="error dsc"></span>
@@ -372,7 +372,7 @@ function ClientConnections() {
                                 <p className="mg-b-10">{t('SMS Capacity')}</p>
                                 <input
                                   className="form-control form-control"
-                                  placeholder="SMS Capacity"
+                                  placeholder={t('SMS Capacity')}
                                   type="number"
                                 />
                                 <span class="error smsCapacity"></span>
@@ -381,7 +381,7 @@ function ClientConnections() {
                                 <p className="mg-b-10">{t('SMPP Username')}</p>
                                 <input
                                   className="form-control form-control"
-                                  placeholder="Username"
+                                  placeholder={t('Username')}
                                   type="number"
                                 />
                                 <span class="error userName"></span>
@@ -390,7 +390,7 @@ function ClientConnections() {
                                 <p className="mg-b-10">{t('SMPP Password')}</p>
                                 <input
                                   className="form-control form-control"
-                                  placeholder="SMPP Password"
+                                  placeholder={ t('SMPP Password') }
                                   type="number"
                                 />
                                 <span class="error password"></span>
@@ -399,7 +399,7 @@ function ClientConnections() {
                                 <p className="mg-b-10">{t('Port')}</p>
                                 <input
                                   className="form-control form-control"
-                                  placeholder="Port"
+                                  placeholder={ t('Port')}
                                   type="number"
                                 />
                                 <span class="error port"></span>
@@ -419,7 +419,7 @@ function ClientConnections() {
                                 <p className="mg-b-10">{t('Allowed Connection')}</p>
                                 <input
                                   className="form-control form-control"
-                                  placeholder="Allowed Connection"
+                                  placeholder={ t('Allowed Connection') }
                                   type="number"
                                   value="10"
                                 />
@@ -429,7 +429,7 @@ function ClientConnections() {
                                 <p className="mg-b-10">{t('Window Size')}</p>
                                 <input
                                   className="form-control form-control"
-                                  placeholder="Window Size"
+                                  placeholder={ t('Window Size') }
                                   type="number"
                                 />
                                 <span class="error windowSize"></span>
@@ -438,7 +438,7 @@ function ClientConnections() {
                                 <p className="mg-b-10">{t('Whitelist IPs')}</p>
                                 <input
                                   className="form-control form-control"
-                                  placeholder="Whitelist IPs"
+                                  placeholder={ t('Whitelist IPs') }
                                   type="text"
                                 />
                                 <span class="error wlistIp"></span>
@@ -447,7 +447,7 @@ function ClientConnections() {
                                 <p className="mg-b-10">{t('Enquire Time')}</p>
                                 <input
                                   className="form-control form-control"
-                                  placeholder="Enquire Time"
+                                  placeholder={ t('Enquire Time') }
                                   type="number"
                                 />
                                 <span class="error enqInterTime"></span>
@@ -462,7 +462,7 @@ function ClientConnections() {
                                 
                                 <input
                                   className="form-control form-control"
-                                  placeholder="HTTP Param Type"
+                                  placeholder={t('HTTP Param Type')}
                                   type="text"
                                   name=""
                                 />
@@ -472,7 +472,7 @@ function ClientConnections() {
                                 <p className="mg-b-10">{t('HTTP Auth')}</p> 
                                 <input
                                   className="form-control form-control"
-                                  placeholder="HTTP Auth"
+                                  placeholder={ t('HTTP Auth') }
                                   type="text"
                                   name=""
                                 />
@@ -483,7 +483,7 @@ function ClientConnections() {
                                 
                                 <input
                                   className="form-control form-control"
-                                  placeholder="HTTP Username"
+                                  placeholder={ t('HTTP Username') }
                                   type="text"
                                   name=""
                                 />
@@ -493,7 +493,7 @@ function ClientConnections() {
                                 <p className="mg-b-10">{t('HTTP Password')}</p>
                                 <input
                                   className="form-control form-control"
-                                  placeholder="HTTP Password"
+                                  placeholder={ t('HTTP Password') }
                                   type="text"
                                 />
                                 <span class="error httpPassword"></span>
@@ -502,7 +502,7 @@ function ClientConnections() {
                                 <p className="mg-b-10">{t('HTTP TOKEN')}</p>
                                 <input
                                   className="form-control form-control"
-                                  placeholder="HTTP TOKEN"
+                                  placeholder={ t('HTTP TOKEN') }
                                   type="text"
                                 />
                                 <span class="error httpToken"></span>
@@ -516,7 +516,7 @@ function ClientConnections() {
                                 <p className="mg-b-10">{t('HTTP DLR URL')}</p>
                                 <input
                                   className="form-control form-control"
-                                  placeholder="https://example.com/dlr"
+                                  placeholder={ t('https://example.com/dlr')}
                                   type="text"
                                 />
                                 <span class="error httpDlrUrl"></span>
