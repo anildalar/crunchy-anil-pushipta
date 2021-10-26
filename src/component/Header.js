@@ -553,6 +553,31 @@ export default function Header() {
                       </NavLink>
                     </li>
                     <li>
+                    <NavLink  className="" to="/editcontect">
+                        Export Contect
+                      </NavLink>
+                    </li>
+                    <li>
+                    <NavLink  className="" to="/smsreport">
+                        SMS Report
+                      </NavLink>
+                    </li>
+                    <li>
+                    <NavLink  className="" to="/credit">
+                       Credit
+                      </NavLink>
+                    </li>
+                    <li>
+                    <NavLink  className="" to="/sendsms">
+                       Send SMS
+                      </NavLink>
+                    </li>
+                    <li>
+                    <NavLink  className="" to="/viewcredit">
+                       View Credit
+                      </NavLink>
+                    </li>
+                    <li>
                     <NavLink  className="" to="/datatable">
                         Datatable
                       </NavLink>

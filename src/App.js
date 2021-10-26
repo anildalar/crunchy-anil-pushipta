@@ -17,6 +17,11 @@ import { ImportContects } from "./pages/Admin/ImportContects";
 import { Abc } from "./pages/Abc";
 import { EditGroup } from "./pages/Admin/EditGroup";
 import { BreadCrumb } from "./component/UI/BreadCrumb";
+import { ExportContect } from "./pages/Admin/ExportContect";
+import { SMSReport } from "./pages/Admin/SMSReport";
+import { Credit } from "./pages/Admin/Credit";
+import { SendSMS } from "./pages/Admin/SendSMS";
+import { ViewCredit } from "./pages/Admin/ViewCredit";
 
 export default function App() {
   var comp,role = localStorage.getItem('role');
@@ -66,6 +71,11 @@ export default function App() {
         <Route path="/ClientConnections" component={ ClientConnections }></Route>
         <Route path="/TableData" component={ TableData }></Route>
         <Route path="/breadcrumb" component={ BreadCrumb }></Route>
+        <Route path="/editcontect" component={ ExportContect }></Route>
+        <Route path="/smsreport" component={ SMSReport }></Route>
+        <Route path="/credit" component={ Credit }></Route>
+        <Route path="/sendsms" component={ SendSMS }></Route>
+        <Route path="/viewcredit" component={ ViewCredit }></Route>
         <Route path="/editgroup" >
           <EditGroup/>
         </Route>

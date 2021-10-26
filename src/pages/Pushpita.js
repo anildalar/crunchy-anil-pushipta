@@ -57,7 +57,7 @@ const Pushpita = (props) => {
         {/* Container closed */}
       </div>
 
-      <Sidebar></Sidebar>
+     
     </Layout>
 
   )
