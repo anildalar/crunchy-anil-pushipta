@@ -66,13 +66,7 @@ function SenderId_Rul() {
         setData([...data, hdleFld]);
         setDataTable(data);
     }
-    const handledata=()=>{
-
-    }
-    const onEditorStateChange = (editorState) => {
-      setEditorState(editorState.getCurrentContent())
-     console.log("hello",editorState)
-      }
+    const handledata=()=>{}
     return (
         <Layout>
             <div className="main-content horizontal-content">
@@ -113,7 +107,12 @@ function SenderId_Rul() {
                                                     <div className="form-group mb-3" />
                                                     <span>Description</span>
                                                     <div style={{ border: "1px solid black", padding: '2px', minHeight: '300px' }}>
-                                                    <Editor editorState={editorState} onChange={setEditorState} />
+                                                        <Editor
+                                                            // name="descr"
+                                                            editorState={editorState}
+                                                            onEditorStateChange={setEditorState}
+                                                        // onChange={}
+                                                        />
                                                     </div>
                                                 </div>
                                             </div>
