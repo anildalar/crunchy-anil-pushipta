@@ -104,7 +104,7 @@ export const Groups = (props) => {
                             <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close" />
                         </div>
                         <div className="modal-body">
-                            <form id="">   
+                            {/* <form id="">   
                                 <div className="card-body">
                                     <div className="form-group">
                                         <label htmlFor="groupName">{t("Group Name ")}&nbsp;<sup className="text-danger">*</sup></label>
@@ -121,7 +121,7 @@ export const Groups = (props) => {
                                     <button type="submit" className="btn btn-sm btn-info submitBtn me-2">{t("Save")}</button>
                                     <button type="reset" className="btn btn-sm btn-warning">{t("Clear")}</button>
                                 </div>
-                            </form>
+                            </form> */}
                         </div>
 
                     </div>
