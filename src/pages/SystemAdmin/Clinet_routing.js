@@ -15,6 +15,11 @@ export default function Clinet_routing() {
     const clientRef = useRef("");
     const productRef = useRef("");
     const countriesRef = useRef("");
+    const prefixref = useRef("");
+    const contryrefmod = useRef("");
+    const fixbalref = useRef("");
+    const fixcreditref = useRef("");
+    const prdtmodlref = useRef("");
     useEffect(() => {
         try {
             fetch(url + "/client/getClient", {
@@ -38,8 +43,7 @@ export default function Clinet_routing() {
                     position: "top-right"
                 });
         }
-    }, []);
-    useEffect(() => {
+
         try {
             fetch(url + "/master/get/countries", {
                 ...fetchOption,
@@ -47,7 +51,7 @@ export default function Clinet_routing() {
                 .then((data) => {
                     console.log("Success +contries:", data);
                     setCountry(data.data);
-                    console.log(Country);
+                    //console.log(Country);
                 })
                 .catch((error) => {
                     console.error("Error:", error);
@@ -63,6 +67,8 @@ export default function Clinet_routing() {
     }, []);
     const handleChange = (e) => {
         e.preventDefault();
+
+
         let id = e.target.value;
         if (id != '') {
             setProductConn([]);
@@ -117,9 +123,69 @@ export default function Clinet_routing() {
                 })
         }
     }
+    const editTable = (e) => {
+        prdtmodlref.current.value = e.target.closest("tr").querySelector('td:nth-child(1)').innerHTML
+        prefixref.current.value = e.target.closest("tr").querySelector('td:nth-child(2)').innerHTML
+        contryrefmod.current.value = e.target.closest("tr").querySelector('td:nth-child(3)').innerHTML
+        fixbalref.current.value = e.target.closest("tr").querySelector('td:nth-child(4)').innerHTML
+        fixcreditref.current.value = e.target.closest("tr").querySelector('td:nth-child(5)').innerHTML
+    }
     return (
         <React.Fragment>
             <Header />
+            {/* <!-- Modal --> */}
+            <div className="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div className="modal-dialog modal-dialog-centered">
+                    <div className="modal-content">
+                        <div className="modal-header">
+                            <h5 className="modal-title" id="exampleModalLabel">SMPP Connection</h5>
+                            <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div className="modal-body">
+                            <div className="row row-sm">
+                                <div className="col-12">
+                                    <label htmlFor="connId">Products&nbsp;<sup className="text-danger">*</sup></label>
+                                    <select ref={prdtmodlref} id="connId" className="form-control  tiggerRest" name="connId" >
+                                        <option value="">Select Product</option>
+                                        {productConn.map((e, index) => {
+                                            return (
+                                                <option key={index} value={e.id}>{e.createdAt}</option>
+                                            );
+                                        })}
+                                    </select>
+                                </div>
+                                <div className="col-12">
+                                    <label htmlFor="prefix">Prefix&nbsp;<sup className="text-danger">*</sup></label>
+                                    <input ref={prefixref} type="number" min={0} name="code" className="form-control" id="prefix" />
+                                </div>
+                                <div className="col-12">
+                                    <label htmlFor="country">Countries</label>
+                                    <select ref={contryrefmod} className="form-control " id="country" name="countyId" >
+                                        <option value="">Select Countries</option>
+                                        {
+                                            Country.map((e, index) => {
+                                                return (<option key={index} value={e.id}>{e.country_name}</option>)
+                                            })
+                                        }
+                                    </select>
+                                </div>
+                                <div className="col-12">
+                                    <label htmlFor="fix_bal">Fix Balance&nbsp;<sup className="text-danger">*</sup></label>
+                                    <input ref={fixbalref} type="number" step="any" min={0} name="bal" className="form-control" id="fix_bal" required />
+                                </div>
+                                <div className="col-12">
+                                    <label htmlFor="fix_credit">Fix Credit&nbsp;<sup className="text-danger">*</sup></label>
+                                    <input ref={fixcreditref} type="number" step="any" min={0} name="credit" className="form-control" id="fix_credit" />
+                                </div>
+                            </div>
+                        </div>
+                        <div className="modal-footer">
+                            <button type="button" className="btn btn-sm btn-danger" data-bs-dismiss="modal">Close</button>
+                            <button type="button" className="btn btn-sm btn-primary">Saved</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
             <div className="main-content horizontal-content">
                 <div className="container">
                     <BreadCrumb></BreadCrumb>
@@ -186,7 +252,6 @@ export default function Clinet_routing() {
                                 </div>
                             </div>
                         </div>
-
                         <div className="col-md-12 col-xl-12 col-xs-12 col-sm-12">
                             <div className="card">
                                 <div className="card-header bg-info px-2 py-1">
@@ -197,8 +262,8 @@ export default function Clinet_routing() {
                                         <table className="table text-md-nowrap" id="example1">
                                             <thead>
                                                 <tr>
-                                                    <th className="wd-15p border-bottom-0">Connection</th>
-                                                    <th className="wd-15p border-bottom-0">Code</th>
+                                                    <th className="wd-15p border-bottom-0">Products</th>
+                                                    <th className="wd-15p border-bottom-0">Prefix</th>
                                                     <th className="wd-20p border-bottom-0">Country</th>
                                                     <th className="wd-15p border-bottom-0">Balance</th>
                                                     <th className="wd-10p border-bottom-0">Credit</th>
@@ -220,9 +285,9 @@ export default function Clinet_routing() {
                                                                 <td>{e.createdAt}</td>
                                                                 <td>{e.updateAt}</td>
                                                                 <td>
-                                                                    <div class="btn-group btn-group-sm" role="group" aria-label="Basic example">
-                                                                        <button type="button" class="btn btn-primary">Edit</button>
-                                                                        <button type="button" class="btn btn-danger">Delete</button>
+                                                                    <div className="btn-group btn-group-sm" role="group" aria-label="Basic example">
+                                                                        <button onClick={e => editTable(e)} type="button" className="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal"><i className="fas fa-pencil-alt"></i></button>
+                                                                        <button type="button" className="btn btn-danger"><i className="fas fa-trash"></i></button>
                                                                     </div>
                                                                 </td>
                                                             </tr>

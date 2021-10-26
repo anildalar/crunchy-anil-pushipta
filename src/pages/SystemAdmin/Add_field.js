@@ -205,7 +205,7 @@ function Add_field() {
                                                 </div>
                                             </div>
                                             <div className="col-sm-6">
-                                                <div>
+                                                
                                                     <label htmlFor="country">Countries</label>
                                                     <select ref={country} onChange={handleCountry} className="form-control " id="country" name="countyId" >
                                                         <option value="">Select Countries</option>
@@ -214,7 +214,7 @@ function Add_field() {
                                                         })}
                                                     </select>
                                                     <span className="text-danger error"></span>
-                                                </div>
+                                            
                                             </div>
                                             <div className="col-sm-6">
                                                 <label htmlFor="prefix">Prefix&nbsp;<sup className="text-danger">*</sup></label>

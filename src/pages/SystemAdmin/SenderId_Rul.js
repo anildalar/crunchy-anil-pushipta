@@ -6,26 +6,51 @@ import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
 import Layout from '../../component/Layout';
 import BreadCrumb from '../../component/UI/BreadCrumb';
 import TableData from './TableData';
-
-
+import { fetchOption, Toast, url } from '../../url';
+import { toast, ToastContainer } from 'react-toastify';
 function SenderId_Rul() {
     const inputRef = useRef();
     const [editorState, setEditorState] = useState(() =>
         EditorState.createEmpty()
     );
-    const [hdleFld, setHdleFld] = useState([{
+    const [data, setData] = useState([]);
+    const [hdleFld, setHdleFld] = useState({
         "label": "",
         "input_name": "",
         "input_type": "",
         "value": "",
         "required": "",
         "column": ""
-    }])
-     let data = []
+    })
     const [dataTable, setDataTable] = useState([])
+    const [country, setCountry] = useState([])
+    const [datasave, setDatasave] = useState({
+        "country_id": "",
+        "sendr_set": "",
+        "descr": ""
+    })
     useEffect(() => {
-        console.log(editorState);
-    }, [editorState]);
+        try {
+            fetch(url + "/master/get/countries", {
+                ...fetchOption,
+            }).then((response) => response.json())
+                .then((data) => {
+                    console.log("Success +contries:", data);
+                    setCountry(data.data);
+                    //console.log(Country);
+                })
+                .catch((error) => {
+                    console.error("Error:", error);
+                });
+        } catch (err) {
+            toast.error("sever error",
+                {
+                    ...Toast,
+                    position: "top-right"
+                }
+            );
+        }
+    }, [])
     const addDynfield = () => {
         inputRef.current.classList.remove('d-none');
     }
@@ -34,20 +59,20 @@ function SenderId_Rul() {
     }
     const addField = (e) => {
         e.preventDefault();
-        // alert("hello")
         setHdleFld({ ...hdleFld, [e.target.name]: e.target.value })
-        console.log((hdleFld));
     }
     const addDataTable = (e) => {
         e.preventDefault();
-        // setTableData({...hdleFld})
-        // console.log(dataTbale)
-       
-        data.push(hdleFld )
-        setDataTable(data)
-        //console.log(dataTable)
+        setData([...data, hdleFld]);
+        setDataTable(data);
     }
+    const handledata=()=>{
 
+    }
+    const onEditorStateChange = (editorState) => {
+      setEditorState(editorState.getCurrentContent())
+     console.log("hello",editorState)
+      }
     return (
         <Layout>
             <div className="main-content horizontal-content">
@@ -66,10 +91,13 @@ function SenderId_Rul() {
                                             <div className="col-sm-12">
                                                 <div className="form-group mb-3">
                                                     <label htmlFor="country_id">Country&nbsp;<sup className="text-danger">*</sup></label>
-                                                    <select className="form-control " id="country_id" name="country_id" required="required">
-                                                        <option value>Select Country</option>
-                                                        <option value={1}>Afghanistan</option>
-                                                        <option value={2}>Albania</option>
+                                                    <select onChange={handledata} className="form-control " id="country_id" name="country_id" required="required">
+                                                        <option value="">Select Country</option>
+                                                        {country.map((e, index) => {
+                                                            return (
+                                                                <option key={index} value={e.id}>{e.country_name}</option>
+                                                            )
+                                                        })}
                                                     </select>
                                                     <div className="text-danger" />
                                                 </div>
@@ -77,17 +105,15 @@ function SenderId_Rul() {
                                             <div className="col-sm-12">
                                                 <div className="form-group mb-3">
                                                     <label htmlFor="senderid_setting">Sender id setting&nbsp;<sup className="text-danger">*</sup></label>
-                                                    <select className="form-control form-control-lg" id="senderid_setting" name="senderid_setting" required="required">
+                                                    <select className="form-control " id="senderid_setting" name="sender_set" required="required">
+                                                        <option value="">Select Country</option>
                                                         <option value={0}>Dynamic</option>
                                                         <option value={1}>Verification</option>
                                                     </select>
                                                     <div className="form-group mb-3" />
                                                     <span>Description</span>
                                                     <div style={{ border: "1px solid black", padding: '2px', minHeight: '300px' }}>
-                                                        <Editor
-                                                            editorState={editorState}
-                                                            onEditorStateChange={setEditorState}
-                                                        />
+                                                    <Editor editorState={editorState} onChange={setEditorState} />
                                                     </div>
                                                 </div>
                                             </div>
@@ -104,6 +130,7 @@ function SenderId_Rul() {
                                                 </div>
                                             </div>
                                         </div>
+                                        <ToastContainer />
                                     </form>
                                 </div>
                             </div>
@@ -121,21 +148,21 @@ function SenderId_Rul() {
                                                     <div className="col-sm-6">
                                                         <div className="form-group mb-2">
                                                             <label htmlFor="label">Input Label&nbsp;<sup className="text-danger">*</sup></label>
-                                                            <input onChange={e => addField(e)} type="text" name="label" id="label" required="required" className="form-control form-control-lg" />
+                                                            <input onChange={e => addField(e)} type="text" name="label" id="label" required className="form-control form-control-lg" />
                                                         </div>
                                                     </div>
                                                     <div className="col-sm-6">
                                                         <div className="form-group mb-2">
                                                             <label htmlFor="input_name">Input Name&nbsp;<sup className="text-danger">*</sup></label>
-                                                            <input onChange={e => addField(e)} type="text" name="input_name" id="input_name" required="required" className="form-control form-control-lg" />
+                                                            <input onChange={e => addField(e)} type="text" name="input_name" id="input_name" required className="form-control form-control-lg" />
                                                         </div>
                                                     </div>
                                                     <div className="col-sm-6">
                                                         <div className="form-group mb-2">
                                                             <label htmlFor="input_type">Input Type&nbsp;<sup className="text-danger">*</sup></label>
-                                                            <select onChange={e => addField(e)} className="form-control form-control-lg" id="input_type" name="input_type" required="required">
-                                                            <option value="">Select one</option>
-                                                                <option value="text" selected="selected">Text</option>
+                                                            <select onChange={e => addField(e)} className="form-control form-control-lg" id="input_type" name="input_type" required>
+                                                                <option value="">Select one</option>
+                                                                <option value="text">Text</option>
                                                                 <option value="select">Select</option>
                                                                 <option value="textarea">Textarea</option>
                                                                 <option value="number">Number</option>
@@ -145,15 +172,15 @@ function SenderId_Rul() {
                                                     <div className="col-sm-6">
                                                         <div className="form-group mb-2">
                                                             <label htmlFor="value">Input Value&nbsp;<sup className="text-danger">*</sup></label>
-                                                            <input onChange={e => addField(e)} type="text" name="value" id="value" className="form-control form-control-lg" />
+                                                            <input onChange={e => addField(e)} type="text" name="value" id="value" className="form-control form-control-lg" required />
                                                             <p className="mb-0">Value sparated by comma</p>
                                                         </div>
                                                     </div>
                                                     <div className="col-sm-6">
                                                         <div className="form-group mb-2">
                                                             <label htmlFor="required">Required&nbsp;<sup className="text-danger">*</sup></label>
-                                                            <select onChange={e => addField(e)} className="form-control form-control-lg" id="required" name="required" required="required">
-                                                            <option value="">Select one</option>
+                                                            <select onChange={e => addField(e)} className="form-control form-control-lg" id="required" name="required" required>
+                                                                <option value="">Select one</option>
                                                                 <option value={0}>No</option>
                                                                 <option value={1}>Yes</option>
                                                             </select>
@@ -162,7 +189,7 @@ function SenderId_Rul() {
                                                     <div className="col-sm-6">
                                                         <div className="form-group mb-2">
                                                             <label htmlFor="column">Grid column&nbsp;<sup className="text-danger">*</sup></label>
-                                                            <input onChange={e => addField(e)} type="number" min={1} max={12} name="column" id="column" defaultValue={12} className="form-control form-control-lg" />
+                                                            <input onChange={e => addField(e)} type="number" min={1} max={12} name="column" id="column" defaultValue={12} className="form-control form-control-lg" required />
                                                             <p className="mb-0">1-12</p>
                                                         </div>
                                                     </div>
@@ -198,17 +225,17 @@ function SenderId_Rul() {
                                             <div class="table-responsive">
                                                 <table class="table table-striped">
                                                     <tbody id="dy-tbl">
-                                             {dataTable.map((e, index) => {
-                                                                        
-                                                            return( 
-                                                            <tr>
-                                                                <td> Input Label-{e.label}</td>
-                                                                <td>Input_name-{e.input_name}</td>
-                                                                <td>Input Type-{e.input_type}</td>
-                                                                <td>Input Value-{e.value}</td>
-                                                                <td>Required-{e.required}</td>
-                                                                <td>Grid column-{e.column}</td>
-                                                            </tr>)
+                                                        {dataTable.map((e, index) => {
+
+                                                            return (
+                                                                <tr key={index}>
+                                                                    <td> Input Label-{e.label}</td>
+                                                                    <td>Input_name-{e.input_name}</td>
+                                                                    <td>Input Type-{e.input_type}</td>
+                                                                    <td>Input Value-{e.value}</td>
+                                                                    <td>Required-{e.required}</td>
+                                                                    <td>Grid column-{e.column}</td>
+                                                                </tr>)
                                                         })}
 
 
