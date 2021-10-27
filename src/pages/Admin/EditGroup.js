@@ -8,7 +8,7 @@ import {  useParams } from 'react-router-dom';;
 **/
 
 export const EditGroup = () => {
-    let p= useParams();
+    
 
     const [group, setGroup] = useState({
         "groupName": "",

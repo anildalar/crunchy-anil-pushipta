@@ -114,7 +114,7 @@ export const Groups = (props) => {
                             <form id="">   
                                 <div className="card-body">
                                     <div className="form-group">
-                                        <label htmlFor="groupName">{t("Group Name ")}&nbsp;<sup className="text-danger">*</sup></label>
+                                        <label htmlFor="groupName">{t("Group Name")}&nbsp;<sup className="text-danger">*</sup></label>
                                         <input ref={groupName} onChange={(e) => { groupDetails(e) }} type="text" className="form-control"  name="groupName" id="groupName" required="required"  />
                                         <span className="text-danger error"></span>
                                     </div>

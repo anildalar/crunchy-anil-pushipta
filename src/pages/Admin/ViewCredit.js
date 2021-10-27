@@ -1,4 +1,5 @@
 import React from 'react'
+import { useTranslation } from 'react-i18next';
 import Layout from '../../component/Layout'
 import { BreadCrumb } from '../../component/UI/BreadCrumb'
 
@@ -8,6 +9,7 @@ import { BreadCrumb } from '../../component/UI/BreadCrumb'
 **/
 
 export const ViewCredit = (props) => {
+    const { t } = useTranslation();
     return (
         <Layout>
             <div className="main-content horizontal-content">
@@ -23,8 +25,8 @@ export const ViewCredit = (props) => {
                                     <h4 className="card-title" />
                                 </div>
                                 <div className="card-body">
-                                    <form id="searchCredit" method="POST" action="https://messaging.oklabs.in/admin/credits/getCredit">
-                                        <input type="hidden" name="csrf_test_name" defaultValue="f08db5407693e827532b0edb80128271" />
+                                    <form id="searchCredit"  >
+                                        <input type="hidden"  />
                                         <div className="row">
                                             <div className="col-3">
                                                 <div className="form-group">
