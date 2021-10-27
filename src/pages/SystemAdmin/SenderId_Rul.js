@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react'
 
 import { Editor } from "react-draft-wysiwyg";
-import { EditorState } from "draft-js";
+import { convertToRaw, EditorState } from "draft-js";
 import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
 import Layout from '../../component/Layout';
 import BreadCrumb from '../../component/UI/BreadCrumb';
@@ -27,7 +27,7 @@ function SenderId_Rul() {
     const [datasave, setDatasave] = useState({
         "country_id": "",
         "sendr_set": "",
-        "descr": ""
+        
     })
     useEffect(() => {
         try {
@@ -66,7 +66,22 @@ function SenderId_Rul() {
         setData([...data, hdleFld]);
         setDataTable(data);
     }
-    const handledata=()=>{}
+    const onEditorStateChange = (editorState) => {
+        setEditorState(editorState );
+        let descr= convertToRaw(editorState.getCurrentContent()).blocks[0].text
+        setDatasave({...datasave,descr})
+        
+      };
+    const handledata=(e)=>{
+        e.preventDefault();
+        setDatasave({...datasave,[e.target.name]:e.target.value})
+       
+    }
+    const clicked=(e)=>{
+        e.preventDefault();
+        setDatasave({...datasave,...hdleFld})
+        console.log(datasave) 
+    }
     return (
         <Layout>
             <div className="main-content horizontal-content">
@@ -74,6 +89,7 @@ function SenderId_Rul() {
                     <BreadCrumb></BreadCrumb>
                     <div className="row">
                         <div className="col-sm-4">
+                            <button onClick={clicked} className="btn btn-primary">check</button>
                             <div className="card">
                                 <div className="card-header bg-info">
                                     <h4 className="mb-0 text-white">Sender Id Rules </h4>
@@ -85,7 +101,7 @@ function SenderId_Rul() {
                                             <div className="col-sm-12">
                                                 <div className="form-group mb-3">
                                                     <label htmlFor="country_id">Country&nbsp;<sup className="text-danger">*</sup></label>
-                                                    <select onChange={handledata} className="form-control " id="country_id" name="country_id" required="required">
+                                                    <select onChange={e=>handledata(e)} className="form-control " id="country_id" name="country_id" required="required">
                                                         <option value="">Select Country</option>
                                                         {country.map((e, index) => {
                                                             return (
@@ -99,7 +115,7 @@ function SenderId_Rul() {
                                             <div className="col-sm-12">
                                                 <div className="form-group mb-3">
                                                     <label htmlFor="senderid_setting">Sender id setting&nbsp;<sup className="text-danger">*</sup></label>
-                                                    <select className="form-control " id="senderid_setting" name="sender_set" required="required">
+                                                    <select onChange={e=>handledata(e)} className="form-control " id="senderid_setting" name="sendr_set" required="required">
                                                         <option value="">Select Country</option>
                                                         <option value={0}>Dynamic</option>
                                                         <option value={1}>Verification</option>
@@ -108,10 +124,11 @@ function SenderId_Rul() {
                                                     <span>Description</span>
                                                     <div style={{ border: "1px solid black", padding: '2px', minHeight: '300px' }}>
                                                         <Editor
-                                                            // name="descr"
-                                                            editorState={editorState}
-                                                            onEditorStateChange={setEditorState}
-                                                        // onChange={}
+                                                             editorState={editorState}
+                                                             toolbarClassName="toolbarClassName"
+                                                             wrapperClassName="wrapperClassName"
+                                                             editorClassName="editorClassName"
+                                                             onEditorStateChange={onEditorStateChange}
                                                         />
                                                     </div>
                                                 </div>

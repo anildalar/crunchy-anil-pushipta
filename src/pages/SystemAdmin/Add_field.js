@@ -1,13 +1,14 @@
 import React, { useEffect, useRef, useState } from 'react'
-import Header from '../../component/Header'
 import { fetchOption, Toast, url } from '../../url';
 import $ from 'jquery';
 import swal from 'sweetalert';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import Layout from '../../component/Layout';
+import { useTranslation } from 'react-i18next';
 
 function Add_field() {
+    const { t } = useTranslation();
     const [client, setClient] = useState([]);
     const [Country, setCountry] = useState([]);
     const [productConn, setProductConn] = useState([]);
@@ -27,14 +28,14 @@ function Add_field() {
         "isAllow": ""
     })
     useEffect(() => {
-        console.log(routing)
+        // console.log(routing)
         try {
             fetch(url + "/client/getClient", {
                 ...fetchOption,
             }).then((response) => response.json())
                 .then((data) => {
                     if (data.status === 200) {
-                        console.log("Success:", data);
+                        // console.log("Success:", data);
                         setClient(data.data);
                         // console.log(client)
                     } else {
@@ -50,11 +51,12 @@ function Add_field() {
                 });
         } catch (err) {
             toast.error("sever error",
-                { ...Toast,
+                {
+                    ...Toast,
                     position: "top-right"
                 });
         }
- }, []);
+    }, []);
     useEffect(() => {
         try {
             fetch(url + "/master/get/countries", {
@@ -73,7 +75,7 @@ function Add_field() {
                     position: "top-right"
                 });
         }
-}, []);
+    }, []);
     const handleChange = (e) => {
         e.preventDefault();
         if (e.target.value != '') {
@@ -118,9 +120,9 @@ function Add_field() {
         e.preventDefault();
         setRouting({ ...routing, [e.target.name]: e.target.value })
         let bill = product.current.selectedOptions[0].getAttribute("data-billmode")
-        if (bill == 0) {
+        if (bill == 1) {
             fix_credit.current.disabled = "disabled"
-        } else if (bill == 1) {
+        } else if (bill == 0) {
             fix_bal.current.disabled = "disabled"
             checke.current.disabled = "disabled"
         } else {
@@ -133,7 +135,7 @@ function Add_field() {
     }
     const handlerouting = (e) => {
         e.preventDefault();
-       setRouting({ ...routing, [e.target.name]: e.target.value })
+        setRouting({ ...routing, [e.target.name]: e.target.value })
         console.log(routing)
     }
     const submit = (e) => {
@@ -145,16 +147,15 @@ function Add_field() {
                 body: JSON.stringify(routing),
             }).then(response => response.json())
                 .then(data => {
-                    if (data.errors) {
-                        // console.log('Error:', data.errors);
+                    if (data.status == 200) {
+                        swal("Success!");
+                        document.getElementById("myForm").reset();
+                    } else if (data.status == 404) {
+                        swal(data.msg);
+                    } else if (data.status == 400) {
                         data.errors.forEach(function (arrayItem) {
                             $('[name=' + arrayItem.param + ']').css("border", "1px solid red").siblings('span.text-danger').html(arrayItem.msg);
                         });
-                    } else {
-                        //Sweet alrt
-                        //console.log('Success:', data);
-                        swal("Success!");
-                        document.getElementById("myForm").reset();
                     }
                 }).catch((error) => {
                     console.error('Error:', error);
@@ -175,26 +176,26 @@ function Add_field() {
                         <div className="col-md-12 col-xl-12 col-xs-12 col-sm-12">
                             <div className="card ">
                                 <div className="card-header bg-info px-2 py-1">
-                                    <h5 className="m-2 text-white">Add Routing</h5>
+                                    <h5 className="m-2 text-white">{t("Add Routing")}</h5>
                                 </div>
                                 <div className="card-body bg-white">
                                     <form onSubmit={submit} id="myForm">
                                         <div className="row row-sm">
                                             <div className="col-sm-6">
-                                                <label htmlFor="carrierId">Client&nbsp;<sup className="text-danger">*</sup></label>
+                                                <label htmlFor="carrierId">{t("Client")}&nbsp;<sup className="text-danger">*</sup></label>
                                                 <select onChange={handleChange} id="carrierId" className="form-control  tiggerRest" name="clientId" required data-target="product_ida">
-                                                    <option value="">Select one</option>
+                                                    <option value="">{t("Select one")}</option>
                                                     {client.map((e, index) => {
                                                         return (<option key={index} value={e.userId}>{e.firstName}{e.lastName}</option>
                                                         );
                                                     })}
                                                 </select>
-</div>
+                                            </div>
                                             <div className="col-sm-6">
                                                 <div>
-                                                    <label htmlFor="connId">Connection&nbsp;<sup className="text-danger">*</sup></label>
+                                                    <label htmlFor="connId">{t("Products")}&nbsp;<sup className="text-danger">*</sup></label>
                                                     <select ref={product} onChange={(e) => handleProduct(e)} id="connId" className="form-control  tiggerRest" name="connId" >
-                                                        <option value="">Select Product</option>
+                                                        <option value="">{t("Select Product")}</option>
                                                         {productConn.map((e, index) => {
                                                             return (
                                                                 <option key={index} data-billmode={e.billMode} value={e.id}>{e.createdAt}</option>
@@ -205,37 +206,37 @@ function Add_field() {
                                                 </div>
                                             </div>
                                             <div className="col-sm-6">
-                                                
-                                                    <label htmlFor="country">Countries</label>
-                                                    <select ref={country} onChange={handleCountry} className="form-control " id="country" name="countyId" >
-                                                        <option value="">Select Countries</option>
-                                                        {Country.map((e, index) => {
-                                                            return (<option key={index} data-prefix={e.dial_code} value={e.id}>{e.country_name}</option>);
-                                                        })}
-                                                    </select>
-                                                    <span className="text-danger error"></span>
-                                            
+
+                                                <label htmlFor="country">{t("Countries")}</label>
+                                                <select ref={country} onChange={handleCountry} className="form-control " id="country" name="countyId" >
+                                                    <option value="">{t("Select Countries")}</option>
+                                                    {Country.map((e, index) => {
+                                                        return (<option key={index} data-prefix={e.dial_code} value={e.id}>{e.country_name}</option>);
+                                                    })}
+                                                </select>
+                                                <span className="text-danger error"></span>
+
                                             </div>
                                             <div className="col-sm-6">
-                                                <label htmlFor="prefix">Prefix&nbsp;<sup className="text-danger">*</sup></label>
+                                                <label htmlFor="prefix">{t("Prefix")}&nbsp;<sup className="text-danger">*</sup></label>
                                                 <input onChange={e => handlerouting(e)} value={routing.code} type="number" min={0} name="code" className="form-control" id="prefix" />
                                                 <span className="text-danger error"></span>
                                             </div>
                                             <div className="col-sm-6">
-                                                <label htmlFor="fix_credit">Fix Credit&nbsp;<sup className="text-danger">*</sup></label>
+                                                <label htmlFor="fix_credit">{t("Fix Credit")}&nbsp;<sup className="text-danger">*</sup></label>
                                                 <input onChange={(e) => handlerouting(e)} ref={fix_credit} type="number" step="any" min={0} name="credit" className="form-control" id="fix_credit" />
                                                 <span className="text-danger error"></span>
                                             </div>
                                             <div className="col-sm-6">
                                                 <div className="row">
                                                     <div className="col-sm-8">
-                                                        <label htmlFor="fix_bal">Fix Balance&nbsp;<sup className="text-danger">*</sup></label>
+                                                        <label htmlFor="fix_bal">{t("Fix Balance")}&nbsp;<sup className="text-danger">*</sup></label>
                                                         <input onChange={(e) => handlerouting(e)} ref={fix_bal} type="number" step="any" min={0} name="bal" className="form-control" id="fix_bal" required />
                                                         <span className="text-danger error"></span>
                                                     </div>
                                                     <div className="col-sm-4 p-4">
                                                         <input ref={checke} type="checkbox" onChange={(e) => handleCheck(e)} name="check" className="" id="" required />
-                                                        <label className="form-check-label" htmlFor="flexCheckDefault">Default checkbox </label>
+                                                        <label className="form-check-label" htmlFor="flexCheckDefault">{t("Default checkbox ")}</label>
                                                         <span className="text-danger error"></span>
                                                     </div>
                                                 </div>
@@ -243,11 +244,11 @@ function Add_field() {
 
                                             <div className="col-sm-6">
                                                 <div>
-                                                    <label htmlFor="routing_is_allow">Status&nbsp;<sup className="text-danger">*</sup></label>
+                                                    <label htmlFor="routing_is_allow">{t("Status")}&nbsp;<sup className="text-danger">*</sup></label>
                                                     <select onChange={(e) => handlerouting(e)} className="form-control tiggerRest" id="routing_is_allow" name="isAllow" required="required">
-                                                        <option value>Select Status</option>
-                                                        <option value={1}>Allow</option>
-                                                        <option value={0}>Not Allow</option>
+                                                        <option value>{t("Select Status")}</option>
+                                                        <option value={1}>{t("Allow")}</option>
+                                                        <option value={0}>{t("Not Allow")}</option>
                                                     </select>
                                                     <span className="text-danger error"></span>
                                                 </div>
@@ -255,7 +256,7 @@ function Add_field() {
                                         </div>
                                         <div className="row row-sm mt-3">
                                             <div className="col-sm-6">
-                                                <button type="submit" className="btn btn-primary">Submit</button>
+                                                <button type="submit" className="btn btn-primary">{t("Submit")}</button>
                                             </div>
                                         </div>
                                         <ToastContainer />
