@@ -580,6 +580,10 @@ export default function Header() {
                       <NavLink  className="" to="/smsreports">
                       Smsreports
                       </NavLink>
+                      <NavLink  className="" to="/languages">
+                      Languages
+                      </NavLink>
+                     
                     </li>
                   </ul>
                 </li>

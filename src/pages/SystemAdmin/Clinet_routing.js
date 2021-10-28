@@ -15,15 +15,15 @@ export default function Clinet_routing() {
     const [productConn, setProductConn] = useState([]);
     const [tabdata, setTableData] = useState([])
     const [updatTablDat, setUpdateTablDat] = useState({
-        "uuid":"",
-        "clientId": "",
+        "uuid": "",
+        "clientId": "6",
         "connId": "",
         "countyId": "",
         "code": "",
         "credit": "",
-        "checking":0,
+        "checking": 0,
         "bal": "",
-         "isAllow": ""
+        "isAllow": ""
     })
     const clientRef = useRef("");
     const productRef = useRef("");
@@ -119,8 +119,9 @@ export default function Clinet_routing() {
                         // if (data.error) {
                         setTableData(data.data)
                         console.log(data.data)
-                    } else {
-                        toast.error(data.msg,
+                    } else if (data.status == 400) {
+                        console.log("antim" + data.errors[0].msg)
+                        toast.error(data.errors[0].msg,
                             {
                                 ...Toast,
                                 position: "top-right"
@@ -143,26 +144,27 @@ export default function Clinet_routing() {
         contryrefmod.current.value = e.target.closest("tr").querySelector('td:nth-child(3)').innerHTML
         fixbalref.current.value = e.target.closest("tr").querySelector('td:nth-child(4)').innerHTML
         fixcreditref.current.value = e.target.closest("tr").querySelector('td:nth-child(5)').innerHTML
-        isAllowref.current.value=e.target.closest("tr").querySelector('td:nth-child(8)').innerHTML
+        isAllowref.current.value = e.target.closest("tr").querySelector('td:nth-child(8)').innerHTML
         var uid = e.currentTarget.dataset.val
-       
+
         console.log(uid)
-        setUpdateTablDat({...updatTablDat,
-            "uuid":e.currentTarget.dataset.val,
+        setUpdateTablDat({
+            ...updatTablDat,
+            "uuid": e.currentTarget.dataset.val,
             "connId": prdtmodlref.current.value,
             "countyId": contryrefmod.current.value,
             "code": prefixref.current.value,
             "credit": fixcreditref.current.value,
-            "bal":  fixbalref.current.value,
+            "bal": fixbalref.current.value,
             "isAllow": isAllowref.current.value
-         })
+        })
         //console.log(uid)
         console.log(updatTablDat)
     }
     const tbleDataUpdt = (e) => {
         e.preventDefault();
         setUpdateTablDat({ ...updatTablDat, [e.target.name]: e.target.value })
-       console.log(updatTablDat)
+        console.log(updatTablDat)
     }
     const updateData = (e) => {
         e.preventDefault();
@@ -177,7 +179,7 @@ export default function Clinet_routing() {
             .catch((error) => {
                 console.error('Error:', error);
             });
-       }
+    }
     return (
         <Layout>
             {/* <!-- Modal --> */}
@@ -225,14 +227,13 @@ export default function Clinet_routing() {
                                     <input onChange={e => tbleDataUpdt(e)} ref={fixcreditref} type="number" step="any" min={0} name="credit" className="form-control" id="fix_credit" />
                                 </div>
                                 <div className="col-12">
-                                               
-                                                    <label htmlFor="routing_is_allow">{t("Status")}&nbsp;<sup className="text-danger">*</sup></label>
-                                                    <select  onChange={e => tbleDataUpdt(e)} ref={isAllowref} className="form-control" id="routing_is_allow" name="isAllow" required="required">
-                                                        <option value>{t("Select Status")}</option>
-                                                        <option value={1}>{t("Allow")}</option>
-                                                        <option value={0}>{t("Not Allow")}</option>
-                                                    </select>
-                                                  </div>
+                                    <label htmlFor="routing_is_allow">{t("Status")}&nbsp;<sup className="text-danger">*</sup></label>
+                                    <select onChange={e => tbleDataUpdt(e)} ref={isAllowref} className="form-control" id="routing_is_allow" name="isAllow" required="required">
+                                        <option value>{t("Select Status")}</option>
+                                        <option value={1}>{t("Allow")}</option>
+                                        <option value={0}>{t("Not Allow")}</option>
+                                    </select>
+                                </div>
                             </div>
                         </div>
                         <div className="modal-footer">
@@ -327,7 +328,7 @@ export default function Clinet_routing() {
                                                     <th className="wd-25p border-bottom-0">{t("Update")}</th>
                                                     <th className="wd-25p border-bottom-0">{t("IsAllow")}</th>
                                                     <th className="wd-25p border-bottom-0">{t("Action")}</th>
-                                                   
+
                                                 </tr>
                                             </thead>
                                             <tbody>
