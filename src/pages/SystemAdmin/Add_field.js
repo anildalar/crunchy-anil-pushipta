@@ -22,9 +22,9 @@ function Add_field() {
         "connId": "",
         "countyId": "",
         "code": "",
-        "credit": "",
-        "bal": "",
-        "check": "",
+        "credit": "0",
+        "bal": "0",
+        "checking": "",
         "isAllow": ""
     })
     useEffect(() => {
@@ -79,6 +79,7 @@ function Add_field() {
     const handleChange = (e) => {
         e.preventDefault();
         if (e.target.value != '') {
+            
             setRouting({ ...routing, [e.target.name]: e.target.value })
             let id = e.target.value;
             setProductConn([]);
@@ -131,10 +132,15 @@ function Add_field() {
         }
     }
     const handleCheck = (e) => {
-        setRouting({ ...routing, [e.target.name]: e.target.checked })
+        let  b=Number(e.target.checked).toString()
+        setRouting({ ...routing, [e.target.name]: b })
     }
     const handlerouting = (e) => {
         e.preventDefault();
+        // let credit=fix_credit.current.value
+        // console.log("hello",credit)
+        //     let bal=fix_bal.current.value
+        //     setRouting({ ...routing,[e.target.name]:fix_credit.current.value })
         setRouting({ ...routing, [e.target.name]: e.target.value })
         console.log(routing)
     }
@@ -235,7 +241,7 @@ function Add_field() {
                                                         <span className="text-danger error"></span>
                                                     </div>
                                                     <div className="col-sm-4 p-4">
-                                                        <input ref={checke} type="checkbox" onChange={(e) => handleCheck(e)} name="check" className="" id="" required />
+                                                        <input ref={checke} type="checkbox" onChange={(e) => handleCheck(e)} name="checking" className="" id="" required />
                                                         <label className="form-check-label" htmlFor="flexCheckDefault">{t("Default checkbox ")}</label>
                                                         <span className="text-danger error"></span>
                                                     </div>

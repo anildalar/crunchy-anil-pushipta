@@ -577,6 +577,9 @@ export default function Header() {
                       <NavLink  className="" to="/SenderId_Rul">
                       SenderId_Rul
                       </NavLink>
+                      <NavLink  className="" to="/smsreports">
+                      Smsreports
+                      </NavLink>
                     </li>
                   </ul>
                 </li>

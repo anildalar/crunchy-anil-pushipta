@@ -17,6 +17,7 @@ import Vender_create from "./pages/SystemAdmin/Vender_create";
 import Clinet_routing from "./pages/SystemAdmin/Clinet_routing";
 import SenderId_Rul from "./pages/SystemAdmin/SenderId_Rul";
 import Add_field from "./pages/SystemAdmin/Add_field";
+import Smsreports from "./pages/SystemAdmin/Smsreports";
 
 export default function App() {
   var comp;
@@ -61,6 +62,7 @@ export default function App() {
         <Route path="/Clinet_routing" component={ Clinet_routing }></Route>
         <Route path="/Add_field" component={ Add_field }></Route>
         <Route path="/SenderId_Rul" component={ SenderId_Rul }></Route>
+        <Route path="/smsreports" component={ Smsreports }></Route>
 
       </Router>
     </>
