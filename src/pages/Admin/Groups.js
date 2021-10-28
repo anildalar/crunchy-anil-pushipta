@@ -1,9 +1,8 @@
 import React, { useEffect, useRef, useState } from 'react'
 import Layout from '../../component/Layout'
-import { fetchOption,  url } from '../../helpers/helper';
+import { fetchOption, url } from '../../helpers/helper';
 import swal from 'sweetalert';
 import $ from "jquery"
-import { NavLink } from 'react-router-dom';
 import { BreadCrumb } from '../../component/UI/BreadCrumb';
 import { useTranslation } from 'react-i18next';
 
@@ -49,7 +48,6 @@ export const Groups = (props) => {
             body: JSON.stringify(group),
         }).then(response => response.json())
             .then(data => {
-
                 if (data.status == 200) {
                     swal("success", data.msg, "success");
                     let mydata = tbldata;
@@ -88,17 +86,14 @@ export const Groups = (props) => {
                 }
             });
     }
-
-
-
     const editStatus = () => {
         alert('edit status')
     }
 
-    const editGrpDetail = (e)=>{
-        groupName.current.value=e.target.closest('tr').querySelector('td:nth-child(2)').innerHTML;
-        desc.current.value=e.target.closest('tr').querySelector('td:nth-child(3)').innerHTML;
-       
+    const editGrpDetail = (e) => {
+        groupName.current.value = e.target.closest('tr').querySelector('td:nth-child(2)').innerHTML;
+        desc.current.value = e.target.closest('tr').querySelector('td:nth-child(3)').innerHTML;
+
     }
     const { t } = useTranslation();
     return (
@@ -111,16 +106,16 @@ export const Groups = (props) => {
                             <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close" />
                         </div>
                         <div className="modal-body">
-                            <form id="">   
+                            <form id="">
                                 <div className="card-body">
                                     <div className="form-group">
                                         <label htmlFor="groupName">{t("Group Name")}&nbsp;<sup className="text-danger">*</sup></label>
-                                        <input ref={groupName} onChange={(e) => { groupDetails(e) }} type="text" className="form-control"  name="groupName" id="groupName" required="required"  />
+                                        <input ref={groupName} onChange={(e) => { groupDetails(e) }} type="text" className="form-control" name="groupName" id="groupName" required="required" />
                                         <span className="text-danger error"></span>
                                     </div>
                                     <div className="form-group mb-0">
                                         <label htmlFor="desc">{t("Description")} &nbsp;<sup className="text-danger">*</sup></label>
-                                        <textarea ref={desc} onChange={(e) => { groupDetails(e) }} className="form-control" name="desc" id="desc" required="required" rows={4}  />
+                                        <textarea ref={desc} onChange={(e) => { groupDetails(e) }} className="form-control" name="desc" id="desc" required="required" rows={4} />
                                     </div>
 
                                 </div>
@@ -134,8 +129,6 @@ export const Groups = (props) => {
                     </div>
                 </div>
             </div>
-
-
             {/* main-content opened */}
             <div className="main-content horizontal-content">
                 {/* container opened */}
@@ -149,7 +142,6 @@ export const Groups = (props) => {
                                     <h4 className="mb-0 text-white card-title">{t("Create Group")}</h4>
                                 </div>
                                 <form id="groupfrom">
-                                  
                                     <div className="card-body">
                                         <div className="form-group">
                                             <label htmlFor="groupName">{t("Group Name ")}&nbsp;<sup className="text-danger">*</sup></label>
@@ -193,13 +185,10 @@ export const Groups = (props) => {
                                                     <th >State</th>
                                                     <th >Action</th>
                                                     <th >Created At</th>
-
                                                 </tr>
                                             </thead>
                                             <tbody>
-
                                                 {
-
                                                     tbldata.map((element, index) => {
                                                         return (
                                                             <tr key={index}>
@@ -210,14 +199,11 @@ export const Groups = (props) => {
                                                                 <td>
                                                                     <div className="btn-group btn-group-sm" role="group" aria-label="Basic example">
                                                                         {(element.status == 1) ? <button onClick={editStatus} type="button" className="btn btn-success"> <i className="fas fa-check"></i> </button > : <button onClick={editStatus} type="button" className="btn btn-warning"> <i className="fas fa-ban"></i></button>}
-                                                                        <button type="button" className="btn btn-info" data-bs-toggle="modal" data-bs-target="#exampleModal" onClick={ (e)=>{ editGrpDetail(e) } }><i className="fas fa-pencil-alt"></i></button>
+                                                                        <button type="button" className="btn btn-info" data-bs-toggle="modal" data-bs-target="#exampleModal" onClick={(e) => { editGrpDetail(e) }}><i className="fas fa-pencil-alt"></i></button>
                                                                         <button onClick={deleteGroup} type="button" className="btn btn-danger"><i className="fas fa-trash"></i></button>
                                                                     </div>
-
                                                                 </td>
                                                                 <td>{element.createdAt}</td>
-
-
                                                             </tr>
                                                         )
 

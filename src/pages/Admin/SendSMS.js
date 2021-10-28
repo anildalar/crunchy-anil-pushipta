@@ -2,7 +2,6 @@ import React, { useRef, useState } from 'react'
 import Layout from '../../component/Layout'
 import { BreadCrumb } from '../../component/UI/BreadCrumb'
 import { Collapse } from 'bootstrap'
-import $ from 'jquery'
 import { useTranslation } from 'react-i18next'
 /**
 * @author
@@ -38,6 +37,12 @@ export const SendSMS = (props) => {
         e.preventDefault();
         const x = new Collapse(document.getElementById('collapseExample'), { toggle: true });
         x.show();
+       
+    }
+    const selectlang=(e)=>{
+        e.preventDefault();
+        localStorage.setItem("currentLang",showInput.current.value)
+        //console.log(showInput.current.value);
     }
 
     
@@ -127,7 +132,7 @@ export const SendSMS = (props) => {
                                                         <label htmlFor="message">{t("Message")}&nbsp;<sup className="text-danger">*</sup></label>
                                                     </div>
                                                     <div className="col-sm-8">
-                                                        <select ref={showInput} id="languageDropDown" name="languageDropDown" className="form-control" disabled="disabled" style={{ display: 'none' }}>
+                                                        <select onChange={(e)=>{selectlang(e)}} ref={showInput} id="languageDropDown" name="languageDropDown" className="form-control" disabled="disabled" style={{ display: 'none' }}>
                                                             <option value="hi">{t("Hindi")}</option>
                                                             <option value="bn">{t("Bengali")}</option>
                                                             <option value="fa">{t("Persian")}</option>
