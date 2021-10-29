@@ -2,7 +2,7 @@ const { url, toDataUrl } = require("../helpers/helper");
 
 console.log(window.location.hostname);
 
-const data = { domain: window.location.hostname };
+const data = { domain: 'crunchysms.com' };
 
 function getDomain(){
     
