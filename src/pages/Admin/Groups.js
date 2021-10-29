@@ -18,7 +18,13 @@ export const Groups = (props) => {
         "desc": "",
         "status": ""
     });
+    // const[editgrp,setEditGrp] = useState({
+    //     "groupName": "",
+    //     "desc": "",
+    //     "status": ""
+    // })
     const [tbldata, setTbldata] = useState([]);
+
     const groupName = useRef();
     const desc = useRef();
 
@@ -88,12 +94,19 @@ export const Groups = (props) => {
     }
     const editStatus = () => {
         alert('edit status')
+
+
     }
 
     const editGrpDetail = (e) => {
         groupName.current.value = e.target.closest('tr').querySelector('td:nth-child(2)').innerHTML;
         desc.current.value = e.target.closest('tr').querySelector('td:nth-child(3)').innerHTML;
-
+        setGroup({
+            ...group,
+            "groupName": groupName.current.value,
+            "desc": desc.current.value
+        });
+        
     }
     const { t } = useTranslation();
     return (
