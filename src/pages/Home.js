@@ -171,7 +171,7 @@ function Home(props) {
 
 let mapStateToProps = (state) => {
     return {
-        x: state.username
+        ...state
     }
 }
 let mapDispatchToProps = (dispatch) => {
