@@ -6,13 +6,15 @@ import { connect, useDispatch, } from 'react-redux';
 import swal from 'sweetalert';
 import $ from "jquery";
 
-import axios from '../axios';
+
 import loginAttempt from '../redux/actions/loginAttempt';
 import i18n from '../i18n';
+
 
 import GetDomain from '../serviceprovider/GetDomain';
 import CountryDropDown from '../component/UI/CountryDropDown';
 import { url } from '../helpers/helper';
+
 
 
 function Home(props) {
@@ -168,7 +170,7 @@ function Home(props) {
 
 let mapStateToProps = (state) => {
     return {
-        x: state.username
+        ...state
     }
 }
 let mapDispatchToProps = (dispatch) => {

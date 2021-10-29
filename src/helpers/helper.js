@@ -1,10 +1,14 @@
+// const baseUrl = 'http://192.168.1.47:3000';
 //const baseUrl = 'http://192.168.1.47:3000';
-const url = 'http://173.249.39.43:3000'; //173.249.39.43
+//const url = 'http://173.249.39.43:3000'; //173.249.39.43
 
-let validateEmail = (userName)=>{
-    const re = /[-!$%^&*()_+|~=`{}\[\]:";'<>?,.@\/]/;
-    return re.test(String(userName).toLowerCase());
-}
+// let validateEmail = (userName)=>{
+//     const re = /[-!$%^&*()_+|~=`{}\[\]:";'<>?,.@\/]/;
+//     return re.test(String(userName).toLowerCase());
+// }
+
+const url = 'http://173.249.39.43:3000'
+
 
 const fetchOption = { 
                         method: 'POST', // or 'PUT'
@@ -111,6 +115,7 @@ const timeZone= [
     { label: "(GMT +14:00) Line Islands, Tokelau", value: "+14:00"}
 ];
 
+// const baseUrl = 'http://173.249.39.43:3000';
 
 
 function toDataUrl(url, callback) {

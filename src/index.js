@@ -10,6 +10,7 @@ const i18 = require('./i18n');
 
 const redux = require('redux');
 const createStore = require('redux').createStore;
+//Lets create the Store Object
 let store = createStore(rootReducer);
 
 
