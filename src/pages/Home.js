@@ -5,12 +5,7 @@ import { useHistory } from 'react-router-dom';
 import { connect, useDispatch, } from 'react-redux';
 import swal from 'sweetalert';
 import $ from "jquery";
-
-
-import loginAttempt from '../redux/actions/loginAttempt';
 import i18n from '../i18n';
-
-
 import GetDomain from '../serviceprovider/GetDomain';
 import CountryDropDown from '../component/UI/CountryDropDown';
 import { url } from '../helpers/helper';
@@ -37,16 +32,13 @@ function Home(props) {
 
     function login(e) {
         e.preventDefault();
-
-        let isValid = true;
-
-        let data = {
+let isValid = true;
+let data = {
             userName: userName,
             password: password,
             domainId: localStorage.getItem('domainId')
         }
-    
-        fetch(url+'/auth/login', {
+     fetch(url+'/auth/login', {
             method: 'POST', // or 'PUT'
             headers: {
                 'Content-Type': 'application/json',

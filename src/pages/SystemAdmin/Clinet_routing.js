@@ -1,8 +1,9 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import { fetchOption, Toast, url } from "../../url";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import Switch from "react-switch";
 
 import { useTranslation } from "react-i18next";
 import Layout from "../../component/Layout";
@@ -26,6 +27,7 @@ export default function Clinet_routing() {
         "bal": "",
         "isAllow": ""
     })
+    const [checked, setChecked] = useState(false)
     const clientRef = useRef("");
     const productRef = useRef("");
     const countriesRef = useRef("");
@@ -181,6 +183,26 @@ export default function Clinet_routing() {
                 console.error('Error:', error);
             });
     }
+    // // let handlCheck=(check) =>{
+    //     const memoizedHandleClick = useCallback(
+
+    //         (check,e,i) => {
+    //             // var uid = e.currentTarget.dataset.val
+    //           console.log('Click happened'+e+i);
+    //           setChecked(check)
+    //           console.log(checked)
+    //         },
+    //         [checked],
+    //     )
+    // // 
+    // // 
+    // //     // console.log(e.target)
+    // //   }
+    const toglehandle=(e)=>{
+        e.preventDefault()
+        // e.target
+console.log(e.target.toggle)
+    }
     return (
         <Layout>
             {/* <!-- Modal --> */}
@@ -327,6 +349,7 @@ export default function Clinet_routing() {
                                                     <th className="wd-10p border-bottom-0">{t("Credit")}</th>
                                                     <th className="wd-25p border-bottom-0">{t("CreateAt")}</th>
                                                     <th className="wd-25p border-bottom-0">{t("Update")}</th>
+
                                                     <th className="wd-25p border-bottom-0">{t("IsAllow")}</th>
                                                     <th className="wd-25p border-bottom-0">{t("Action")}</th>
 
@@ -344,7 +367,13 @@ export default function Clinet_routing() {
                                                                 <td>{e.credit}</td>
                                                                 <td>{e.createdAt}</td>
                                                                 <td>{e.updateAt}</td>
-                                                                <td>{e.isAllow}</td>
+
+                                                                <td> <div onClick={toglehandle} class="main-toggle">
+                                                                    <span>
+                                                                        {/* ::before
+                                                                        ::after */}
+                                                                    </span>
+                                                                </div></td>
                                                                 <td>
                                                                     <div className="btn-group btn-group-sm" role="group" aria-label="Basic example">
                                                                         <button onClick={e => editTable(e)} data-val={e.uuid} type="button" className="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal"><i className="fas fa-pencil-alt"></i></button>
