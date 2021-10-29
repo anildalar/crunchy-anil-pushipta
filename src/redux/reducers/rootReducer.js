@@ -15,4 +15,4 @@ let rootReducer = (newState = initialState,action)=>{
     }
   }
 
-  module.exports = rootReducer;
+  export default rootReducer
