@@ -10,11 +10,11 @@ import $ from "jquery";
 import loginAttempt from '../redux/actions/loginAttempt';
 import i18n from '../i18n';
 
-import baseUrl from '../helpers/helper';
-import  { url } from '../helpers/helper';
+
 import GetDomain from '../serviceprovider/GetDomain';
 import CountryDropDown from '../component/UI/CountryDropDown';
 import { url } from '../helpers/helper';
+
 
 
 function Home(props) {

@@ -1,5 +1,5 @@
 //const baseUrl = 'http://192.168.1.47:3000';
-const url = 'http://173.249.39.43:3000'; //173.249.39.43
+//const url = 'http://173.249.39.43:3000'; //173.249.39.43
 
 // let validateEmail = (userName)=>{
 //     const re = /[-!$%^&*()_+|~=`{}\[\]:";'<>?,.@\/]/;
@@ -7,13 +7,7 @@ const url = 'http://173.249.39.43:3000'; //173.249.39.43
 // }
 
 const url = 'http://173.249.39.43:3000'
-const fetchOption = { 
-    method: 'POST', // or 'PUT'
-    headers: {
-       'Content-Type': 'application/json',
-        'Authorization': 'Bearer ' + localStorage.getItem('jwt_token'),
-    }
-}
+
 
 const fetchOption = { 
                         method: 'POST', // or 'PUT'
@@ -151,4 +145,4 @@ module.exports = {
                     BindType,
                     toDataUrl                    
                 };
-module.exports = {baseUrl,url,fetchOption};
+module.exports = {url,fetchOption};
