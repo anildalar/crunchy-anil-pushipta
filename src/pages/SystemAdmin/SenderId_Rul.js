@@ -4,10 +4,11 @@ import { Editor } from "react-draft-wysiwyg";
 import { convertToRaw, EditorState } from "draft-js";
 import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
 import Layout from '../../component/Layout';
-import BreadCrumb from '../../component/UI/BreadCrumb';
+
 import TableData from './TableData';
 import { fetchOption, Toast, url } from '../../url';
 import { toast, ToastContainer } from 'react-toastify';
+import { BreadCrumb } from '../../component/UI/BreadCrumb';
 function SenderId_Rul() {
     const inputRef = useRef();
     const [editorState, setEditorState] = useState(() =>

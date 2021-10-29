@@ -4,8 +4,9 @@ import $, { event } from 'jquery';
 import { useTranslation } from 'react-i18next';
 import swal from 'sweetalert';
 import Layout from '../../component/Layout';
-import BreadCrumb from '../../component/UI/BreadCrumb';
+
 import { ToastContainer, toast } from 'react-toastify';
+import { BreadCrumb } from '../../component/UI/BreadCrumb';
 // import { url } from "../url";
 function Vender_create() {
     const { t } = useTranslation();

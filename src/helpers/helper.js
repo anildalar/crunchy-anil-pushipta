@@ -1,4 +1,4 @@
-const baseUrl = 'http://192.168.1.47:3000';
+// const baseUrl = 'http://192.168.1.47:3000';
 //const baseUrl = 'http://192.168.1.47:3000';
 //const url = 'http://173.249.39.43:3000'; //173.249.39.43
 
@@ -115,7 +115,7 @@ const timeZone= [
     { label: "(GMT +14:00) Line Islands, Tokelau", value: "+14:00"}
 ];
 
-const baseUrl = 'http://173.249.39.43:3000';
+// const baseUrl = 'http://173.249.39.43:3000';
 
 
 function toDataUrl(url, callback) {
@@ -147,4 +147,3 @@ module.exports = {
                     BindType,
                     toDataUrl                    
                 };
-module.exports = {url,fetchOption};

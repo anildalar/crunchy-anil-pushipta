@@ -1,7 +1,8 @@
 import React from 'react'
 import { useTranslation } from 'react-i18next';
 import Layout from '../../component/Layout'
-import BreadCrumb from '../../component/UI/BreadCrumb'
+import { BreadCrumb } from '../../component/UI/BreadCrumb';
+
 
 function Smsreports() {
     const { t } = useTranslation();

@@ -3,9 +3,10 @@ import { Link } from "react-router-dom";
 import { fetchOption, Toast, url } from "../../url";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import BreadCrumb from "../../component/UI/BreadCrumb";
+
 import { useTranslation } from "react-i18next";
 import Layout from "../../component/Layout";
+import { BreadCrumb } from "../../component/UI/BreadCrumb";
 //import Toast from "../../component/Toast";
 
 export default function Clinet_routing() {
