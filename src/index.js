@@ -12,6 +12,9 @@ const redux = require('redux');
 const createStore = require('redux').createStore;
 let store = createStore(rootReducer);
 
+
+
+
 ReactDOM.render(
   <Provider store={store}>
     <React.StrictMode>

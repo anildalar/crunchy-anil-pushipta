@@ -8,8 +8,11 @@ import CountryDropDown from './UI/CountryDropDown';
 export default function Header() {
   const history = useHistory();
   const Logout = (e) => {
-    e.preventDefault();
+    e.preventDefault(); 
+    var l = localStorage.getItem('lang')
     localStorage.clear();
+    localStorage.setItem('lang',l);
+
     history.push('/');
   }
   return (
@@ -502,17 +505,17 @@ export default function Header() {
                       </a>
                     </li>
                     <li aria-haspopup="true">
-                      <NavLink onClick={Domain} className="slide-item" to="/Domain">
+                      <NavLink  className="slide-item" to="/Domain">
                         Domain
                       </NavLink>
                     </li>
                     <li aria-haspopup="true">
-                      <NavLink onClick={ClientConnections} className="slide-item" to="/ClientConnections">
+                      <NavLink className="slide-item" to="/ClientConnections">
                         Client Connections
                       </NavLink>
                     </li>
                     <li aria-haspopup="true">
-                      <NavLink onClick={TableData} className="slide-item" to="/TableData">
+                      <NavLink className="slide-item" to="/TableData">
                         Data Table
                       </NavLink>
                     </li>
