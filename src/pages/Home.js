@@ -1,22 +1,22 @@
 import React, { useEffect, useState } from 'react'
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useTranslation } from "react-i18next";
 import { useHistory } from 'react-router-dom';
 import { connect, useDispatch, } from 'react-redux';
 import swal from 'sweetalert';
 import $ from "jquery";
 
-import axios from '../axios';
+
 import loginAttempt from '../redux/actions/loginAttempt';
 import i18n from '../i18n';
-import baseUrl from '../helpers/helper';
+
+
 import GetDomain from '../serviceprovider/GetDomain';
 import CountryDropDown from '../component/UI/CountryDropDown';
+import { url } from '../helpers/helper';
 
 
-function validateEmail(userName) {
-    const re = /[-!$%^&*()_+|~=`{}\[\]:";'<>?,.@\/]/;
-    return re.test(String(userName).toLowerCase());
-}
+
 function Home(props) {
 
     const history = useHistory();
@@ -26,29 +26,32 @@ function Home(props) {
     const [password, setPassword] = useState('crunchy@admin');//'crunchy@admin'
     
     //i18n.changeLanguage(localStorage.getItem('lang'));
-    
     useEffect(() => {
         GetDomain(); 
+        const setLanguage = async () => {
+            const language = await AsyncStorage.getItem("lang");
+            i18n.changeLanguage(language)
+        }
+        setLanguage();
     }, [])
-
 
     function login(e) {
         e.preventDefault();
-        
+
         let isValid = true;
 
         let data = {
             userName: userName,
             password: password,
-            domainId: '1'
+            domainId: localStorage.getItem('domainId')
         }
     
-        fetch(baseUrl+'/auth/login', {
+        fetch(url+'/auth/login', {
             method: 'POST', // or 'PUT'
             headers: {
                 'Content-Type': 'application/json',
             },
-            body: JSON.stringify(data),
+            body: JSON.stringify(data)
         })
             .then(response => response.json())
             .then(data => {
@@ -60,17 +63,12 @@ function Home(props) {
                     localStorage.setItem('email', data.data.user.email);
                     localStorage.setItem('role', data.data.user.role);
                     localStorage.setItem('userdata', JSON.stringify(data.data.user));
-                    //     //Programatically redirect from one page to another
-                    //     // Login page -> Dashbard
-                    //     //object.method()
-                    //history.push(data.data.user.role+'/dashboard');
+                    
                     window.location.href = data.data.user.role+'/dashboard';
 
                 } else if(data.msg === 'invalid credentials') {
-
                     //alert(data.msg);
                     //$(selector).action();
-                   
                     swal("Oops!", data.msg , "error");
                     $('input').css('border',"1px solid red")
                 }else{
@@ -101,7 +99,7 @@ function Home(props) {
                             <div className="col-md-6 col-lg-6 col-xl-7 d-none d-md-flex bg-primary-transparent">
                                 <div className="row wd-100p mx-auto text-center">
                                     <div className="col-md-12 col-lg-12 col-xl-12 my-auto mx-auto wd-100p">
-                                        <img src={localStorage.getItem('logo')} className="my-auto ht-xl-80p wd-md-100p wd-xl-80p mx-auto" alt="logo" />
+                                        <img src={ localStorage.getItem('logoData') != null ?localStorage.getItem('logoData'):localStorage.getItem('logoData') } className="my-auto ht-xl-80p wd-md-100p wd-xl-80p mx-auto" alt="logo" />
                                     </div>
                                 </div>
                             </div>
@@ -115,8 +113,9 @@ function Home(props) {
                                                 <div className="card-sigin">
                                                     
                                                     <div className="mb-5 text-center">
-                                                        <a href="#"><img src={localStorage.getItem('logo')} width="292" className="sign-favicon-a" alt="logo" />
-                                                            <img src={localStorage.getItem('logo')} className="sign-favicon-b ht-40" alt="logo" />
+                                                        <a href="#">
+                                                            <img src={ localStorage.getItem('logoData') != null ?localStorage.getItem('logoData'):localStorage.getItem('logoData') } width="292" className="sign-favicon-a" alt="logo" />
+                                                            <img src={ localStorage.getItem('logoData') != null ?localStorage.getItem('logoData'):localStorage.getItem('logoData') } className="sign-favicon-b ht-40" alt="logo" />
                                                         </a>
                                                         <ul className="nav nav-item  navbar-nav-right ms-auto d-flex justify-content-center">
                                                             <CountryDropDown />

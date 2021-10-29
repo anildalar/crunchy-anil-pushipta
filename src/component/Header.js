@@ -8,8 +8,11 @@ import CountryDropDown from './UI/CountryDropDown';
 export default function Header() {
   const history = useHistory();
   const Logout = (e) => {
-    e.preventDefault();
+    e.preventDefault(); 
+    var l = localStorage.getItem('lang')
     localStorage.clear();
+    localStorage.setItem('lang',l);
+
     history.push('/');
   }
   return (
@@ -502,17 +505,17 @@ export default function Header() {
                       </a>
                     </li>
                     <li aria-haspopup="true">
-                      <NavLink onClick={Domain} className="slide-item" to="/Domain">
+                      <NavLink  className="slide-item" to="/Domain">
                         Domain
                       </NavLink>
                     </li>
                     <li aria-haspopup="true">
-                      <NavLink onClick={ClientConnections} className="slide-item" to="/ClientConnections">
+                      <NavLink className="slide-item" to="/ClientConnections">
                         Client Connections
                       </NavLink>
                     </li>
                     <li aria-haspopup="true">
-                      <NavLink onClick={TableData} className="slide-item" to="/TableData">
+                      <NavLink className="slide-item" to="/TableData">
                         Data Table
                       </NavLink>
                     </li>
@@ -540,8 +543,46 @@ export default function Header() {
                       <NavLink  className="" to="/pushpita">
                         Pushpita
                       </NavLink>
-                      <NavLink  className="" to="/routing">
-                        Routing
+                      
+                    </li>
+                    <li>
+                    <NavLink  className="" to="/group">
+                        Groups
+                      </NavLink>
+                    </li>
+                    <li>
+                    <NavLink  className="" to="/importcontects">
+                        ImportContects
+                      </NavLink>
+                    </li>
+                    <li>
+                    <NavLink  className="" to="/editcontect">
+                        Export Contect
+                      </NavLink>
+                    </li>
+                    <li>
+                    <NavLink  className="" to="/smsreport">
+                        SMS Report
+                      </NavLink>
+                    </li>
+                    <li>
+                    <NavLink  className="" to="/credit">
+                       Credit
+                      </NavLink>
+                    </li>
+                    <li>
+                    <NavLink  className="" to="/sendsms">
+                       Send SMS
+                      </NavLink>
+                    </li>
+                    <li>
+                    <NavLink  className="" to="/viewcredit">
+                       View Credit
+                      </NavLink>
+                    </li>
+                    <li>
+                    <NavLink  className="" to="/datatable">
+                        Datatable
                       </NavLink>
                     </li>
                   </ul>
