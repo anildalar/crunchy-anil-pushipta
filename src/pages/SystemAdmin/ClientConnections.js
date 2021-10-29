@@ -148,10 +148,9 @@ function ClientConnections() {
       .catch();
     }
   }
-
   const submit = (e)=>{
     e.preventDefault();
-    $('span.error').html('').prev().css('border','1px solid transparent');
+    $('span.error').html('').prev().css('border','1px solid #e1e5ef');
     try{  
       fetch(url+'/client/conn/create', {
         ...fetchOption,
@@ -448,7 +447,7 @@ function ClientConnections() {
                                   className="form-control form-control"
                                   placeholder={ t('Enquire Time') }
                                   type="number"
-                                  regex="^((25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$"
+                                  
                                 />
                                 <span class="error enqInterTime"></span>
                               </div>
