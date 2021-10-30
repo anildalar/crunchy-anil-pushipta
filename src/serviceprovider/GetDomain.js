@@ -1,6 +1,7 @@
 const { url, toDataUrl } = require("../helpers/helper");
 
-const data = { domain: window.location.hostname };
+// const data = { domain: window.location.hostname };
+const data = { domain: 'crunchysms.com' };
 
 function getDomain(){
     
@@ -9,7 +10,7 @@ function getDomain(){
         headers: {
             'Content-Type': 'application/json',
         },
-        body: JSON.stringify(data),
+        body: JSON.stringify(data.domain),
     })
     .then(response => response.json())
     .then(data => {

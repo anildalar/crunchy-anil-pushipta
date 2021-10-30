@@ -8,6 +8,7 @@ import Switch from "react-switch";
 import { useTranslation } from "react-i18next";
 import Layout from "../../component/Layout";
 import { BreadCrumb } from "../../component/UI/BreadCrumb";
+import swal from "sweetalert";
 //import Toast from "../../component/Toast";
 
 export default function Clinet_routing() {
@@ -16,18 +17,11 @@ export default function Clinet_routing() {
     const [Country, setCountry] = useState([]);
     const [productConn, setProductConn] = useState([]);
     const [tabdata, setTableData] = useState([])
-    const [updatTablDat, setUpdateTablDat] = useState({
-        "uuid": "",
-        "clientId": "6",
-        "connId": "",
-        "countyId": "",
-        "code": "",
-        "credit": "",
-        "checking": 0,
-        "bal": "",
-        "isAllow": ""
-    })
-    const [checked, setChecked] = useState(false)
+    // const [updatTablDat, setUpdateTablDat] = useState({
+      
+    //    "id":""
+    // })
+   
     const clientRef = useRef("");
     const productRef = useRef("");
     const countriesRef = useRef("");
@@ -37,6 +31,7 @@ export default function Clinet_routing() {
     const fixcreditref = useRef("");
     const prdtmodlref = useRef("");
     const isAllowref = useRef("");
+
     useEffect(() => {
         try {
             fetch(url + "/client/getClient", {
@@ -142,72 +137,103 @@ export default function Clinet_routing() {
         }
     }
     const editTable = (e) => {
-        prdtmodlref.current.value = e.target.closest("tr").querySelector('td:nth-child(1)').innerHTML
-        prefixref.current.value = e.target.closest("tr").querySelector('td:nth-child(2)').innerHTML
-        contryrefmod.current.value = e.target.closest("tr").querySelector('td:nth-child(3)').innerHTML
-        fixbalref.current.value = e.target.closest("tr").querySelector('td:nth-child(4)').innerHTML
-        fixcreditref.current.value = e.target.closest("tr").querySelector('td:nth-child(5)').innerHTML
-        isAllowref.current.value = e.target.closest("tr").querySelector('td:nth-child(8)').innerHTML
-        var uid = e.currentTarget.dataset.val
+        // prdtmodlref.current.value = e.target.closest("tr").querySelector('td:nth-child(1)').innerHTML
+        // prefixref.current.value = e.target.closest("tr").querySelector('td:nth-child(2)').innerHTML
+        // contryrefmod.current.value = e.target.closest("tr").querySelector('td:nth-child(3)').innerHTML
+        // fixbalref.current.value = e.target.closest("tr").querySelector('td:nth-child(4)').innerHTML
+        // fixcreditref.current.value = e.target.closest("tr").querySelector('td:nth-child(5)').innerHTML
+        // isAllowref.current.value = e.target.closest("tr").querySelector('td:nth-child(8)').innerHTML
+        // var uid = e.currentTarget.dataset.val
 
-        console.log(uid)
-        setUpdateTablDat({
-            ...updatTablDat,
-            "uuid": e.currentTarget.dataset.val,
-            "connId": prdtmodlref.current.value,
-            "countyId": contryrefmod.current.value,
-            "code": prefixref.current.value,
-            "credit": fixcreditref.current.value,
-            "bal": fixbalref.current.value,
-            "isAllow": isAllowref.current.value
-        })
-        //console.log(uid)
-        console.log(updatTablDat)
+        // console.log(uid)
+        // setUpdateTablDat({
+        //     ...updatTablDat,
+        //     "uuid": e.currentTarget.dataset.val,
+        //     "connId": prdtmodlref.current.value,
+        //     "countyId": contryrefmod.current.value,
+        //     "code": prefixref.current.value,
+        //     "credit": fixcreditref.current.value,
+        //     "bal": fixbalref.current.value,
+        //     "isAllow": isAllowref.current.value
+        // })
+        // //console.log(uid)
+        // console.log(updatTablDat)
     }
     const tbleDataUpdt = (e) => {
-        e.preventDefault();
-        setUpdateTablDat({ ...updatTablDat, [e.target.name]: e.target.value })
-        console.log(updatTablDat)
+        // e.preventDefault();
+        // setUpdateTablDat({ ...updatTablDat, [e.target.name]: e.target.value })
+        // console.log(updatTablDat)
     }
     const updateData = (e) => {
-        e.preventDefault();
-        fetch('http://192.168.1.52:3000/client/conn/routing/edit', {
-            ...fetchOption,
-            body: JSON.stringify(updatTablDat),
-        })
-            .then(response => response.json())
-            .then(data => {
-                console.log('UPDATE Success:', data);
-            })
-            .catch((error) => {
-                console.error('Error:', error);
-            });
+        // e.preventDefault();
+        // fetch('http://192.168.1.52:3000/client/conn/routing/edit', {
+        //     ...fetchOption,
+        //     body: JSON.stringify(updatTablDat),
+        // })
+        //     .then(response => response.json())
+        //     .then(data => {
+        //         console.log('UPDATE Success:', data);
+        //     })
+        //     .catch((error) => {
+        //         console.error('Error:', error);
+        //     });
     }
-    // // let handlCheck=(check) =>{
-    //     const memoizedHandleClick = useCallback(
 
-    //         (check,e,i) => {
-    //             // var uid = e.currentTarget.dataset.val
-    //           console.log('Click happened'+e+i);
-    //           setChecked(check)
-    //           console.log(checked)
-    //         },
-    //         [checked],
-    //     )
-    // // 
-    // // 
-    // //     // console.log(e.target)
-    // //   }
-    const toglehandle=(e)=>{
+
+    const allowHandle = (e) => {
         e.preventDefault()
-        // e.target
-console.log(e.target.toggle)
-    }
+        let id=e.currentTarget.dataset.id
+        let curval=e.currentTarget.dataset.value
+       try{
+            fetch(url + '/client/conn/routing/changeStatus', {
+                ...fetchOption,
+                body: JSON.stringify({"id":id ,"value":curval}),
+            }).then(response => response.json())
+                .then(data => {
+                    console.log('UPDATE Success:', data);
+                    if(data.status==200){
+                        if (parseInt(curval)) {
+                            e.target.closest('tr').querySelector('td.statusChg').querySelector('.badge.activeBtn').classList.remove('d-none')
+                            e.target.closest('tr').querySelector('td.statusChg').querySelector('.badge.inactiveBtn').classList.add('d-none')
+                            e.target.closest('td').querySelector('.btn-group .activeBtn').classList.add('d-none')
+                            e.target.closest('td').querySelector('.btn-group .inactiveBtn').classList.remove('d-none')
+                        } else {
+                            e.target.closest('tr').querySelector('td.statusChg').querySelector('.badge.activeBtn').classList.add('d-none')
+                            e.target.closest('tr').querySelector('td.statusChg').querySelector('.badge.inactiveBtn').classList.remove('d-none')
+                            e.target.closest('td').querySelector('.btn-group .activeBtn').classList.remove('d-none')
+                            e.target.closest('td').querySelector('.btn-group .inactiveBtn').classList.add('d-none')
+                        }
+                      swal(data.msg);
+                    }else if(data.status==403){
+                        toast.error(data.error.msg,
+                        {
+                            ...Toast,
+                            position: "top-right"
+                        })
+                    }else{
+                        toast.error("Technical error : ",
+                        {
+                            ...Toast,
+                            position: "top-right"
+                        })
+                    }
+                  })
+                .catch((error) => {
+                    console.error('Error:', error);
+                });
+    }catch(err){
+            toast.error("sever error",
+            {
+                ...Toast,
+                position: "top-right"
+            });
+        }
+   }
     return (
         <Layout>
             {/* <!-- Modal --> */}
-            <div className="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                <div className="modal-dialog modal-dialog-centered">
+            <div className="modal fade d-none" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div className="modal-dialog d-none modal-dialog-centered">
                     <div className="modal-content">
                         <div className="modal-header">
                             <h5 className="modal-title" id="exampleModalLabel">SMPP Connection</h5>
@@ -350,7 +376,7 @@ console.log(e.target.toggle)
                                                     <th className="wd-25p border-bottom-0">{t("CreateAt")}</th>
                                                     <th className="wd-25p border-bottom-0">{t("Update")}</th>
 
-                                                    <th className="wd-25p border-bottom-0">{t("IsAllow")}</th>
+                                                    <th className="wd-25p border-bottom-0">{t("Status")}</th>
                                                     <th className="wd-25p border-bottom-0">{t("Action")}</th>
 
                                                 </tr>
@@ -366,18 +392,17 @@ console.log(e.target.toggle)
                                                                 <td>{e.bal}</td>
                                                                 <td>{e.credit}</td>
                                                                 <td>{e.createdAt}</td>
-                                                                <td>{e.updateAt}</td>
+                                                                <td >{e.updateAt}</td>
 
-                                                                <td> <div onClick={toglehandle} class="main-toggle">
-                                                                    <span>
-                                                                        {/* ::before
-                                                                        ::after */}
-                                                                    </span>
-                                                                </div></td>
+                                                                <td className="statusChg"><span className={`badge rounded-pill bg-success activeBtn ${(e.isAllow == 1) ? '' : 'd-none'}`}>Active</span>
+                                                                    <span className={`badge rounded-pill bg-warning inactiveBtn ${(e.isAllow == 1) ? 'd-none' : ''}`}>Inactive</span></td>
                                                                 <td>
                                                                     <div className="btn-group btn-group-sm" role="group" aria-label="Basic example">
-                                                                        <button onClick={e => editTable(e)} data-val={e.uuid} type="button" className="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal"><i className="fas fa-pencil-alt"></i></button>
-                                                                        <button type="button" className="btn btn-danger"><i className="fas fa-trash"></i></button>
+                                                                        <button onClick={(e) => allowHandle(e)} type="button" className={`btn btn-success activeBtn ${(e.isAllow == 1) ? 'd-none' : ''}`} data-value="1" data-id={e.uuid}> <i className="fas fa-check"></i> </button >
+                                                                        <button onClick={e => allowHandle(e)} type="button" className={`btn btn-warning inactiveBtn ${(e.isAllow == 1) ? '' : 'd-none'}`} data-value="0" data-id={e.uuid}> <i className="fas fa-ban"></i></button>
+                                                                        <button type="button" className="btn btn-primary"  ><i className="fas fa-pencil-alt"></i></button>
+                                                                        {/*data-bs-toggle="modal" data-bs-target="#exampleModal"</div>*/}
+                                                                        <button type="button"  className="btn btn-danger"><i className="fas fa-trash"></i></button>
                                                                     </div>
                                                                 </td>
                                                             </tr>
