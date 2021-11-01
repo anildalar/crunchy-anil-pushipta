@@ -18,10 +18,10 @@ export default function Clinet_routing() {
     const [productConn, setProductConn] = useState([]);
     const [tabdata, setTableData] = useState([])
     // const [updatTablDat, setUpdateTablDat] = useState({
-      
+
     //    "id":""
     // })
-   
+
     const clientRef = useRef("");
     const productRef = useRef("");
     const countriesRef = useRef("");
@@ -107,7 +107,7 @@ export default function Clinet_routing() {
         e.preventDefault();
         setTableData([])
         try {
-            fetch(url + '/client/conn/routing', {
+            fetch(url + '/client/conn/routing/getByConn', {
                 ...fetchOption,
                 body: JSON.stringify({ "clientId": clientRef.current.value, "connId": productRef.current.value, "countyId": countriesRef.current.value }),
             }).then(response => response.json())
@@ -178,20 +178,18 @@ export default function Clinet_routing() {
         //         console.error('Error:', error);
         //     });
     }
-
-
-    const allowHandle = (e) => {
+    const editHandle = e => {
         e.preventDefault()
-        let id=e.currentTarget.dataset.id
-        let curval=e.currentTarget.dataset.value
-       try{
+        let id = e.currentTarget.dataset.id
+        let curval = e.currentTarget.dataset.value
+        try {
             fetch(url + '/client/conn/routing/changeStatus', {
                 ...fetchOption,
-                body: JSON.stringify({"id":id ,"value":curval}),
+                body: JSON.stringify({ "id": id, "value": curval }),
             }).then(response => response.json())
                 .then(data => {
                     console.log('UPDATE Success:', data);
-                    if(data.status==200){
+                    if (data.status == 200) {
                         if (parseInt(curval)) {
                             e.target.closest('tr').querySelector('td.statusChg').querySelector('.badge.activeBtn').classList.remove('d-none')
                             e.target.closest('tr').querySelector('td.statusChg').querySelector('.badge.inactiveBtn').classList.add('d-none')
@@ -203,32 +201,69 @@ export default function Clinet_routing() {
                             e.target.closest('td').querySelector('.btn-group .activeBtn').classList.remove('d-none')
                             e.target.closest('td').querySelector('.btn-group .inactiveBtn').classList.add('d-none')
                         }
-                      swal(data.msg);
-                    }else if(data.status==403){
+                        toast.success(data.msg,
+                            {
+                                ...Toast,
+                               position: "top-right",
+                            });
+                    } else if (data.status == 403) {
                         toast.error(data.error.msg,
-                        {
-                            ...Toast,
-                            position: "top-right"
-                        })
-                    }else{
+                            {
+                                ...Toast,
+                                position: "top-right"
+                            })
+                    } else {
                         toast.error("Technical error : ",
-                        {
-                            ...Toast,
-                            position: "top-right"
-                        })
+                            {
+                                ...Toast,
+                                position: "top-right"
+                            })
                     }
-                  })
+                })
                 .catch((error) => {
                     console.error('Error:', error);
                 });
-    }catch(err){
+        } catch (err) {
             toast.error("sever error",
-            {
-                ...Toast,
-                position: "top-right"
-            });
+                {
+                    ...Toast,
+                    position: "top-right"
+                });
         }
-   }
+    }
+    const deletHandle = e => {
+        e.preventDefault();
+        let id = e.currentTarget.dataset.uuid
+        fetch(url + '/client/conn/routing/delete', {
+            ...fetchOption,
+            body: JSON.stringify({ "id": id }),
+        })
+            .then(response => response.json())
+            .then(data => {
+                if (data.status == 200) {
+                    //swal(data.msg);
+                    toast.success(data.msg,
+                        {
+                            ...Toast,
+                           position: "top-right"
+                        });
+                } else if (data.status == 404) {
+                    toast.error(data.msg,
+                        {
+                            ...Toast,
+                            position: "top-right"
+                        });
+                } else if (data.status == 400) {
+                    toast.error(data.errors[0].msg,
+                        {
+                            ...Toast,
+                            position: "top-right"
+                        })
+                }
+            }).catch((error) => {
+                console.error('Error:', error);
+            });
+    }
     return (
         <Layout>
             {/* <!-- Modal --> */}
@@ -398,11 +433,11 @@ export default function Clinet_routing() {
                                                                     <span className={`badge rounded-pill bg-warning inactiveBtn ${(e.isAllow == 1) ? 'd-none' : ''}`}>Inactive</span></td>
                                                                 <td>
                                                                     <div className="btn-group btn-group-sm" role="group" aria-label="Basic example">
-                                                                        <button onClick={(e) => allowHandle(e)} type="button" className={`btn btn-success activeBtn ${(e.isAllow == 1) ? 'd-none' : ''}`} data-value="1" data-id={e.uuid}> <i className="fas fa-check"></i> </button >
-                                                                        <button onClick={e => allowHandle(e)} type="button" className={`btn btn-warning inactiveBtn ${(e.isAllow == 1) ? '' : 'd-none'}`} data-value="0" data-id={e.uuid}> <i className="fas fa-ban"></i></button>
+                                                                        <button onClick={(e) => editHandle(e)} type="button" className={`btn btn-success activeBtn ${(e.isAllow == 1) ? 'd-none' : ''}`} data-value="1" data-id={e.uuid}> <i className="fas fa-check"></i> </button >
+                                                                        <button onClick={e => editHandle(e)} type="button" className={`btn btn-warning inactiveBtn ${(e.isAllow == 1) ? '' : 'd-none'}`} data-value="0" data-id={e.uuid}> <i className="fas fa-ban"></i></button>
                                                                         <button type="button" className="btn btn-primary"  ><i className="fas fa-pencil-alt"></i></button>
                                                                         {/*data-bs-toggle="modal" data-bs-target="#exampleModal"</div>*/}
-                                                                        <button type="button"  className="btn btn-danger"><i className="fas fa-trash"></i></button>
+                                                                        <button onClick={(e) => deletHandle(e)} data-uuid={e.uuid} type="button" className="btn btn-danger"><i className="fas fa-trash"></i></button>
                                                                     </div>
                                                                 </td>
                                                             </tr>
