@@ -15,14 +15,17 @@ function SenderId_Rul() {
         EditorState.createEmpty()
     );
     const [data, setData] = useState([]);
-    const [hdleFld, setHdleFld] = useState({
-        "label": "",
-        "input_name": "",
-        "input_type": "",
-        "value": "",
-        "required": "",
-        "column": ""
-    })
+    const [hdleFld, setHdleFld] = useState([{
+        "label":"test",
+        "name":"tsdfsdf",
+        "type":"test",
+        "value":"fsdfd",
+        "required":"ddfs",
+        "column":"dfd",
+        "hid":"ddfd",
+        "did":"ddd"
+    }])
+    
     const [dataTable, setDataTable] = useState([])
     const [country, setCountry] = useState([])
     const [datasave, setDatasave] = useState({
@@ -171,13 +174,13 @@ function SenderId_Rul() {
                                                     <div className="col-sm-6">
                                                         <div className="form-group mb-2">
                                                             <label htmlFor="input_name">Input Name&nbsp;<sup className="text-danger">*</sup></label>
-                                                            <input onChange={e => addField(e)} type="text" name="input_name" id="input_name" required className="form-control form-control-lg" />
+                                                            <input onChange={e => addField(e)} type="text" name="name" id="input_name" required className="form-control form-control-lg" />
                                                         </div>
                                                     </div>
                                                     <div className="col-sm-6">
                                                         <div className="form-group mb-2">
                                                             <label htmlFor="input_type">Input Type&nbsp;<sup className="text-danger">*</sup></label>
-                                                            <select onChange={e => addField(e)} className="form-control form-control-lg" id="input_type" name="input_type" required>
+                                                            <select onChange={e => addField(e)} className="form-control form-control-lg" id="input_type" name="type" required>
                                                                 <option value="">Select one</option>
                                                                 <option value="text">Text</option>
                                                                 <option value="select">Select</option>
@@ -208,6 +211,12 @@ function SenderId_Rul() {
                                                             <label htmlFor="column">Grid column&nbsp;<sup className="text-danger">*</sup></label>
                                                             <input onChange={e => addField(e)} type="number" min={1} max={12} name="column" id="column" defaultValue={12} className="form-control form-control-lg" required />
                                                             <p className="mb-0">1-12</p>
+                                                        </div>
+                                                    </div>
+                                                    <div className="col-sm-6">
+                                                        <div className="form-group mb-2">
+                                                            <label htmlFor="column">Default Id&nbsp;<sup className="text-danger">*</sup></label>
+                                                            <input onChange={e => addField(e)} type="text" name="default" id="column" defaultValue={12} className="form-control form-control-lg" required />
                                                         </div>
                                                     </div>
                                                 </div></div>

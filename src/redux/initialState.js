@@ -1,6 +1,5 @@
 let initialState= {
-    token:'',
-    username:'Anil'
+    user:null
 }
 
 module.exports = initialState;

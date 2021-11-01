@@ -1,17 +1,21 @@
 const { LOGIN_ATTEMPT } = require("../constants/constants");
 const initialState = require("../initialState");
 
-let rootReducer = (newState = initialState,action)=>{
-    switch(action.type){
-      case LOGIN_ATTEMPT:
+let rootReducer = (state = initialState,action)=>{
+    switch (action.type) {
+      case "LOGIN":
         return {
-          ...newState,
-          token:newState.payload
-        }
-      case 2:
-        break;
+          ...state,
+          user: action.payload,
+        };
+      case "LOGOUT":
+        
+        return {
+          ...state,
+          user: null,
+        };
       default:
-        return newState;
+        return state;
     }
   }
 
