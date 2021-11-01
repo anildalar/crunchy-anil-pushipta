@@ -87,7 +87,7 @@ export default function Clinet_routing() {
             }).then((response) => response.json())
                 .then((data) => {
                     if (data.status == 200) {
-                        // console.log("Success:", data);
+                        console.log("Success:", data);
                         setProductConn(data.data);
                         // console.log(productConn);
                     } else {
@@ -182,7 +182,7 @@ export default function Clinet_routing() {
         e.preventDefault()
         let id = e.currentTarget.dataset.id
         let curval = e.currentTarget.dataset.value
-        try {
+       try {
             fetch(url + '/client/conn/routing/changeStatus', {
                 ...fetchOption,
                 body: JSON.stringify({ "id": id, "value": curval }),
@@ -204,7 +204,7 @@ export default function Clinet_routing() {
                         toast.success(data.msg,
                             {
                                 ...Toast,
-                               position: "top-right",
+                                position: "top-right",
                             });
                     } else if (data.status == 403) {
                         toast.error(data.error.msg,
@@ -234,35 +234,48 @@ export default function Clinet_routing() {
     const deletHandle = e => {
         e.preventDefault();
         let id = e.currentTarget.dataset.uuid
-        fetch(url + '/client/conn/routing/delete', {
-            ...fetchOption,
-            body: JSON.stringify({ "id": id }),
+        swal({
+            title: "Are you sure?",
+            text: "Once deleted, you will not be able to recover this imaginary file!",
+            icon: "warning",
+            buttons: true,
+            dangerMode: true,
         })
-            .then(response => response.json())
-            .then(data => {
-                if (data.status == 200) {
-                    //swal(data.msg);
-                    toast.success(data.msg,
-                        {
-                            ...Toast,
-                           position: "top-right"
+            .then((willDelete) => {
+                if (willDelete) {
+                    fetch(url + '/client/conn/routing/delete', {
+                        ...fetchOption,
+                        body: JSON.stringify({ "id": id }),
+                    })
+                        .then(response => response.json())
+                        .then(data => {
+                            if (data.status == 200) {
+                                //swal(data.msg);
+                                e.target.closest("tr").classList.add("d-none")
+                                toast.success(data.msg,
+                                    {
+                                        ...Toast,
+                                        position: "top-right"
+                                    });
+                                    console.log(e.target.closest("td"))
+                            } else if (data.status == 404) {
+                                toast.error(data.msg,
+                                    {...Toast,
+                                        position: "top-right"
+                                    });
+                            } else if (data.status == 400) {
+                                
+                                toast.error(data.errors[0].msg,
+                                    { ...Toast,
+                                        position: "top-right"
+                                    })
+                            }
+                        }).catch((error) => {
+                            console.error('Error:', error);
                         });
-                } else if (data.status == 404) {
-                    toast.error(data.msg,
-                        {
-                            ...Toast,
-                            position: "top-right"
-                        });
-                } else if (data.status == 400) {
-                    toast.error(data.errors[0].msg,
-                        {
-                            ...Toast,
-                            position: "top-right"
-                        })
                 }
-            }).catch((error) => {
-                console.error('Error:', error);
             });
+
     }
     return (
         <Layout>
@@ -338,7 +351,7 @@ export default function Clinet_routing() {
                                 </div>
                                 <div className="card-body bg-white">
                                     <form method="post" onSubmit={(e) => { submitData(e) }}>
-                                        <ToastContainer />
+
                                         <input type="hidden" name="csrf_test_name" />
                                         <div className="row row-sm">
                                             <div className="col-sm-3">
@@ -355,12 +368,12 @@ export default function Clinet_routing() {
                                             </div>
                                             <div className="col-sm-3">
                                                 <div className="form-group">
-                                                    <label htmlFor="product_idv">{t("Products")}</label>
+                                                    <label htmlFor="product_idv">{t("Connection")}</label>
                                                     <select ref={productRef} className="form-control" id="product_idv" name="product_id" >
-                                                        <option value="">{t("Select Product")}</option>
+                                                        <option value="">{t(" select Connection")}</option>
                                                         {productConn.map((e, index) => {
                                                             return (
-                                                                <option key={index} value={e.id}>{e.createdAt}</option>
+                                                                <option key={index} value={e.id}>{e.routeName + " " + "(" + e.routeTypeName + ")"}</option>
                                                             );
                                                         })}
                                                     </select>
@@ -403,7 +416,7 @@ export default function Clinet_routing() {
                                         <table className="table text-md-nowrap" id="example1">
                                             <thead>
                                                 <tr>
-                                                    <th className="wd-15p border-bottom-0">{t("Products")}</th>
+                                                    <th className="wd-15p border-bottom-0">{t("No.")}</th>
                                                     <th className="wd-15p border-bottom-0">{t("Prefix")}</th>
                                                     <th className="wd-20p border-bottom-0">{t("Country")}</th>
                                                     <th className="wd-15p border-bottom-0">{t("Balance")}</th>
@@ -418,10 +431,10 @@ export default function Clinet_routing() {
                                             </thead>
                                             <tbody>
                                                 {
-                                                    tabdata.map((e) => {
+                                                    tabdata.map((e, i) => {
                                                         return (
                                                             <tr>
-                                                                <td>{e.connId}</td>
+                                                                <td>{i + 1}</td>
                                                                 <td>{e.code}</td>
                                                                 <td>{e.countyId}</td>
                                                                 <td>{e.bal}</td>
@@ -437,7 +450,7 @@ export default function Clinet_routing() {
                                                                         <button onClick={e => editHandle(e)} type="button" className={`btn btn-warning inactiveBtn ${(e.isAllow == 1) ? '' : 'd-none'}`} data-value="0" data-id={e.uuid}> <i className="fas fa-ban"></i></button>
                                                                         <button type="button" className="btn btn-primary"  ><i className="fas fa-pencil-alt"></i></button>
                                                                         {/*data-bs-toggle="modal" data-bs-target="#exampleModal"</div>*/}
-                                                                        <button onClick={(e) => deletHandle(e)} data-uuid={e.uuid} type="button" className="btn btn-danger"><i className="fas fa-trash"></i></button>
+                                                                        <button onClick={(e) => deletHandle(e)} data-uuid={e.uuid} type="button" className="btn btn-danger deletBtn"><i className="fas fa-trash"></i></button>
                                                                     </div>
                                                                 </td>
                                                             </tr>

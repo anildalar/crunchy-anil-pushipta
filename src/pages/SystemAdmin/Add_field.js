@@ -34,8 +34,9 @@ function Add_field() {
                 ...fetchOption,
             }).then((response) => response.json())
                 .then((data) => {
+                    console.log("Success:", data);
                     if (data.status === 200) {
-                        // console.log("Success:", data);
+                        console.log("Success:", data);
                         setClient(data.data);
                         // console.log(client)
                     } else {
@@ -79,7 +80,7 @@ function Add_field() {
     const handleChange = (e) => {
         e.preventDefault();
         if (e.target.value != '') {
-            
+
             setRouting({ ...routing, [e.target.name]: e.target.value })
             let id = e.target.value;
             setProductConn([]);
@@ -89,7 +90,7 @@ function Add_field() {
                     body: JSON.stringify({ clientId: id }),
                 }).then((response) => response.json())
                     .then((data) => {
-                        if (data.status === 200) {
+                        if (data.status == 200) {
                             console.log("Success:", data);
                             setProductConn(data.data);
                             console.log(productConn);
@@ -132,7 +133,7 @@ function Add_field() {
         }
     }
     const handleCheck = (e) => {
-        let  b=Number(e.target.checked).toString()
+        let b = Number(e.target.checked).toString()
         setRouting({ ...routing, [e.target.name]: b })
     }
     const handlerouting = (e) => {
@@ -157,7 +158,11 @@ function Add_field() {
                         swal("Success!");
                         document.getElementById("myForm").reset();
                     } else if (data.status == 404) {
-                        swal(data.msg);
+                        toast.error(data.msg,
+                            {
+                                ...Toast,
+                                position: "top-right"
+                            })
                     } else if (data.status == 400) {
                         data.errors.forEach(function (arrayItem) {
                             $('[name=' + arrayItem.param + ']').css("border", "1px solid red").siblings('span.text-danger').html(arrayItem.msg);
@@ -204,7 +209,7 @@ function Add_field() {
                                                         <option value="">{t("Select Product")}</option>
                                                         {productConn.map((e, index) => {
                                                             return (
-                                                                <option key={index} data-billmode={e.billMode} value={e.id}>{e.createdAt}</option>
+                                                                <option key={index} data-billmode={e.billMode} value={e.id}>{e.routeName + " "}{"(" + e.routeTypeName + ")"}</option>
                                                             );
                                                         })}
                                                     </select>
