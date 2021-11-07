@@ -1,20 +1,20 @@
-import React from 'react';
-import { useHistory } from 'react-router';
-import { NavLink } from 'react-router-dom';
-import ClientConnections from '../pages/SystemAdmin/ClientConnections';
-import TableData from '../pages/SystemAdmin/TableData';
-import Domain from "./Domain"
-import CountryDropDown from './UI/CountryDropDown';
+import React from "react";
+import { useHistory } from "react-router";
+import { NavLink } from "react-router-dom";
+import ClientConnections from "../pages/SystemAdmin/ClientConnections";
+import TableData from "../pages/SystemAdmin/TableData";
+import Domain from "./Domain";
+import CountryDropDown from "./UI/CountryDropDown";
 export default function Header() {
   const history = useHistory();
   const Logout = (e) => {
-    e.preventDefault(); 
-    var l = localStorage.getItem('lang')
+    e.preventDefault();
+    var l = localStorage.getItem("lang");
     localStorage.clear();
-    localStorage.setItem('lang',l);
+    localStorage.setItem("lang", l);
 
-    history.push('/');
-  }
+    history.push("/");
+  };
   return (
     <React.Fragment>
       <div className="main-header nav nav-item hor-header">
@@ -23,21 +23,24 @@ export default function Header() {
             <a className="animated-arrow hor-toggle horizontal-navtoggle">
               <span />
             </a>
-            <NavLink className="header-brand" to={"/"+localStorage.getItem('role')+"/dashboard"}>
+            <NavLink
+              className="header-brand"
+              to={"/" + localStorage.getItem("role") + "/dashboard"}
+            >
               <img
-                src={ localStorage.getItem('logo') }
+                src={localStorage.getItem("logo")}
                 className="desktop-dark"
               />
               <img
-                src={ localStorage.getItem('logo') }
+                src={localStorage.getItem("logo")}
                 className="desktop-logo"
               />
               <img
-                src={ localStorage.getItem('logo') }
+                src={localStorage.getItem("logo")}
                 className="desktop-logo-1"
               />
               <img
-                src={ localStorage.getItem('logo') }
+                src={localStorage.getItem("logo")}
                 className="desktop-logo-dark"
               />
             </NavLink>
@@ -192,9 +195,7 @@ export default function Header() {
                         <div className="d-flex">
                           <h5 className="mb-1 name">Donatella Nobatti</h5>
                         </div>
-                        <p className="mb-0 desc">
-                          Here are some products ...
-                        </p>
+                        <p className="mb-0 desc">Here are some products ...</p>
                         <p className="time mb-0 text-start float-start ms-2 mt-2">
                           Feb 12 05:12 PM
                         </p>
@@ -265,9 +266,7 @@ export default function Header() {
                         <h5 className="notification-label mb-1">
                           New files available
                         </h5>
-                        <div className="notification-subtext">
-                          10 hour ago
-                        </div>
+                        <div className="notification-subtext">10 hour ago</div>
                       </div>
                       <div className="ms-auto">
                         <i className="las la-angle-right text-end text-muted" />
@@ -470,8 +469,7 @@ export default function Header() {
                       />
                       <path d="M18 8h-1V6c0-2.76-2.24-5-5-5S7 3.24 7 6v2H6c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V10c0-1.1-.9-2-2-2zM9 6c0-1.66 1.34-3 3-3s3 1.34 3 3v2H9V6zm9 14H6V10h12v10zm-6-3c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2z" />
                     </svg>{" "}
-                    Custom{" "}
-                    <i className="fe fe-chevron-down horizontal-icon" />
+                    Custom <i className="fe fe-chevron-down horizontal-icon" />
                   </a>
                   <ul className="sub-menu">
                     <li aria-haspopup="true">
@@ -505,7 +503,7 @@ export default function Header() {
                       </a>
                     </li>
                     <li aria-haspopup="true">
-                      <NavLink  className="slide-item" to="/Domain">
+                      <NavLink className="slide-item" to="/Domain">
                         Domain
                       </NavLink>
                     </li>
@@ -540,48 +538,47 @@ export default function Header() {
                   </a>
                   <ul className="sub-menu">
                     <li aria-haspopup="true">
-                      <NavLink  className="" to="/pushpita">
+                      <NavLink className="" to="/pushpita">
                         Pushpita
                       </NavLink>
-                      
                     </li>
                     <li>
-                    <NavLink  className="" to="/group">
+                      <NavLink className="" to="/group">
                         Groups
                       </NavLink>
                     </li>
                     <li>
-                    <NavLink  className="" to="/importcontects">
+                      <NavLink className="" to="/importcontects">
                         ImportContects
                       </NavLink>
                     </li>
                     <li>
-                    <NavLink  className="" to="/editcontect">
+                      <NavLink className="" to="/editcontect">
                         Export Contect
                       </NavLink>
                     </li>
                     <li>
-                    <NavLink  className="" to="/smsreport">
+                      <NavLink className="" to="/smsreport">
                         SMS Report
                       </NavLink>
                     </li>
                     <li>
-                    <NavLink  className="" to="/credit">
-                       Credit
+                      <NavLink className="" to="/credit">
+                        Credit
                       </NavLink>
                     </li>
                     <li>
-                    <NavLink  className="" to="/sendsms">
-                       Send SMS
+                      <NavLink className="" to="/sendsms">
+                        Send SMS
                       </NavLink>
                     </li>
                     <li>
-                    <NavLink  className="" to="/viewcredit">
-                       View Credit
+                      <NavLink className="" to="/viewcredit">
+                        View Credit
                       </NavLink>
                     </li>
                     <li>
-                    <NavLink  className="" to="/datatable">
+                      <NavLink className="" to="/datatable">
                         Datatable
                       </NavLink>
                     </li>
@@ -601,30 +598,52 @@ export default function Header() {
                       />
                       <path d="M18 8h-1V6c0-2.76-2.24-5-5-5S7 3.24 7 6v2H6c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V10c0-1.1-.9-2-2-2zM9 6c0-1.66 1.34-3 3-3s3 1.34 3 3v2H9V6zm9 14H6V10h12v10zm-6-3c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2z" />
                     </svg>{" "}
-                    Antim{" "}
-                    <i className="fe fe-chevron-down horizontal-icon" />
+                    Antim <i className="fe fe-chevron-down horizontal-icon" />
                   </a>
                   <ul className="sub-menu">
                     <li aria-haspopup="true">
-                      <NavLink  className="" to="/Smmp">
+                      <NavLink className="" to="/Smmp">
                         SMMP
                       </NavLink>
-                      <NavLink  className="" to="/Vendercreate">
-                      Vendercreate
+                      <NavLink className="" to="/Vendercreate">
+                        Vendercreate
                       </NavLink>
-                      <NavLink  className="" to="/Clinet_routing">
-                      Clinet_routing
+                      <NavLink className="" to="/Clinet_routing">
+                        Clinet_routing
                       </NavLink>
-                      <NavLink  className="" to="/SenderId_Rul">
-                      SenderId_Rul
+                      <NavLink className="" to="/SenderId_Rul">
+                        SenderId_Rul
                       </NavLink>
-                      <NavLink  className="" to="/smsreports">
-                      Smsreports
+                      <NavLink className="" to="/smsreports">
+                        Smsreports
                       </NavLink>
-                      <NavLink  className="" to="/languages">
-                      Languages
+                      <NavLink className="" to="/languages">
+                        Languages
                       </NavLink>
-                     
+                    </li>
+                  </ul>
+                </li>
+                <li aria-haspopup="true">
+                  <a href="#" className="sub-icon">
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      className="side-menu__icon"
+                      viewBox="0 0 24 24"
+                    >
+                      <path d="M0 0h24v24H0V0z" fill="none" />
+                      <path
+                        d="M6 20h12V10H6v10zm6-7c1.1 0 2 .9 2 2s-.9 2-2 2-2-.9-2-2 .9-2 2-2z"
+                        opacity=".3"
+                      />
+                      <path d="M18 8h-1V6c0-2.76-2.24-5-5-5S7 3.24 7 6v2H6c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V10c0-1.1-.9-2-2-2zM9 6c0-1.66 1.34-3 3-3s3 1.34 3 3v2H9V6zm9 14H6V10h12v10zm-6-3c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2z" />
+                    </svg>{" "}
+                    Krishna <i className="fe fe-chevron-down horizontal-icon" />
+                  </a>
+                  <ul className="sub-menu">
+                    <li aria-haspopup="true">
+                      <NavLink className="" to="/Smmp">
+                        SMMP
+                      </NavLink>
                     </li>
                   </ul>
                 </li>
@@ -634,5 +653,5 @@ export default function Header() {
         </div>
       </div>
     </React.Fragment>
-  )
+  );
 }

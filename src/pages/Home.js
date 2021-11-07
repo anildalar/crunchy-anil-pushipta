@@ -43,7 +43,7 @@ function Home(props) {
         let data = {
             userName: userName,
             password: password,
-            domainId: localStorage.getItem('domainId')
+            domainId:1
         }
     
         fetch(url+'/auth/login', {
