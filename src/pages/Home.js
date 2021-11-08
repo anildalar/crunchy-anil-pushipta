@@ -13,7 +13,8 @@ import i18n from '../i18n';
 
 import GetDomain from '../serviceprovider/GetDomain';
 import CountryDropDown from '../component/UI/CountryDropDown';
-import { url } from '../helpers/helper';
+import { fetchOption, url } from '../url';
+
 
 
 
@@ -47,10 +48,7 @@ function Home(props) {
         }
     
         fetch(url+'/auth/login', {
-            method: 'POST', // or 'PUT'
-            headers: {
-                'Content-Type': 'application/json',
-            },
+            ...fetchOption,
             body: JSON.stringify(data)
         })
             .then(response => response.json())
