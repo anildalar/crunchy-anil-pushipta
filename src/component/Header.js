@@ -611,6 +611,9 @@ function Header(props) {
                       <NavLink  className="" to="/SenderId_Rul">
                       SenderId_Rul
                       </NavLink>
+                      <NavLink  className="" to="/Venders">
+                      Venders
+                      </NavLink>
                       <NavLink  className="" to="/smsreports">
                       Smsreports
                       </NavLink>

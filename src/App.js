@@ -29,6 +29,7 @@ import SenderId_Rul from "./pages/SystemAdmin/SenderId_Rul";
 import Add_field from "./pages/SystemAdmin/Add_field";
 import Smsreports from "./pages/SystemAdmin/Smsreports";
 import Languages from "./pages/SystemAdmin/Languages";
+import Venders from "./pages/SystemAdmin/Venders";
 
 export default function App() {
   var comp,role = localStorage.getItem('role');
@@ -91,6 +92,7 @@ export default function App() {
         <Route path="/Clinet_routing" component={ Clinet_routing }></Route>
         <Route path="/Add_field" component={ Add_field }></Route>
         <Route path="/SenderId_Rul" component={ SenderId_Rul }></Route>
+        <Route path="/Venders" component={ Venders }></Route>
         <Route path="/smsreports" component={ Smsreports }></Route>
         <Route path="/languages" component={ Languages }></Route>
 
