@@ -9,7 +9,7 @@
 
 
 
-const url = 'http://192.168.1.47:3000'
+const url = 'http://173.249.39.43:3000'
 
 
 const fetchOption = {

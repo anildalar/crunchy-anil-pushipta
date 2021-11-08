@@ -29,7 +29,7 @@ function ClientConnections() {
                                     "addrNPI":"",
                                     "addrRange":"",
                                     "priority":"",
-                                    "logLevel":"1",
+                                    "logLevel":"",
                                     "sysType":"",
                                     "dsc":"",
                                     "smsCapacity":"",
@@ -72,7 +72,7 @@ function ClientConnections() {
     //const setCurrencies
     
     //get Route Type
-    fetch(url+'/master/route/getRouteType',{
+    fetch(url + '/master/route/getRouteType',{
       ...fetchOption
     })
     .then(response => response.json())
@@ -88,7 +88,7 @@ function ClientConnections() {
     .catch();
 
     //get Route Type
-    fetch(url+'/master/get/currencies',{
+    fetch(url + '/master/get/currencies',{
       ...fetchOption
     })
     .then(response => response.json())
@@ -131,7 +131,7 @@ function ClientConnections() {
     if(e.target.value && e.target.name != 'billmode'){
       console.log(e.target.value);
       console.log(e.target.name);
-      fetch(url+'/master/route/routesByType',{
+      fetch(url +'/master/route/routesByType',{
         ...fetchOption,
         body: JSON.stringify({
                               "routeType":e.target.value
@@ -154,7 +154,7 @@ function ClientConnections() {
     e.preventDefault();
     $('span.error').html('').prev().css('border','1px solid transparent');
     try{  
-      fetch(url+'/client/conn/create', {
+      fetch(url +'/client/conn/create', {
         ...fetchOption,
         body: JSON.stringify(submitData),
       })
@@ -181,6 +181,13 @@ function ClientConnections() {
     }catch(e){
 
     }
+  }
+  const collectdata=(e)=>{
+    setSubmitData({...submitData,[e.target.name]:e.target.value})
+  }
+  const onclick=(e)=>{
+    e.preventDefault();
+    console.log(submitData)
   }
   const { t } = useTranslation();
   return (
@@ -252,6 +259,8 @@ function ClientConnections() {
                                   ref={ credits }
                                   disabled
                                   readOnly
+                                  name="credits"
+                                  
                                 />
                                 <span class="error credits"></span>
                               </div>
@@ -262,6 +271,8 @@ function ClientConnections() {
                                   placeholder={t('Balance')}
                                   type="number"
                                   ref={ balance }
+                                  name="balance"
+                                  onChange={e=>collectdata(e)}
                                   disabled
                                   readOnly
                                 />
@@ -273,6 +284,8 @@ function ClientConnections() {
                                   ref={ currency } 
                                   options={currencies} 
                                   isDisabled={isDisabled}
+                                  name="currency"
+                                  onChange={e=>collectdata(e)}
                                 />
                                 <span class="error currency"></span>
                               </div>
@@ -280,7 +293,8 @@ function ClientConnections() {
                                 <p className="mg-b-10">{ t('Charge Type') }</p>
                                 <Select 
                                   name="chargeType"
-                                  options={ ChargeType } 
+                                  options={ ChargeType }
+
                                   onChange={e => handleChange2(e)}
                                 />
                                 <span class="error chargeType"></span>
@@ -291,6 +305,9 @@ function ClientConnections() {
                                   className="form-control form-control"
                                   placeholder={t('Username')}
                                   type="number"
+                                  name="username"
+                                  onChange={e=>collectdata(e)}
+
                                 />
                                 <span class="error userName"></span>
                               </div>
@@ -300,6 +317,8 @@ function ClientConnections() {
                                   className="form-control form-control"
                                   placeholder={ t('SMPP Password') }
                                   type="number"
+                                  name="password"
+                                  onChange={e=>collectdata(e)}
                                 />
                                 <span class="error password"></span>
                               </div>
@@ -309,12 +328,17 @@ function ClientConnections() {
                                   className="form-control form-control"
                                   placeholder={ t('Port')}
                                   type="number"
+                                  name="port"
+                                  onChange={e=>collectdata(e)}
                                 />
                                 <span class="error port"></span>
                               </div>
                               <div className="col-lg-4 col-xl-4 col-md-4 col-sm-4 mb-3">
                                 <p className="mg-b-10">{t('Bind Type')}</p>
-                                <Select options={BindType} />
+                                <Select options={BindType}
+                                name="bindType"
+                                onChange={e=>collectdata(e)}
+                                 />
                                 <span class="error bindType"></span>
                               </div>
                               <div className="col-lg-4 col-xl-4 col-md-4 col-sm-4 mb-3">
@@ -323,6 +347,8 @@ function ClientConnections() {
                                   className="form-control form-control"
                                   placeholder={t('System Type')}
                                   type="text"
+                                  name="sysType"
+                                  onChange={e=>collectdata(e)}
                                 />
                                 <span class="error sysType"></span>
                               </div>
@@ -340,6 +366,8 @@ function ClientConnections() {
                                   className="form-control form-control"
                                   placeholder={ t('addrTON') }
                                   type="number"
+                                  name="addrTON"
+                                  onChange={e=>collectdata(e)}
                                 />
                                 <span class="error addrTON"></span>
                               </div>
@@ -356,6 +384,8 @@ function ClientConnections() {
                                   className="form-control form-control"
                                   placeholder={ t('addrNPI') }
                                   type="number"
+                                  name="addrNPI"
+                                  onChange={e=>collectdata(e)}
                                 />
                                 <span class="error addrNPI"></span>
                               </div>
@@ -365,6 +395,8 @@ function ClientConnections() {
                                   className="form-control form-control"
                                   placeholder={t('Address Range')}
                                   type="number"
+                                  name="addrRange"
+                                  onChange={e=>collectdata(e)}
                                 />
                                 <span class="error addrRange"></span>
                               </div>
@@ -374,12 +406,17 @@ function ClientConnections() {
                                   className="form-control form-control"
                                   placeholder={t('Priority')}
                                   type="number"
+                                  name="priority"
+                                  onChange={e=>collectdata(e)}
                                 />
                                 <span class="error priority"></span>
                               </div>
                               <div className="col-lg-4 col-xl-4 col-md-4 col-sm-4 mb-3">
                                 <p className="mg-b-10">{t('Log Level')}</p>
-                                <Select options={LogLevels} />
+                                <Select options={LogLevels } 
+                                 name="logLevel"
+                                 onChange={e=>collectdata(e)}
+                                 />
                                 <span class="error logLevel"></span>
                               </div>
                               
@@ -396,6 +433,8 @@ function ClientConnections() {
                                   className="form-control form-control"
                                   placeholder={t('DCS')}
                                   type="number"
+                                  name="dsc"
+                                  onChange={e=>collectdata(e)}
                                 />
                                 <span class="error dsc"></span>
                               </div>
@@ -405,13 +444,18 @@ function ClientConnections() {
                                   className="form-control form-control"
                                   placeholder={t('SMS Capacity')}
                                   type="number"
+                                  name="smsCapacity"
+                                  onChange={e=>collectdata(e)}
                                 />
                                 <span class="error smsCapacity"></span>
                               </div>
                               
                               <div className="col-lg-4 col-xl-4 col-md-4 col-sm-4 mb-3">
                                 <p className="mg-b-10">{t('Is PayLoad')}</p>
-                                <Select options={yesNo} />
+                                <Select options={yesNo}
+                                name="isPayLoad"
+                                onChange={e=>collectdata(e)}
+                                />
 
                                 <span class="error isPayLoad"></span>
                               </div>
@@ -422,6 +466,8 @@ function ClientConnections() {
                                   placeholder={ t('Allowed Connection') }
                                   type="number"
                                   value="10"
+                                  name="allowConn"
+                                onChange={e=>collectdata(e)}
                                 />
                                 <span class="error allowConn"></span>
                               </div>
@@ -583,6 +629,8 @@ function ClientConnections() {
                       <div>
                         <button type="submit" className="btn btn-success me-2">Save</button>
                       </div>
+                      <button onClick={onclick} className="btn btn-success me-2">check</button>
+
                     </div>
                   </form>
                 </div>
