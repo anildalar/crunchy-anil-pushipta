@@ -17,18 +17,20 @@ function SenderId_Rul() {
     const [data, setData] = useState([]);
     const [hdleFld, setHdleFld] = useState({
         "label": "",
-        "input_name": "",
-        "input_type": "",
+        "name": "",
+        "type": "",
         "value": "",
         "required": "",
-        "column": ""
+        "column": "",
+        "hid": "",
+        "did": ""
     })
     const [dataTable, setDataTable] = useState([])
     const [country, setCountry] = useState([])
     const [datasave, setDatasave] = useState({
-        "country_id": "",
-        "sendr_set": "",
-        
+        "countryid": "",
+        "dynamic": "",
+        "custTlv": []
     })
     useEffect(() => {
         try {
@@ -66,22 +68,50 @@ function SenderId_Rul() {
         e.preventDefault();
         setData([...data, hdleFld]);
         setDataTable(data);
+
     }
     const onEditorStateChange = (editorState) => {
-        setEditorState(editorState );
-        let descr= convertToRaw(editorState.getCurrentContent()).blocks[0].text
-        setDatasave({...datasave,descr})
-        
-      };
-    const handledata=(e)=>{
+        setEditorState(editorState);
+        let description = convertToRaw(editorState.getCurrentContent()).blocks[0].text
+        setDatasave({ ...datasave, description })
+
+    };
+    const handledata = (e) => {
         e.preventDefault();
-        setDatasave({...datasave,[e.target.name]:e.target.value})
-       
+        setDatasave({ ...datasave, [e.target.name]: e.target.value })
+
     }
-    const clicked=(e)=>{
+    const handDcimalFild = (e) => {
         e.preventDefault();
-        setDatasave({...datasave,...hdleFld})
-        console.log(datasave) 
+        let a = (e.target.value)
+
+        if (e.target.value > 0) {
+            const b = Math.abs(a).toString(16)
+            // console.log(b)
+            setHdleFld({ ...hdleFld, "did": a, "hid": b })
+        }
+        // console.log(hdleFld)
+    }
+    const clicked = (e) => {
+        e.preventDefault();
+        let col = datasave.custTlv.push(hdleFld)
+        //    const col1= col.push(hdleFld)
+        console.log(col)
+        setDatasave({ ...datasave, ...col })
+        console.log(datasave)
+
+        fetch(url +'/master/senderIdRules/create', {
+           ...fetchOption,
+            body: JSON.stringify(datasave),
+        })
+            .then(response => response.json())
+            .then(data => {
+                console.log('Success:', data);
+            })
+            .catch((error) => {
+                console.error('Error:', error);
+            });
+
     }
     return (
         <Layout>
@@ -102,7 +132,7 @@ function SenderId_Rul() {
                                             <div className="col-sm-12">
                                                 <div className="form-group mb-3">
                                                     <label htmlFor="country_id">Country&nbsp;<sup className="text-danger">*</sup></label>
-                                                    <select onChange={e=>handledata(e)} className="form-control " id="country_id" name="country_id" required="required">
+                                                    <select onChange={e => handledata(e)} className="form-control " id="country_id" name="countryid" required="required">
                                                         <option value="">Select Country</option>
                                                         {country.map((e, index) => {
                                                             return (
@@ -116,7 +146,7 @@ function SenderId_Rul() {
                                             <div className="col-sm-12">
                                                 <div className="form-group mb-3">
                                                     <label htmlFor="senderid_setting">Sender id setting&nbsp;<sup className="text-danger">*</sup></label>
-                                                    <select onChange={e=>handledata(e)} className="form-control " id="senderid_setting" name="sendr_set" required="required">
+                                                    <select onChange={e => handledata(e)} className="form-control " id="senderid_setting" name="dynamic" required="required">
                                                         <option value="">Select Country</option>
                                                         <option value={0}>Dynamic</option>
                                                         <option value={1}>Verification</option>
@@ -125,11 +155,11 @@ function SenderId_Rul() {
                                                     <span>Description</span>
                                                     <div style={{ border: "1px solid black", padding: '2px', minHeight: '300px' }}>
                                                         <Editor
-                                                             editorState={editorState}
-                                                             toolbarClassName="toolbarClassName"
-                                                             wrapperClassName="wrapperClassName"
-                                                             editorClassName="editorClassName"
-                                                             onEditorStateChange={onEditorStateChange}
+                                                            editorState={editorState}
+                                                            toolbarClassName="toolbarClassName"
+                                                            wrapperClassName="wrapperClassName"
+                                                            editorClassName="editorClassName"
+                                                            onEditorStateChange={onEditorStateChange}
                                                         />
                                                     </div>
                                                 </div>
@@ -171,13 +201,13 @@ function SenderId_Rul() {
                                                     <div className="col-sm-6">
                                                         <div className="form-group mb-2">
                                                             <label htmlFor="input_name">Input Name&nbsp;<sup className="text-danger">*</sup></label>
-                                                            <input onChange={e => addField(e)} type="text" name="input_name" id="input_name" required className="form-control form-control-lg" />
+                                                            <input onChange={e => addField(e)} type="text" name="name" id="input_name" required className="form-control form-control-lg" />
                                                         </div>
                                                     </div>
                                                     <div className="col-sm-6">
                                                         <div className="form-group mb-2">
                                                             <label htmlFor="input_type">Input Type&nbsp;<sup className="text-danger">*</sup></label>
-                                                            <select onChange={e => addField(e)} className="form-control form-control-lg" id="input_type" name="input_type" required>
+                                                            <select onChange={e => addField(e)} className="form-control form-control-lg" id="input_type" name="type" required>
                                                                 <option value="">Select one</option>
                                                                 <option value="text">Text</option>
                                                                 <option value="select">Select</option>
@@ -208,6 +238,13 @@ function SenderId_Rul() {
                                                             <label htmlFor="column">Grid column&nbsp;<sup className="text-danger">*</sup></label>
                                                             <input onChange={e => addField(e)} type="number" min={1} max={12} name="column" id="column" defaultValue={12} className="form-control form-control-lg" required />
                                                             <p className="mb-0">1-12</p>
+                                                        </div>
+                                                    </div>
+                                                    <div className="col-sm-6">
+                                                        <div className="form-group mb-2">
+                                                            <label htmlFor="column">TlVD&nbsp;<sup className="text-danger">*</sup></label>
+                                                            <input onChange={e => handDcimalFild(e)} type="number" name="column" id="column" className="form-control form-control-lg" required />
+
                                                         </div>
                                                     </div>
                                                 </div></div>
@@ -241,17 +278,27 @@ function SenderId_Rul() {
                                         <div class="card-body">
                                             <div class="table-responsive">
                                                 <table class="table table-striped">
+                                                    <thead>
+                                                        <tr>
+                                                            <th className="wd-15p border-bottom-0">Input Label</th>
+                                                            <th className="wd-15p border-bottom-0">Input_name</th>
+                                                            <th className="wd-20p border-bottom-0">Input Type</th>
+                                                            <th className="wd-15p border-bottom-0">Input Value</th>
+                                                            <th className="wd-10p border-bottom-0">Required</th>
+                                                            <th className="wd-25p border-bottom-0">Grid column</th>
+                                                        </tr>
+                                                    </thead>
                                                     <tbody id="dy-tbl">
-                                                        {dataTable.map((e, index) => {
 
+                                                        {dataTable.map((e, index) => {
                                                             return (
                                                                 <tr key={index}>
-                                                                    <td> Input Label-{e.label}</td>
-                                                                    <td>Input_name-{e.input_name}</td>
-                                                                    <td>Input Type-{e.input_type}</td>
-                                                                    <td>Input Value-{e.value}</td>
-                                                                    <td>Required-{e.required}</td>
-                                                                    <td>Grid column-{e.column}</td>
+                                                                    <td>{e.label}</td>
+                                                                    <td>{e.name}</td>
+                                                                    <td>{e.type}</td>
+                                                                    <td>{e.value}</td>
+                                                                    <td>{e.required}</td>
+                                                                    <td>{e.column}</td>
                                                                 </tr>)
                                                         })}
 
