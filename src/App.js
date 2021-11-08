@@ -25,7 +25,7 @@ import { ViewCredit } from "./pages/Admin/ViewCredit";
 import Createuser from "./pages/SystemAdmin/Createuser";
 import Vender_create from "./pages/SystemAdmin/Vender_create";
 import Clinet_routing from "./pages/SystemAdmin/Clinet_routing";
-import SenderId_Rul from "./pages/SystemAdmin/SenderId_Rul";
+// import SenderId_Rul from "./pages/SystemAdmin/SenderId_Rul";
 import Add_field from "./pages/SystemAdmin/Add_field";
 import Smsreports from "./pages/SystemAdmin/Smsreports";
 import Languages from "./pages/SystemAdmin/Languages";
@@ -90,7 +90,7 @@ export default function App() {
         <Route path="/Vendercreate" component={ Vender_create }></Route>
         <Route path="/Clinet_routing" component={ Clinet_routing }></Route>
         <Route path="/Add_field" component={ Add_field }></Route>
-        <Route path="/SenderId_Rul" component={ SenderId_Rul }></Route>
+        {/* <Route path="/SenderId_Rul" component={ SenderId_Rul }></Route> */}
         <Route path="/smsreports" component={ Smsreports }></Route>
         <Route path="/languages" component={ Languages }></Route>
 

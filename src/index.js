@@ -13,7 +13,8 @@ const createStore = require('redux').createStore;
 //Lets create the Store Object
 let store = createStore(rootReducer);
 
-
+window.store = store;
+console.log('Global store ',store);
 
 
 ReactDOM.render(

@@ -1,20 +1,13 @@
 import React from 'react';
+import { connect } from 'react-redux';
 import { useHistory } from 'react-router';
 import { NavLink } from 'react-router-dom';
 import ClientConnections from '../pages/SystemAdmin/ClientConnections';
 import TableData from '../pages/SystemAdmin/TableData';
 import Domain from "./Domain"
 import CountryDropDown from './UI/CountryDropDown';
-export default function Header() {
+function Header(props) {
   const history = useHistory();
-  const Logout = (e) => {
-    e.preventDefault(); 
-    var l = localStorage.getItem('lang')
-    localStorage.clear();
-    localStorage.setItem('lang',l);
-
-    history.push('/');
-  }
   return (
     <React.Fragment>
       <div className="main-header nav nav-item hor-header">
@@ -403,7 +396,7 @@ export default function Header() {
                   <a className="dropdown-item" href="#">
                     <i className="bx bx-slider-alt" /> Account Settings
                   </a>
-                  <a onClick={Logout} className="dropdown-item" href="#">
+                  <a onClick={()=> { props.logout() }} className="dropdown-item" href="#">
                     <i className="bx bx-log-out" /> Sign Out
                   </a>
                 </div>
@@ -636,3 +629,27 @@ export default function Header() {
     </React.Fragment>
   )
 }
+
+
+let mapStateToProps = (state) => {
+  return {
+      ...state
+  }
+}
+const mapDispatchToProps = (dispatch)=>{
+  return {
+      logout:(e)=>{ 
+        alert('OKOK');
+        e.preventDefault(); 
+        var l = localStorage.getItem('lang')
+
+        localStorage.clear();
+        localStorage.setItem('lang',l);
+        
+        dispatch({ action: "LOGOUT" });
+      }
+  }
+ 
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Header);

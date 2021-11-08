@@ -5,7 +5,12 @@ import { useHistory } from 'react-router-dom';
 import { connect, useDispatch, } from 'react-redux';
 import swal from 'sweetalert';
 import $ from "jquery";
+
+
+import loginAttempt from '../redux/actions/loginAttempt';
 import i18n from '../i18n';
+
+
 import GetDomain from '../serviceprovider/GetDomain';
 import CountryDropDown from '../component/UI/CountryDropDown';
 import { url } from '../helpers/helper';
@@ -19,10 +24,10 @@ function Home(props) {
     const [userName, setUserName] = useState('crunchy@2021');//crunchy@2021
     const [error, setError] = useState("");
     const [password, setPassword] = useState('crunchy@admin');//'crunchy@admin'
-
+    
     //i18n.changeLanguage(localStorage.getItem('lang'));
     useEffect(() => {
-        GetDomain();
+        GetDomain(); 
         const setLanguage = async () => {
             const language = await AsyncStorage.getItem("lang");
             i18n.changeLanguage(language)
@@ -32,13 +37,16 @@ function Home(props) {
 
     function login(e) {
         e.preventDefault();
+
         let isValid = true;
+
         let data = {
             userName: userName,
             password: password,
             domainId: localStorage.getItem('domainId')
         }
-        fetch(url + '/auth/login', {
+    
+        fetch(url+'/auth/login', {
             method: 'POST', // or 'PUT'
             headers: {
                 'Content-Type': 'application/json',
@@ -55,25 +63,25 @@ function Home(props) {
                     localStorage.setItem('email', data.data.user.email);
                     localStorage.setItem('role', data.data.user.role);
                     localStorage.setItem('userdata', JSON.stringify(data.data.user));
+                    
+                    window.location.href = data.data.user.role+'/dashboard';
 
-                    window.location.href = data.data.user.role + '/dashboard';
-
-                } else if (data.msg === 'invalid credentials') {
+                } else if(data.msg === 'invalid credentials') {
                     //alert(data.msg);
                     //$(selector).action();
-                    swal("Oops!", data.msg, "error");
-                    $('input').css('border', "1px solid red")
-                } else {
+                    swal("Oops!", data.msg , "error");
+                    $('input').css('border',"1px solid red")
+                }else{
 
-                    console.log('my', data.errors);
+                    console.log('my',data.errors);
 
                     data.errors.forEach(element => {
                         console.log(element.param);
                         //$(selector).action();
-                        $('input[name=' + element.param + ']').css('border', "1px solid red").siblings('span.text-danger').html(element.msg);
+                        $('input[name='+element.param+']').css('border',"1px solid red").siblings('span.text-danger').html(element.msg);
                     });
 
-                    swal("Oops!", 'Somer Errors', "error");
+                    swal("Oops!", 'Somer Errors' , "error");
                 }
             })
             .catch((error) => {
@@ -91,7 +99,7 @@ function Home(props) {
                             <div className="col-md-6 col-lg-6 col-xl-7 d-none d-md-flex bg-primary-transparent">
                                 <div className="row wd-100p mx-auto text-center">
                                     <div className="col-md-12 col-lg-12 col-xl-12 my-auto mx-auto wd-100p">
-                                        <img src={localStorage.getItem('logoData') != null ? localStorage.getItem('logoData') : localStorage.getItem('logoData')} className="my-auto ht-xl-80p wd-md-100p wd-xl-80p mx-auto" alt="logo" />
+                                        <img src={ localStorage.getItem('logoData') != null ?localStorage.getItem('logoData'):localStorage.getItem('logoData') } className="my-auto ht-xl-80p wd-md-100p wd-xl-80p mx-auto" alt="logo" />
                                     </div>
                                 </div>
                             </div>
@@ -103,11 +111,11 @@ function Home(props) {
                                         <div className="row">
                                             <div className="col-md-10 col-lg-10 col-xl-9 mx-auto">
                                                 <div className="card-sigin">
-
+                                                    
                                                     <div className="mb-5 text-center">
                                                         <a href="#">
-                                                            <img src={localStorage.getItem('logoData') != null ? localStorage.getItem('logoData') : localStorage.getItem('logoData')} width="292" className="sign-favicon-a" alt="logo" />
-                                                            <img src={localStorage.getItem('logoData') != null ? localStorage.getItem('logoData') : localStorage.getItem('logoData')} className="sign-favicon-b ht-40" alt="logo" />
+                                                            <img src={ localStorage.getItem('logoData') != null ?localStorage.getItem('logoData'):localStorage.getItem('logoData') } width="292" className="sign-favicon-a" alt="logo" />
+                                                            <img src={ localStorage.getItem('logoData') != null ?localStorage.getItem('logoData'):localStorage.getItem('logoData') } className="sign-favicon-b ht-40" alt="logo" />
                                                         </a>
                                                         <ul className="nav nav-item  navbar-nav-right ms-auto d-flex justify-content-center">
                                                             <CountryDropDown />
@@ -119,7 +127,7 @@ function Home(props) {
                                                             <h5 className="fw-semibold mb-4">{t('please sign in to continue')}</h5>
                                                             <form action="#" data-parsley-validate noValidate >
                                                                 <div className="form-group">
-                                                                    <label htmlFor="email">{t("Email")}</label>
+                                                                    <label htmlFor="email">{t("Email")}</label> 
                                                                     <input value={userName} onChange={(e) => { setUserName(e.target.value); }} id="email" name="userName" className="form-control" placeholder={t("Enter your email")} type="text" required="required" />
                                                                     <span className="text-danger"></span>
 
@@ -162,7 +170,7 @@ function Home(props) {
 
 let mapStateToProps = (state) => {
     return {
-        ...state
+        x: state.username
     }
 }
 let mapDispatchToProps = (dispatch) => {
