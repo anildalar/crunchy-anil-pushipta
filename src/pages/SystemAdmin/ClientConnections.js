@@ -20,7 +20,7 @@ function ClientConnections() {
   const [submitData, setSubmitData] = useState({
                                     "routeType":"",
                                     "route":1,
-                                    "billMode":1,
+                                    "billMode": "",
                                     "balance":"",
                                     "credits":"",
                                     "currency":"",
@@ -36,28 +36,28 @@ function ClientConnections() {
                                     "active":1,
                                     "openTime":"",
                                     "closeTime":"",
-                                    "chargeType":"0",
+                                    "chargeType":"",
                                     "smppOn":1,
                                     "httpOn":1,
-                                    "bindType":"TR",
+                                    "bindType":"",
                                     "port":"",
                                     "userName":"",
                                     "password":"",
-                                    "isPayLoad":"0",
-                                    "enqInterTime":"65446",
-                                    "allowConn":"5",
+                                    "isPayLoad":"",
+                                    "enqInterTime":"",
+                                    "allowConn":"",
                                     "windowSize":"",
                                     "wlistIp":"",
                                     "httpParamType":"",
-                                    "httpAuth":"0= none & 1=bearer & 2= basic",
+                                    "httpAuth":"",
                                     "httpUserName":"",
                                     "httpPassword":"",
                                     "httpToken":"",
-                                    "httpDlrType":"0=get & 1=revived",
+                                    "httpDlrType":"",
                                     "httpDlrUrl":"",
-                                    "httpDlrMeth":"1=post & 0=get",
-                                    "httpDlrPramType":"0=query & 1= json & 2 =fromdata",
-                                    "httpRespoType":"1=string/0=object"
+                                    "httpDlrMeth":"",
+                                    "httpDlrPramType":"",
+                                    "httpRespoType":""
                                   });
 
   const [value, onChange] = useState('07:00');
@@ -183,9 +183,11 @@ function ClientConnections() {
     }
   }
   const collectdata=(e)=>{
+    console.log(e.currentTarget.dataset.demo)
     setSubmitData({...submitData,[e.target.name]:e.target.value})
   }
   const onclick=(e)=>{
+
     e.preventDefault();
     console.log(submitData)
   }
@@ -292,7 +294,8 @@ function ClientConnections() {
                               <div className="col-lg-4 col-xl-4 col-md-4 col-sm-4 mb-3">
                                 <p className="mg-b-10">{ t('Charge Type') }</p>
                                 <Select 
-                                  name="chargeType"
+                                  // name="chargeType"
+                               
                                   options={ ChargeType }
 
                                   onChange={e => handleChange2(e)}
@@ -336,7 +339,7 @@ function ClientConnections() {
                               <div className="col-lg-4 col-xl-4 col-md-4 col-sm-4 mb-3">
                                 <p className="mg-b-10">{t('Bind Type')}</p>
                                 <Select options={BindType}
-                                name="bindType"
+                                 data-set="demo"
                                 onChange={e=>collectdata(e)}
                                  />
                                 <span class="error bindType"></span>
@@ -414,7 +417,7 @@ function ClientConnections() {
                               <div className="col-lg-4 col-xl-4 col-md-4 col-sm-4 mb-3">
                                 <p className="mg-b-10">{t('Log Level')}</p>
                                 <Select options={LogLevels } 
-                                 name="logLevel"
+                                //  name="logLevel"
                                  onChange={e=>collectdata(e)}
                                  />
                                 <span class="error logLevel"></span>
@@ -453,7 +456,7 @@ function ClientConnections() {
                               <div className="col-lg-4 col-xl-4 col-md-4 col-sm-4 mb-3">
                                 <p className="mg-b-10">{t('Is PayLoad')}</p>
                                 <Select options={yesNo}
-                                name="isPayLoad"
+                                // name="isPayLoad"
                                 onChange={e=>collectdata(e)}
                                 />
 
@@ -477,6 +480,8 @@ function ClientConnections() {
                                   className="form-control form-control"
                                   placeholder={ t('Window Size') }
                                   type="number"
+                                  name="windowSize"
+                                  onChange={e=>collectdata(e)}
                                 />
                                 <span class="error windowSize"></span>
                               </div>
@@ -486,6 +491,8 @@ function ClientConnections() {
                                   className="form-control form-control"
                                   placeholder={ t('Whitelist IPs') }
                                   type="text"
+                                  name="wlistIp"
+                                  onChange={e=>collectdata(e)}
                                 />
                                 <span class="error wlistIp"></span>
                               </div>
@@ -496,12 +503,17 @@ function ClientConnections() {
                                   placeholder={ t('Enquire Time') }
                                   type="number"
                                   regex="^((25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$"
-                                />
+                                  name="enqInterTime"
+                                  onChange={e=>collectdata(e)}
+                               />
                                 <span class="error enqInterTime"></span>
                               </div>
                               <div className="col-lg-4 col-xl-4 col-md-4 col-sm-4 mb-3">
                                 <p className="mg-b-10">{t('SSL Type')}</p>
-                                <Select options={SSLTypes} />
+                                <Select options={SSLTypes} 
+                                // name="sslType"
+                                onChange={e=>collectdata(e)}
+                                />
                                 <span class="error sslType"></span>
                               </div>
                             </div>
@@ -515,7 +527,8 @@ function ClientConnections() {
                                   className="form-control form-control"
                                   placeholder={t('HTTP Param Type')}
                                   type="text"
-                                  name=""
+                                  name="httpParamType"
+                                   onChange={e=>collectdata(e)}
                                 />
                                 <span class="error httpParamType"></span>                  
                               </div>
@@ -525,7 +538,8 @@ function ClientConnections() {
                                   className="form-control form-control"
                                   placeholder={ t('HTTP Auth') }
                                   type="text"
-                                  name=""
+                                  name="httpAuth"
+                                  onChange={e=>collectdata(e)}
                                 />
                                 <span class="error httpAuth"></span>                  
                               </div>
@@ -536,7 +550,8 @@ function ClientConnections() {
                                   className="form-control form-control"
                                   placeholder={ t('HTTP Username') }
                                   type="text"
-                                  name=""
+                                  name="httpUserName"
+                                  onChange={e=>collectdata(e)}
                                 />
                                 <span class="error httpUserName"></span>                  
                               </div>
@@ -546,6 +561,8 @@ function ClientConnections() {
                                   className="form-control form-control"
                                   placeholder={ t('HTTP Password') }
                                   type="text"
+                                  name="httpPassword"
+                                  onChange={e=>collectdata(e)}
                                 />
                                 <span class="error httpPassword"></span>
                               </div>
@@ -555,12 +572,17 @@ function ClientConnections() {
                                   className="form-control form-control"
                                   placeholder={ t('HTTP TOKEN') }
                                   type="text"
+                                  name="httpToken"
+                                  onChange={e=>collectdata(e)}
                                 />
                                 <span class="error httpToken"></span>
                               </div>
                               <div className="col-lg-4 col-xl-4 col-md-4 col-sm-4 mb-3">
                                 <p className="mg-b-10">{t('HTTP DLR Method')}</p>
-                                <Select options={HTTP_DLR_Method} />
+                                <Select options={HTTP_DLR_Method}
+                                //  name="httpDlrMeth"
+                                 onChange={e=>collectdata(e)}
+                                />
                                 <span class="error httpDlrMeth"></span>
                               </div>
                               <div className="col-lg-4 col-xl-4 col-md-4 col-sm-4 mb-3">
@@ -569,22 +591,33 @@ function ClientConnections() {
                                   className="form-control form-control"
                                   placeholder={ t('https://example.com/dlr')}
                                   type="text"
+                                  name="httpDlrUrl"
+                                  onChange={e=>collectdata(e)}
                                 />
                                 <span class="error httpDlrUrl"></span>
                               </div>
                               <div className="col-lg-4 col-xl-4 col-md-4 col-sm-4 mb-3">
                                 <p className="mg-b-10">{t('HTTP DLR TYPE')}</p>
-                                <Select name="httpDlrType" options={HTTP_DLR_Type} />
+                                <Select name="httpDlrType" options={HTTP_DLR_Type}
+                                //  name="httpDlrType"
+                                 onChange={e=>collectdata(e)}
+                                />
                                 <span class="error httpDlrType"></span>
                               </div>
                               <div className="col-lg-4 col-xl-4 col-md-4 col-sm-4 mb-3">
                                 <p className="mg-b-10">{t('HTTP DLR Param Type')}</p>
-                                <Select ref={ httpDlrPramType } options={HTTP_DLR_Param_Types} />
+                                <Select ref={ httpDlrPramType } options={HTTP_DLR_Param_Types}
+                                //  name="httpDlrPramType"
+                                 onChange={e=>collectdata(e)}
+                                />
                                 <span class="error httpDlrPramType"></span>
                               </div>
                               <div className="col-lg-4 col-xl-4 col-md-4 col-sm-4 mb-3">
                                 <p className="mg-b-10">{t('HTTP Response Type')}</p>
-                                <Select name="" options={HTTP_Response_Type} />
+                                <Select name="" options={HTTP_Response_Type} 
+                                //  name="httpRespoType"
+                                 onChange={e=>collectdata(e)}
+                                />
                                 <span class="error httpRespoType"></span>
                               </div>
                             </div>
@@ -595,17 +628,26 @@ function ClientConnections() {
                     <div className="form-group row mb-0 mt-3 justify-content-end">
                       <div className="col-lg-4 col-xl-4 col-md-4 col-sm-4 mb-3">
                           <p className="mg-b-10">{t('SMPP ON')}</p>
-                          <Select options={yesNo} />
+                          <Select options={yesNo} 
+                          //  name="smppOn"
+                           onChange={e=>collectdata(e)}
+                            />
                           <span class="error smppOn"></span>
                       </div>
                       <div className="col-lg-4 col-xl-4 col-md-4 col-sm-4 mb-3">
                           <p className="mg-b-10">HTTP ON</p>
-                          <Select options={yesNo} />
+                          <Select options={yesNo}  
+                          //  name="httpOn"
+                           onChange={e=>collectdata(e)}
+                           />
                           <span class="error httpOn"></span>
                       </div>
                       <div className="col-lg-4 col-xl-4 col-md-4 col-sm-4 mb-3">
                           <p className="mg-b-10">{t('TimeZone')}</p>
-                          <Select options={timeZone} />
+                          <Select options={timeZone} 
+                          //  name="smppOn"
+                           onChange={e=>collectdata(e)}
+                          />
                           <span class="error"></span>
                       </div>
                       <div className="col-lg-4 col-xl-4 col-md-4 col-sm-4 mb-3">
@@ -613,6 +655,8 @@ function ClientConnections() {
                           <TimePicker
                             onChange={onChange}
                             value={value}
+                            // name="openTime"
+                            onChange={e=>collectdata(e)}
                           />
                           <span class="error openTime"></span>
                       </div>
@@ -621,6 +665,8 @@ function ClientConnections() {
                           <TimePicker
                             onChange={onChange}
                             value={value}
+                            // name="closeTime"
+                            onChange={e=>collectdata(e)}
                           />
                           <span class="error closeTime"></span>
                       </div>
