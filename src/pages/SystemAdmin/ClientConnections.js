@@ -16,7 +16,7 @@ function ClientConnections() {
   const [routesByType, setRoutesByType] = useState([]);
   const [currencies,setCurrencies ] = useState([]);
   const [isDisabled,setIsDisabled] = useState(true);
-
+const logLevel=useRef()
   const [submitData, setSubmitData] = useState({
                                     "routeType":"",
                                     "route":1,
@@ -61,11 +61,8 @@ function ClientConnections() {
                                   });
 
   const [value, onChange] = useState('07:00');
-
   const credits = useRef();
   const balance = useRef();
-  const currency = useRef();
-
   const httpDlrPramType = useRef();
 
   useEffect(() => {
@@ -108,8 +105,9 @@ function ClientConnections() {
     .catch();
 
   }, []);
-  const handleChange2 = (e)=>{
+  const handleChange2 = (e,name)=>{
     console.log(e);
+    let nam=name
     if(e.label == 'MCCMNC'){
       //MCCMNC
       credits.current.setAttribute('disabled','disabled')
@@ -125,6 +123,7 @@ function ClientConnections() {
       balance.current.setAttribute('readonly','readonly');
       setIsDisabled(true);
     }
+    setSubmitData({...submitData,[nam]:e.value})
   }
 
   const handleChange = (e)=>{
@@ -183,14 +182,20 @@ function ClientConnections() {
     }
   }
   const collectdata=(e)=>{
-    console.log(e.currentTarget.dataset.demo)
+    // console.log(logLevel.current.value)
     setSubmitData({...submitData,[e.target.name]:e.target.value})
   }
+  const coldataSelect=(e,name)=>{
+    console.log(e.value)
+    let nam=name
+    setSubmitData({...submitData,[nam]:e.value})
+    // console.log(submitData)
+  }
   const onclick=(e)=>{
-
     e.preventDefault();
     console.log(submitData)
   }
+ 
   const { t } = useTranslation();
   return (
     <Layout>
@@ -245,9 +250,9 @@ function ClientConnections() {
                               <div className="col-lg-4 col-xl-4 col-md-4 col-sm-4 mb-3">
                                 <p className="mg-b-10">{ t('Bill Mode') }</p>
                                 <Select 
-                                  name="billmode"
+                               onChange={e=> handleChange2(e,'billMode')}
                                   options={ Bill_Mode } 
-                                  onChange={e => handleChange2(e)}
+                                
                                 />
                                 <span class="error billMode"></span>
                               </div>
@@ -283,11 +288,9 @@ function ClientConnections() {
                               <div className="col-lg-4 col-xl-4 col-md-4 col-sm-4 mb-3">
                                 <p className="mg-b-10">{t('Currency')}</p>
                                 <Select 
-                                  ref={ currency } 
-                                  options={currencies} 
+                                 options={currencies} 
                                   isDisabled={isDisabled}
-                                  name="currency"
-                                  onChange={e=>collectdata(e)}
+                                  onChange={e=> coldataSelect(e,'currency')}
                                 />
                                 <span class="error currency"></span>
                               </div>
@@ -298,7 +301,7 @@ function ClientConnections() {
                                
                                   options={ ChargeType }
 
-                                  onChange={e => handleChange2(e)}
+                                  onChange={e=> coldataSelect(e,'chargeType')}
                                 />
                                 <span class="error chargeType"></span>
                               </div>
@@ -339,8 +342,7 @@ function ClientConnections() {
                               <div className="col-lg-4 col-xl-4 col-md-4 col-sm-4 mb-3">
                                 <p className="mg-b-10">{t('Bind Type')}</p>
                                 <Select options={BindType}
-                                 data-set="demo"
-                                onChange={e=>collectdata(e)}
+                                onChange={e=> coldataSelect(e,'bindType')}
                                  />
                                 <span class="error bindType"></span>
                               </div>
@@ -417,8 +419,8 @@ function ClientConnections() {
                               <div className="col-lg-4 col-xl-4 col-md-4 col-sm-4 mb-3">
                                 <p className="mg-b-10">{t('Log Level')}</p>
                                 <Select options={LogLevels } 
-                                //  name="logLevel"
-                                 onChange={e=>collectdata(e)}
+                                 ref={logLevel}
+                                 onChange={e=> coldataSelect(e,'logLevel')}
                                  />
                                 <span class="error logLevel"></span>
                               </div>
@@ -457,7 +459,7 @@ function ClientConnections() {
                                 <p className="mg-b-10">{t('Is PayLoad')}</p>
                                 <Select options={yesNo}
                                 // name="isPayLoad"
-                                onChange={e=>collectdata(e)}
+                                onChange={e=> coldataSelect(e,'isPayLoad')}
                                 />
 
                                 <span class="error isPayLoad"></span>
@@ -510,9 +512,8 @@ function ClientConnections() {
                               </div>
                               <div className="col-lg-4 col-xl-4 col-md-4 col-sm-4 mb-3">
                                 <p className="mg-b-10">{t('SSL Type')}</p>
-                                <Select options={SSLTypes} 
-                                // name="sslType"
-                                onChange={e=>collectdata(e)}
+                                <Select options={SSLTypes}
+                                onChange={e=> coldataSelect(e,'sslType')}
                                 />
                                 <span class="error sslType"></span>
                               </div>
@@ -581,7 +582,7 @@ function ClientConnections() {
                                 <p className="mg-b-10">{t('HTTP DLR Method')}</p>
                                 <Select options={HTTP_DLR_Method}
                                 //  name="httpDlrMeth"
-                                 onChange={e=>collectdata(e)}
+                                onChange={e=> coldataSelect(e,'httpDlrMeth')}
                                 />
                                 <span class="error httpDlrMeth"></span>
                               </div>
@@ -600,7 +601,7 @@ function ClientConnections() {
                                 <p className="mg-b-10">{t('HTTP DLR TYPE')}</p>
                                 <Select name="httpDlrType" options={HTTP_DLR_Type}
                                 //  name="httpDlrType"
-                                 onChange={e=>collectdata(e)}
+                                onChange={e=> coldataSelect(e,'httpDlrType')}
                                 />
                                 <span class="error httpDlrType"></span>
                               </div>
@@ -608,7 +609,7 @@ function ClientConnections() {
                                 <p className="mg-b-10">{t('HTTP DLR Param Type')}</p>
                                 <Select ref={ httpDlrPramType } options={HTTP_DLR_Param_Types}
                                 //  name="httpDlrPramType"
-                                 onChange={e=>collectdata(e)}
+                                onChange={e=> coldataSelect(e,'httpDlrPramType')}
                                 />
                                 <span class="error httpDlrPramType"></span>
                               </div>
@@ -616,7 +617,7 @@ function ClientConnections() {
                                 <p className="mg-b-10">{t('HTTP Response Type')}</p>
                                 <Select name="" options={HTTP_Response_Type} 
                                 //  name="httpRespoType"
-                                 onChange={e=>collectdata(e)}
+                                onChange={e=> coldataSelect(e,'httpRespoType')}
                                 />
                                 <span class="error httpRespoType"></span>
                               </div>
@@ -630,7 +631,7 @@ function ClientConnections() {
                           <p className="mg-b-10">{t('SMPP ON')}</p>
                           <Select options={yesNo} 
                           //  name="smppOn"
-                           onChange={e=>collectdata(e)}
+                          onChange={e=> coldataSelect(e,'smppOn')}
                             />
                           <span class="error smppOn"></span>
                       </div>
@@ -638,7 +639,7 @@ function ClientConnections() {
                           <p className="mg-b-10">HTTP ON</p>
                           <Select options={yesNo}  
                           //  name="httpOn"
-                           onChange={e=>collectdata(e)}
+                          onChange={e=> coldataSelect(e,'httpOn')}
                            />
                           <span class="error httpOn"></span>
                       </div>
@@ -646,7 +647,7 @@ function ClientConnections() {
                           <p className="mg-b-10">{t('TimeZone')}</p>
                           <Select options={timeZone} 
                           //  name="smppOn"
-                           onChange={e=>collectdata(e)}
+                          onChange={e=> coldataSelect(e,'error')}
                           />
                           <span class="error"></span>
                       </div>
