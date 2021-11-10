@@ -5,6 +5,7 @@ console.log(window.location.hostname);
 const data = { domain: window.location.hostname };
 
 function getDomain(){
+    //A
     
     fetch(url+'/domain/verify', {
         method: 'POST', 
