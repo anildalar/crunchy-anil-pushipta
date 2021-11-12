@@ -41,6 +41,16 @@ const SSLTypes = [
     { value: '3', label: 'TLSv1' }
 ];
 
+
+const httpParam=[
+    { value:"0",label:'Quert'},
+    { value:"1",label:'Data'},
+    { value:"2",label:'JSON'}
+]
+const Active=[
+    {value:"0",label:'Active'},
+    { value:'1',label:'Inactive'}
+]
 const LogLevels = [
     { value: '0', label: 'Debug' },
     { value: '1', label: 'Info' },
@@ -149,5 +159,7 @@ module.exports = {
     timeZone,
     yesNo,
     BindType,
+    Active,
+    httpParam,
     toDataUrl
 };
