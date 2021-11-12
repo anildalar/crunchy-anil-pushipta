@@ -196,7 +196,28 @@ setSubmitData({ ...submitData, [e.target.name]: e.target.value })
     alert("hwkl"+e.target.value);
     console.log('akldfjkldfjd')
   }
-
+const onchangehttpAuth=(e)=>{
+  e.preventDefault();
+  switch (parseInt(e.target.value)) {
+      case 1:
+          $(".httpUserName").removeClass("d-none")
+          $(".httpPassword").removeClass("d-none")
+          $(".httpToken").addClass("d-none")
+          // setHttpCollection({ ...hhtpCollection, [e.target.name]: e.target.value })
+          break;
+      case 2:
+          $(".httpUserName").addClass("d-none")
+          $(".httpPassword").addClass("d-none")
+          $(".httpToken").removeClass("d-none")
+          // setHttpCollection({ ...hhtpCollection, [e.target.name]: e.target.value })
+          break;
+      default:
+          $(".httpToken").addClass("d-none")
+          $(".httpUserName").addClass("d-none")
+          $(".httpPassword").addClass("d-none");
+          // setHttpCollection({ ...hhtpCollection, [e.target.name]: e.target.value })
+  }
+}
   const { t } = useTranslation();
   return (
     <Layout>
@@ -554,20 +575,18 @@ setSubmitData({ ...submitData, [e.target.name]: e.target.value })
                               </div>
                               <div className="col-lg-4 col-xl-4 col-md-4 col-sm-4 mb-3">
                                 <p className="mg-b-10">{t('HTTP Auth')}</p>
-                                <input
-                                  className="form-control form-control"
-                                  placeholder={t('HTTP Auth')}
-                                  type="text"
-                                  name="httpAuth"
-                                  onChange={e => collectdata(e)}
-                                />
+                                <select onChange={onchangehttpAuth} className="form-select form-select-lg apiauth" name="httpAuth"  >
+                                                    <option value="0">{t("None")}</option>
+                                                    <option value="1">{t("Basic")}</option>
+                                                    <option value="2">{t("Bearer Token")}</option>
+                                                </select>
                                 <span class="error httpAuth"></span>
                               </div>
-                              <div className="col-lg-4 col-xl-4 col-md-4 col-sm-4 mb-3">
+                              <div className="col-lg-4 col-xl-4 col-md-4 col-sm-4 mb-3 httpUserName d-none">
                                 <p className="mg-b-10">{t('HTTP Username')}</p>
 
                                 <input
-                                  className="form-control form-control"
+                                  className="form-control form-control "
                                   placeholder={t('HTTP Username')}
                                   type="text"
                                   name="httpUserName"
@@ -575,18 +594,19 @@ setSubmitData({ ...submitData, [e.target.name]: e.target.value })
                                 />
                                 <span class="error httpUserName"></span>
                               </div>
-                              <div className="col-lg-4 col-xl-4 col-md-4 col-sm-4 mb-3">
+                              <div className="col-lg-4 col-xl-4 col-md-4 col-sm-4 mb-3 httpPassword d-none">
                                 <p className="mg-b-10">{t('HTTP Password')}</p>
                                 <input
-                                  className="form-control form-control"
+                                  className="form-control form-control "
                                   placeholder={t('HTTP Password')}
                                   type="text"
                                   name="httpPassword"
                                   onChange={e => collectdata(e)}
+                                  
                                 />
                                 <span class="error httpPassword"></span>
                               </div>
-                              <div className="col-lg-4 col-xl-4 col-md-4 col-sm-4 mb-3">
+                              <div className="col-lg-4 col-xl-4 col-md-4 col-sm-4 mb-3  httpToken d-none">
                                 <p className="mg-b-10">{t('HTTP TOKEN')}</p>
                                 <input
                                   className="form-control form-control"
