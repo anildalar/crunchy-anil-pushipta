@@ -7,16 +7,16 @@
 //     return re.test(String(userName).toLowerCase());
 // }
 
-const url = 'http://173.249.39.43:3000'
+const url = 'http://localhost:4000'
 
 
 const fetchOption = { 
-                        method: 'POST', // or 'PUT'
-                        headers: {
-                           'Content-Type': 'application/json',
-                            'Authorization': 'Bearer ' + localStorage.getItem('jwt_token'),
-                        }
-                    }
+    method: 'POST', // or 'PUT'
+    headers: {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer ' + localStorage.getItem('jwt_token'),
+    }
+}
 
 const yesNo = [
     { value: '0', label: 'NO' },
@@ -116,7 +116,17 @@ const timeZone= [
 ];
 
 // const baseUrl = 'http://173.249.39.43:3000';
-
+/** toaster option heare  **/
+const toastOption={
+    position: "top-right",
+    autoClose: 3000,
+    hideProgressBar: false,
+    closeOnClick: true,
+    pauseOnHover: false,
+    draggable: true,
+    newestOnTop: true,
+    progress: undefined,
+};
 
 function toDataUrl(url, callback) {
     var xhr = new XMLHttpRequest();
@@ -145,5 +155,6 @@ module.exports = {
                     timeZone,
                     yesNo,
                     BindType,
-                    toDataUrl                    
+                    toDataUrl,
+                    toastOption                  
                 };

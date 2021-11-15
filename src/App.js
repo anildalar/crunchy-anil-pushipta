@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState} from "react";
 import { BrowserRouter as Router, Route } from "react-router-dom";
 
 import Domain from "./pages/Domain";
@@ -31,27 +31,35 @@ import Smsreports from "./pages/SystemAdmin/Smsreports";
 import Languages from "./pages/SystemAdmin/Languages";
 
 export default function App() {
-  var comp,role = localStorage.getItem('role');
   
-    //alert(role);
+  const [role,setRole]=useState('');
+
+  useEffect(() => {
+
+    setRole(localStorage.getItem('role'));
+
+  }, [])
+  const loadDashboard = () =>{
     switch(role){
       case 'systemadmin':
-        comp = <SystemAdminDashboard />
+        console.log("systemadmin")
+        return <SystemAdminDashboard/>;
         break;
       case 'admin':
-        comp = <AdminDashboard />
+        return <AdminDashboard />
         break;
       case 'retailer':
-        comp = <RetailerDashboard /> 
+        return <RetailerDashboard /> 
         break;
       case 'reseller':
-        comp = <ResellerDashboard />
+        return <ResellerDashboard />
         break;
       case 'user':
-        comp = <UserDashboard /> 
+        return <UserDashboard /> 
         break;
       default:
-        //alert(comp);
+        console.log("anil") 
+    }
   }
   return (
     <>
@@ -60,7 +68,8 @@ export default function App() {
           <Home />
         </Route>
         <Route path={"/"+role+"/dashboard"}>
-         { comp }
+          <h1>hello anil</h1>
+          {loadDashboard()}
         </Route>
         <Route path="/domain" component={ Domain }></Route>
         <Route path="/pushpita" component={ Pushpita }></Route>
