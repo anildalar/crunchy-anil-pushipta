@@ -1,5 +1,5 @@
 import React, { useEffect, useState} from "react";
-import { BrowserRouter as Router, Route } from "react-router-dom";
+import { Route,Switch } from "react-router-dom";
 
 import Domain from "./pages/Domain";
 import SystemAdminDashboard from "./pages/SystemAdmin/Dashbord";
@@ -35,14 +35,13 @@ export default function App() {
   const [role,setRole]=useState('');
 
   useEffect(() => {
-
     setRole(localStorage.getItem('role'));
 
   }, [])
   const loadDashboard = () =>{
+    
     switch(role){
       case 'systemadmin':
-        console.log("systemadmin")
         return <SystemAdminDashboard/>;
         break;
       case 'admin':
@@ -58,16 +57,16 @@ export default function App() {
         return <UserDashboard /> 
         break;
       default:
-        console.log("anil") 
+        
     }
   }
   return (
     <>
-      <Router>
+      <Switch>
         <Route path="/" exact>
           <Home />
         </Route>
-        <Route path={"/"+role+"/dashboard"}>
+        <Route path={"/systemadmin/dashboard"}>
           <h1>hello anil</h1>
           {loadDashboard()}
         </Route>
@@ -103,7 +102,7 @@ export default function App() {
         <Route path="/smsreports" component={ Smsreports }></Route>
         <Route path="/languages" component={ Languages }></Route>
 
-      </Router>
+      </Switch>
     </>
   )
 }
