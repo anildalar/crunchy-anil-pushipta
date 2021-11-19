@@ -1,12 +1,7 @@
 import React, { useEffect } from "react";
 import { connect } from "react-redux";
 import Layout from "../../component/Layout";
-import Sidebar from "../../component/Sidebar";
-
-import $ from "jquery";
 import { useTranslation } from "react-i18next";
-import i18n from "../../i18n";
-
 function Dashboard(props) {
   
   
@@ -653,20 +648,8 @@ function Dashboard(props) {
             </div>
           </div>
         </div>
-        <Sidebar />
     </Layout>
   );
 }
-let mapStateToProps = (state)=>{
-  return {
-      x:state.username
-  }
-}
-let mapDispatchToProps = (dispatch)=>{
-  return {
-      login:()=>{
-      }
-  }
-}
 
-export default connect()(Dashboard);
+export default Dashboard;

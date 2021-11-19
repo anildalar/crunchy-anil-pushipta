@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useTranslation } from "react-i18next";
 import { useHistory} from 'react-router-dom';
-import { connect, useDispatch, } from 'react-redux';
+import { useSelector, useDispatch, } from 'react-redux';
 import swal from 'sweetalert';
 import $ from "jquery";
 import i18n from '../i18n';
@@ -10,10 +10,12 @@ import CountryDropDown from '../component/UI/CountryDropDown';
 import { toastOption, url } from '../helpers/helper';
 import { ToastContainer, toast } from 'react-toastify';
 //import 'react-toastify/dist/ReactToastify.css';
+import {setConfig, setRole, setToken, setUser} from '.././app/reducers/userSlice'
 function Login(props) {
 
     const history = useHistory();
     const dispatch = useDispatch();
+    const domain=useSelector((state) => state.domain)
     const [userName, setUserName] = useState('crunchy@2021');//crunchy@2021
     const [error, setError] = useState(0);
     const [msg, setmsg] = useState("hello anil");
@@ -34,7 +36,7 @@ function Login(props) {
         let data = {
             userName: userName,
             password: password,
-            domainId:localStorage.getItem('domainId'),
+            domainId:domain.data.domainId,
         }
         fetch(url+'/auth/login', {
             method: 'POST', // or 'PUT'
@@ -48,15 +50,16 @@ function Login(props) {
             $('[name]').css('border', '1px solid gray').siblings('.text-danger').html('');
             if (data.status=='200') {
                 //toast.success('🦄 Wow so easy!',toastOption);
-                localStorage.setItem('jwt_token', data.token);
+                localStorage.setItem('jwtToken', data.token);
                 localStorage.setItem('user', data.data.user);
                 localStorage.setItem('role', data.data.user.role);
                 localStorage.setItem('config', data.data.user);
-                localStorage.setItem('alerts', data.data.user);
-                //window.location.href = data.data.user.role+'/dashboard';
-                //domain
-                history.push("/systemadmin/dashboard");
-                //history.push("/domain");
+                dispatch(setToken(data.token))
+                dispatch(setUser(data.data.user))
+                dispatch(setConfig(data.data.config))
+                dispatch(setRole(data.data.user.role))
+                history.push("/dashboard");
+                
             }else if(data.status=='400'){
                 data.errors.forEach(element => {
                     $('input[name='+element.param+']').css('border',"1px solid red").siblings('span.text-danger').html(element.msg);
@@ -72,7 +75,6 @@ function Login(props) {
     const { t } = useTranslation();
     const alertShow =()=>{
         if(error){
-            console.log(error)
             return <div className="alert alert-danger" role="alert"><strong>Alert !</strong> { msg }</div>;
         }
         return '';
@@ -100,7 +102,6 @@ function Login(props) {
                                         <div className="row">
                                             <div className="col-md-10 col-lg-10 col-xl-9 mx-auto">
                                                 <div className="card-sigin">
-                                                    
                                                     <div className="mb-5 text-center">
                                                         <a href="#">
                                                             <img src={ localStorage.getItem('logoData') != null ?localStorage.getItem('logoData'):localStorage.getItem('logo') } width="292" className="sign-favicon-a" alt="logo" />
@@ -157,17 +158,4 @@ function Login(props) {
     )
 }
 
-let mapStateToProps = (state) => {
-    return {
-        ...state
-    }
-}
-let mapDispatchToProps = (dispatch) => {
-    return {
-        login: () => {
-            alert('okok');
-        }
-    }
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(Login);
+export default Login;
