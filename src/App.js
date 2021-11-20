@@ -3,11 +3,6 @@ import { Route,Switch } from "react-router-dom";
 import { useSelector } from "react-redux";
 //import {useSelector, useDispatch} from ""
 import Domain from "./pages/Domain";
-import SystemAdminDashboard from "./pages/SystemAdmin/Dashbord";
-import AdminDashboard from "./pages/Admin/Dashboard";
-import RetailerDashboard from "./pages/Retailer/Dashbord";
-import ResellerDashboard from "./pages/Reseller/Dashbord";
-import UserDashboard from "./pages/User/Dashbord";
 import Home from "./pages/Home";
 import Pushpita from "./pages/Pushpita";
 import ClientConnections from "./pages/SystemAdmin/ClientConnections";
@@ -31,7 +26,10 @@ import Add_field from "./pages/SystemAdmin/Add_field";
 import Smsreports from "./pages/SystemAdmin/Smsreports";
 import Languages from "./pages/SystemAdmin/Languages";
 import SystemAdmin from "./routes/SystemAdmin";
+import Admin from "./routes/SystemAdmin";
 import NoPage from './routes/NoPage'
+import Retailer from "./routes/Retailer";
+import Reseller from "./routes/Reseller";
 export default function App() {
   
   const role=useSelector((state) => state.user.role)
@@ -41,13 +39,13 @@ export default function App() {
         return <SystemAdmin/>;
         break;
       case 'admin':
-        return <AdminDashboard />
+        return <Admin/>
         break;
       case 'retailer':
-        return <RetailerDashboard /> 
+        return <Retailer/> 
         break;
       case 'reseller':
-        return <ResellerDashboard />
+        return <Reseller/>
         break;
       case 'user':
         return <UserDashboard /> 
