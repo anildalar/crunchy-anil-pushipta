@@ -61,9 +61,6 @@ export default function App() {
     <>
       <Switch>
         <Route path="/" exact> <Home /> </Route>
-        <Route path={"/systemadmin/dashboard"}>
-          <h1>hello anil</h1>
-        </Route>
         <Route path="/domain" component={ Domain }></Route>
         <Route path="/pushpita" component={ Pushpita }></Route>
         <Route path="/group"><Groups /></Route>
@@ -87,6 +84,7 @@ export default function App() {
         <Route path="/languages" component={ Languages }></Route>
         
         {getComponent()}
+        
       </Switch>
     </>
   )

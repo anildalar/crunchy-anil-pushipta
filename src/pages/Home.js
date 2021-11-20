@@ -4,14 +4,15 @@ import Login from './Login';
 import { domainVerify,add,setLogo} from '../app/reducers/domainSlice'
 import {addErr,errMsg} from '../app/reducers/errorSlice'
 import Errorpage from './Errorpage';
+import CheckLogin from '../component/CheckLogin';
 const { url, toDataUrl } = require("../helpers/helper");
 const data = { domain: window.location.hostname };
 
 
 const Home=()=> {
+    
     const domain = useSelector((state) => state.domain)
     const error = useSelector((state) => state.error)
-    console.log(error);
     const dispatch =useDispatch();
     const [verify,setVerify]=useState(0)
     useEffect(() => {

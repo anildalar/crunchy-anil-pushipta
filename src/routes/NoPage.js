@@ -1,10 +1,10 @@
 import React from 'react'
 import { Route } from 'react-router'
-//import Nopage from '../pages/nopage';
+import Nopage from '../pages/Nopage';
 const NoPage=()=>{
     return (
         <>
-            <Route path="*">hello anil</Route>
+            <Route path="*" component={Nopage}></Route>
         </>
     )
 }

@@ -141,6 +141,7 @@ function toDataUrl(url, callback) {
     xhr.responseType = 'blob';
     xhr.send();
 }
+
 module.exports = {
                     url,
                     fetchOption,

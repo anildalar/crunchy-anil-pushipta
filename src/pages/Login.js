@@ -3,7 +3,6 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useTranslation } from "react-i18next";
 import { useHistory} from 'react-router-dom';
 import { useSelector, useDispatch, } from 'react-redux';
-import swal from 'sweetalert';
 import $ from "jquery";
 import i18n from '../i18n';
 import CountryDropDown from '../component/UI/CountryDropDown';
@@ -11,8 +10,8 @@ import { toastOption, url } from '../helpers/helper';
 import { ToastContainer, toast } from 'react-toastify';
 //import 'react-toastify/dist/ReactToastify.css';
 import {setConfig, setRole, setToken, setUser} from '.././app/reducers/userSlice'
+import CheckLogin from '../component/CheckLogin';
 function Login(props) {
-
     const history = useHistory();
     const dispatch = useDispatch();
     const domain=useSelector((state) => state.domain)
@@ -20,7 +19,9 @@ function Login(props) {
     const [error, setError] = useState(0);
     const [msg, setmsg] = useState("hello anil");
     const [password, setPassword] = useState('crunchy@admin');//'crunchy@admin'
-    
+    if(CheckLogin()){
+        history.push("/dashboard");
+    }
     //i18n.changeLanguage(localStorage.getItem('lang'));
     useEffect(() => {
         const setLanguage = async () => {
@@ -90,7 +91,7 @@ function Login(props) {
                             <div className="col-md-6 col-lg-6 col-xl-7 d-none d-md-flex bg-primary-transparent">
                                 <div className="row wd-100p mx-auto text-center">
                                     <div className="col-md-12 col-lg-12 col-xl-12 my-auto mx-auto wd-100p">
-                                        <img src={ localStorage.getItem('logoData') != null ?localStorage.getItem('logoData'):localStorage.getItem('logo') } className="my-auto ht-xl-80p wd-md-100p wd-xl-80p mx-auto" alt="logo" />
+                                        <img src={ domain.logo} className="my-auto ht-xl-80p wd-md-100p wd-xl-80p mx-auto" alt="logo" />
                                     </div>
                                 </div>
                             </div>
@@ -104,8 +105,8 @@ function Login(props) {
                                                 <div className="card-sigin">
                                                     <div className="mb-5 text-center">
                                                         <a href="#">
-                                                            <img src={ localStorage.getItem('logoData') != null ?localStorage.getItem('logoData'):localStorage.getItem('logo') } width="292" className="sign-favicon-a" alt="logo" />
-                                                            <img src={ localStorage.getItem('logoData') != null ?localStorage.getItem('logoData'):localStorage.getItem('logo') } className="sign-favicon-b ht-40" alt="logo" />
+                                                            <img src={ domain.logo } width="292" className="sign-favicon-a" alt="logo" />
+                                                            <img src={ domain.logo } className="sign-favicon-b ht-40" alt="logo" />
                                                         </a>
                                                         {/* <ul className="nav nav-item  navbar-nav-right ms-auto d-flex justify-content-center">
                                                             <CountryDropDown />
