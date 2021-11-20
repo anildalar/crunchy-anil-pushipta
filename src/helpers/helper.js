@@ -1,22 +1,14 @@
-// const baseUrl = 'http://192.168.1.47:3000';
-//const baseUrl = 'http://192.168.1.47:3000';
-//const url = 'http://173.249.39.43:3000'; //173.249.39.43
 
-// let validateEmail = (userName)=>{
-//     const re = /[-!$%^&*()_+|~=`{}\[\]:";'<>?,.@\/]/;
-//     return re.test(String(userName).toLowerCase());
-// }
 
 const url = 'http://localhost:4000'
 
-
-const fetchOption = { 
-    method: 'POST', // or 'PUT'
-    headers: {
-        'Content-Type': 'application/json',
-        'Authorization': 'Bearer ' + localStorage.getItem('jwt_token'),
-    }
-}
+// const fetchOption = { 
+//     method: 'POST', // or 'PUT'
+//     headers: {
+//         'Content-Type': 'application/json',
+//         'Authorization': 'Bearer ' + localStorage.getItem('jwt_token'),
+//     }
+// }
 
 const yesNo = [
     { value: '0', label: 'NO' },
@@ -144,7 +136,7 @@ function toDataUrl(url, callback) {
 
 module.exports = {
                     url,
-                    fetchOption,
+                    //fetchOption,
                     Bill_Mode,
                     ChargeType,
                     SSLTypes,

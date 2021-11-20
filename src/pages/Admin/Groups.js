@@ -1,10 +1,11 @@
 import React, { useEffect, useRef, useState } from 'react'
 import Layout from '../../component/Layout'
-import { fetchOption, url } from '../../helpers/helper';
+import { url } from '../../helpers/helper';
 import swal from 'sweetalert';
 import $ from "jquery"
 import { BreadCrumb } from '../../component/UI/BreadCrumb';
 import { useTranslation } from 'react-i18next';
+import HelperHook from '../../custHook/HelperHook';
 
 
 /**
@@ -13,6 +14,7 @@ import { useTranslation } from 'react-i18next';
 **/
 
 export const Groups = (props) => {
+    const helper=HelperHook();
     const [group, setGroup] = useState({
         "groupName": "",
         "desc": "",
@@ -24,19 +26,17 @@ export const Groups = (props) => {
     //     "status": ""
     // })
     const [tbldata, setTbldata] = useState([]);
-
     const groupName = useRef();
     const desc = useRef();
-
     useEffect(() => {
         fetch(url + '/admin/phonebook/group/get', {
-            ...fetchOption
+            ...helper.fetchOption
         }).then(response => response.json())
-            .then(data => {
-                (data.status == 200) ? setTbldata(data.data) : setTbldata([]);
-            }).catch((error) => {
-                console.error('Error:', error);
-            });
+        .then(data => {
+            (data.status == 200) ? setTbldata(data.data) : setTbldata([]);
+        }).catch((error) => {
+            console.error('Error:', error);
+        });
     }, []);
 
     const groupDetails = (e) => {
@@ -48,30 +48,27 @@ export const Groups = (props) => {
     const submit = (e) => {
         e.preventDefault();
         $('[name]').css('border', '1px solid gray').siblings('.text-danger').html('');
-
         fetch(url + '/admin/phonebook/group/create', {
-            ...fetchOption,
+            ...helper.fetchOption,
             body: JSON.stringify(group),
         }).then(response => response.json())
-            .then(data => {
-                if (data.status == 200) {
-                    swal("success", data.msg, "success");
-                    let mydata = tbldata;
-                    mydata.push({ ...group, ...data.data });
-                    setTbldata(mydata => [...mydata]);
-                    document.getElementById('groupfrom').reset();
-                } else if (data.status == 400) {
-                    data.errors.forEach(function (arrayItem) {
-                        $('[name=' + arrayItem.param + ']').css("border", "1px solid red").siblings('span.text-danger').html(arrayItem.msg);
-                    })
-                } else if (data.status == 403) {
-                    swal("warning", data.msg, "warning");
-                }
-            }).catch((error) => {
-                console.error('Error:', error);
-
-
-            });
+        .then(data => {
+            if (data.status == 200) {
+                swal("success", data.msg, "success");
+                let mydata = tbldata;
+                mydata.push({ ...group, ...data.data });
+                setTbldata(mydata => [...mydata]);
+                document.getElementById('groupfrom').reset();
+            } else if (data.status == 400) {
+                data.errors.forEach(function (arrayItem) {
+                    $('[name=' + arrayItem.param + ']').css("border", "1px solid red").siblings('span.text-danger').html(arrayItem.msg);
+                })
+            } else if (data.status == 403) {
+                swal("warning", data.msg, "warning");
+            }
+        }).catch((error) => {
+            console.error('Error:', error);
+        });
     }
     const deleteGroup = () => {
         // alert('delete group');
@@ -94,8 +91,6 @@ export const Groups = (props) => {
     }
     const editStatus = () => {
         alert('edit status')
-
-
     }
 
     const editGrpDetail = (e) => {
@@ -106,7 +101,6 @@ export const Groups = (props) => {
             "groupName": groupName.current.value,
             "desc": desc.current.value
         });
-        
     }
     const { t } = useTranslation();
     return (
