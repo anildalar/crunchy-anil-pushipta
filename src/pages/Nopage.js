@@ -12,7 +12,8 @@ export default function Nopage() {
         if(!con){
             history.push("/");
         }else{
-            history.back();
+            //history.back();
+            window.history.back();
         }
     }
     return (

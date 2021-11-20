@@ -19,7 +19,6 @@ import { Credit } from "./pages/Admin/Credit";
 import { SendSMS } from "./pages/Admin/SendSMS";
 import { ViewCredit } from "./pages/Admin/ViewCredit";
 import Createuser from "./pages/SystemAdmin/Createuser";
-import Vender_create from "./pages/SystemAdmin/Vender_create";
 import Clinet_routing from "./pages/SystemAdmin/Clinet_routing";
 import SenderId_Rul from "./pages/SystemAdmin/SenderId_Rul";
 import Add_field from "./pages/SystemAdmin/Add_field";
@@ -30,6 +29,7 @@ import Admin from "./routes/SystemAdmin";
 import NoPage from './routes/NoPage'
 import Retailer from "./routes/Retailer";
 import Reseller from "./routes/Reseller";
+import User from "./routes/User";
 export default function App() {
   
   const role=useSelector((state) => state.user.role)
@@ -48,7 +48,7 @@ export default function App() {
         return <Reseller/>
         break;
       case 'user':
-        return <UserDashboard /> 
+        return <User/> 
         break;
       default:
         return <NoPage/>
@@ -74,7 +74,6 @@ export default function App() {
         <Route path="/viewcredit" component={ ViewCredit }></Route>
         <Route path="/editgroup" ><EditGroup/></Route>
         <Route path="/Smmp" component={ Createuser }></Route>
-        <Route path="/Vendercreate" component={ Vender_create }></Route>
         <Route path="/Clinet_routing" component={ Clinet_routing }></Route>
         <Route path="/Add_field" component={ Add_field }></Route>
         <Route path="/SenderId_Rul" component={ SenderId_Rul }></Route>

@@ -4,11 +4,12 @@ import $, { event } from 'jquery';
 import { useTranslation } from 'react-i18next';
 import swal from 'sweetalert';
 import Layout from '../../component/Layout';
-
+import HelperHook from '../../custHook/HelperHook';
 import { ToastContainer, toast } from 'react-toastify';
 import { BreadCrumb } from '../../component/UI/BreadCrumb';
 // import { url } from "../url";
-function Vender_create() {
+function VenderCreate() {
+    const helper=HelperHook();
     const { t } = useTranslation();
     const [mastProd, setData] = useState([]);
     const [mroute, setmRoute] = useState([]);
@@ -110,7 +111,7 @@ function Vender_create() {
         // localStorage.setItem({ "key": hhtpCollection })
         try {
             fetch(url + "/master/route/getRouteType", {
-                ...fetchOption
+                ...helper.fetchOption
             }).then(response => response.json())
                 .then(data => {
                     setData(data.data);
@@ -124,7 +125,8 @@ function Vender_create() {
                     position: "top-right"
                 });
         }
- }, [])
+    }, [])
+
     const handleChange = (e) => {
         $('.route').html('<option value="">' + t('Select Route Type') + '</option>');
         if (e.target.value != '') {
@@ -772,8 +774,7 @@ function Vender_create() {
                 </div>
             </div>
         </Layout>
-
     )
 }
 
-export default Vender_create
+export default VenderCreate
