@@ -31,16 +31,10 @@ import Add_field from "./pages/SystemAdmin/Add_field";
 import Smsreports from "./pages/SystemAdmin/Smsreports";
 import Languages from "./pages/SystemAdmin/Languages";
 import SystemAdmin from "./routes/SystemAdmin";
-
 import NoPage from './routes/NoPage'
 export default function App() {
   
   const role=useSelector((state) => state.user.role)
-
-  // useEffect(() => {
-    
-  // }, [])
-  
   const getComponent = ()=>{
     switch(role){
       case 'systemadmin':
