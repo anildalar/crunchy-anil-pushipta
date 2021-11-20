@@ -18,10 +18,13 @@ export const errorSlice = createSlice({
         },
         errMsg:(state, action)=>{
             state.msg = action.payload
+        },
+        reset:(state)=>{
+            state=initialData
         }
     }
 });
 
-export const { addErr,errMsg} = errorSlice.actions
+export const { addErr,errMsg,reset} = errorSlice.actions
 
 export default errorSlice.reducer

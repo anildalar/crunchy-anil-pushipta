@@ -5,7 +5,12 @@ const initialData = {
     role:(localStorage.getItem('role'))?localStorage.getItem('role'):'',
     config:(localStorage.getItem('config'))?localStorage.getItem('config'):{},
 };
-
+const restData = {
+    jwtToken:'',
+    user:{},
+    role:'',
+    config:{},
+}
 export const userSlice = createSlice({
     name: 'user',
     initialState:initialData,
@@ -21,11 +26,14 @@ export const userSlice = createSlice({
         },
         setRole:(state, action)=>{
             state.role=action.payload;
+        },
+        reset: (state, action)=>{
+            state=restData
         }
     },
   })
   
   // Action creators are generated for each case reducer function
-  export const { setToken, setUser,setConfig,setRole} = userSlice.actions
+  export const { setToken, setUser,setConfig,setRole,reset} = userSlice.actions
   
   export default userSlice.reducer
