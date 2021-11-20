@@ -8,7 +8,7 @@ import HelperHook from '../../custHook/HelperHook';
 import { ToastContainer, toast } from 'react-toastify';
 import { BreadCrumb } from '../../component/UI/BreadCrumb';
 // import { url } from "../url";
-function VenderCreate() {
+function VenderCreateHttp() {
     const helper=HelperHook();
     const { t } = useTranslation();
     const [mastProd, setData] = useState([]);
@@ -299,7 +299,7 @@ function VenderCreate() {
                             {/* start next time hare  */}
                             <div className="card ">
                                 <div className="card-header bg-info px-2 py-1">
-                                    <h5 className="m-2 text-white">{t("SMPP Connection")}</h5>
+                                    <h5 className="m-2 text-white">{t("HTTP Connection")}</h5>
                                 </div>
                                 <form  id="myForm" onSubmit={submit}>
                                     <div className="card-body bg-white">
@@ -777,4 +777,4 @@ function VenderCreate() {
     )
 }
 
-export default VenderCreate
+export default VenderCreateHttp

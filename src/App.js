@@ -30,6 +30,7 @@ import NoPage from './routes/NoPage'
 import Retailer from "./routes/Retailer";
 import Reseller from "./routes/Reseller";
 import User from "./routes/User";
+import Nopage from "./pages/Nopage";
 export default function App() {
   
   const role=useSelector((state) => state.user.role)
@@ -81,7 +82,7 @@ export default function App() {
         <Route path="/languages" component={ Languages }></Route>
         
         {getComponent()}
-        
+        <Route path="/"  component={ Nopage }></Route>
       </Switch>
     </>
   )

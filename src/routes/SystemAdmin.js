@@ -3,7 +3,8 @@ import { Route, useHistory } from 'react-router'
 import CheckLogin from '../component/CheckLogin';
 import Nopage from '../pages/Nopage';
 import SystemAdminDashboard from '../pages/SystemAdmin/Dashbord';
-import VenderCreate from '../pages/SystemAdmin/VenderCreate';
+import VenderCreateHttp from '../pages/SystemAdmin/VenderCreateHttp';
+import VendorCreateSmpp from '../pages/SystemAdmin/VendorCreateSmpp';
 
  const SystemAdmin=()=> {
     const history = useHistory();
@@ -13,8 +14,10 @@ import VenderCreate from '../pages/SystemAdmin/VenderCreate';
     return (
         <>
             <Route path="/dashboard"><SystemAdminDashboard/></Route>
-            <Route path="/vendor/smpp/create" component={ VenderCreate }></Route>
-            <Route path="*" component={Nopage}></Route>
+            <Route path="/vendor/smpp/create" component={ VendorCreateSmpp }></Route>
+            <Route path="/vendor/http/create" component={ VenderCreateHttp }></Route>
+            {/* VendorCreateSmpp */}
+            {/* <Route path="*" component={Nopage}></Route> */}
         </>
     )
 }
