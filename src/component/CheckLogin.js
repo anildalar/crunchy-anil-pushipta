@@ -4,8 +4,8 @@ import jwt_decode from "jwt-decode";
 import {reset as resetUser} from '../app/reducers/userSlice'
 function CheckLogin() {
    
-    const dispatch=useDispatch();
     const token=useSelector((state) => state.user.jwtToken)
+    const dispatch=useDispatch();
     try{
         const decoded = jwt_decode(token);
         return true;

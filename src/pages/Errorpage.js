@@ -4,7 +4,6 @@ import { useSelector, useDispatch } from 'react-redux'
 export default function Errorpage() {
     const error= useSelector((state) => state.error);
     const msg=(error.msg!='')?error.msg:'Unkown error, please contact the support team.';
-    console.log('current error:',error);
     return (
         <div className="page">
             <div className="main-error-wrapper  page page-h ">

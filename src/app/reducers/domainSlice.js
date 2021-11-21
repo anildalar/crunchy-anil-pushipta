@@ -29,9 +29,7 @@ export const domainSlice = createSlice({
     setLogo: (state, action)=>{
         state.logo = action.payload
     },
-    reset: (state)=>{
-      state = resetData
-    }
+    reset: state => resetData
   },
 })
 

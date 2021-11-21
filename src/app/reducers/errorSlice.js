@@ -19,9 +19,7 @@ export const errorSlice = createSlice({
         errMsg:(state, action)=>{
             state.msg = action.payload
         },
-        reset:(state)=>{
-            state=initialData
-        }
+        reset: state => initialData
     }
 });
 

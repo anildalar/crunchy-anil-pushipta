@@ -13,15 +13,16 @@ import {setConfig, setRole, setToken, setUser} from '.././app/reducers/userSlice
 import CheckLogin from '../component/CheckLogin';
 function Login(props) {
     const history = useHistory();
+    if(CheckLogin()){
+        history.push("/dashboard");
+    }
     const dispatch = useDispatch();
     const domain=useSelector((state) => state.domain)
     const [userName, setUserName] = useState('crunchy@2021');//crunchy@2021
     const [error, setError] = useState(0);
     const [msg, setmsg] = useState("hello anil");
     const [password, setPassword] = useState('crunchy@admin');//'crunchy@admin'
-    if(CheckLogin()){
-        history.push("/dashboard");
-    }
+    
     //i18n.changeLanguage(localStorage.getItem('lang'));
     useEffect(() => {
         const setLanguage = async () => {
