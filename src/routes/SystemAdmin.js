@@ -7,6 +7,10 @@ import VenderCreateHttp from '../pages/SystemAdmin/VenderCreateHttp';
 import VendorCreateSmpp from '../pages/SystemAdmin/VendorCreateSmpp';
 import ClinetRouting from "../pages/SystemAdmin/ClinetRouting";
 import CreateRouting from "../pages/SystemAdmin/CreateRouting";
+import SenderIdRule from "../pages/SystemAdmin/SenderIdRule";
+import SmsScoreboard from '../pages/SystemAdmin/SmsScoreboard';
+import Smsreports from '../pages/SystemAdmin/Smsreports';
+import Languages from '../pages/SystemAdmin/Languages';
 
  const SystemAdmin=()=> {
     const history = useHistory();
@@ -23,7 +27,12 @@ import CreateRouting from "../pages/SystemAdmin/CreateRouting";
             {/* client routing route  */}
             <Route path="/routing" component={ ClinetRouting }></Route>
             <Route path="/routing/create" component={ CreateRouting }></Route>
-        
+            {/* setting */}
+            <Route path="/sender-id-rule" component={ SenderIdRule }></Route>
+            <Route path="/languages" component={ Languages }></Route>
+            {/* reports */}
+            <Route path="/sms/scoreboard" component={ SmsScoreboard }></Route>
+            <Route path="/sms/reports" component={ Smsreports }></Route>
         </>
     )
 }

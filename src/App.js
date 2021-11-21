@@ -19,10 +19,6 @@ import { Credit } from "./pages/Admin/Credit";
 import { SendSMS } from "./pages/Admin/SendSMS";
 import { ViewCredit } from "./pages/Admin/ViewCredit";
 import Createuser from "./pages/SystemAdmin/Createuser";
-import SenderId_Rul from "./pages/SystemAdmin/SenderId_Rul";
-import Add_field from "./pages/SystemAdmin/CreateRouting";
-import Smsreports from "./pages/SystemAdmin/Smsreports";
-import Languages from "./pages/SystemAdmin/Languages";
 import SystemAdmin from "./routes/SystemAdmin";
 import Admin from "./routes/SystemAdmin";
 import NoPage from './routes/NoPage'
@@ -74,10 +70,6 @@ export default function App() {
         <Route path="/viewcredit" component={ ViewCredit }></Route>
         <Route path="/editgroup" ><EditGroup/></Route>
         <Route path="/Smmp" component={ Createuser }></Route>
-        <Route path="/Add_field" component={ Add_field }></Route>
-        <Route path="/SenderId_Rul" component={ SenderId_Rul }></Route>
-        <Route path="/smsreports" component={ Smsreports }></Route>
-        <Route path="/languages" component={ Languages }></Route>
         
         {getComponent()}
         <Route path="/"  component={ Nopage }></Route>

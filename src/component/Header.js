@@ -13,13 +13,14 @@ export default function Header() {
   const history = useHistory();
   const dispatch=useDispatch();
   const role=useSelector((state) => state.user.role)
-  const Logout = (e) => {
+  const Logout = async (e) => {
     e.preventDefault();
     var l = localStorage.getItem("lang");
     localStorage.clear();
     localStorage.setItem("lang", l);
-    dispatch(resetUser())
+    await dispatch(resetUser());
     history.push("/");
+    
   };
   const getAside=() => {
     switch(role){

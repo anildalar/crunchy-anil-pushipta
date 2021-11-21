@@ -23,6 +23,23 @@ function SystemadminAside() {
                 </Link>
             </li>
             {/* navigation start  */}
+                {/* reports */}
+                <li aria-haspopup="true" >
+                    <a href="#" className="sub-icon">
+                    <i class="fas fa-book"></i>&nbsp;Reports
+                        <i className="fe fe-chevron-down horizontal-icon" />
+                    </a>
+                    <ul className="sub-menu">
+                        <li><h3 className="fs-14 fw-bold mb-1 mt-2 text-body"><i class="fas fa-chart-bar"></i>&nbsp;&nbsp;Scoreboard</h3></li>
+                        <li>
+                            <NavLink className="py-1" to="/sms/scoreboard">SMS Scoreboard</NavLink>
+                        </li>
+                        <li><h3 className="fs-14 fw-bold mb-1 mt-2 text-body"><i class="fas fa-mail-bulk"></i>&nbsp;&nbsp;Reports</h3></li>
+                        <li>
+                            <NavLink className="py-1" to="/sms/reports">SMS Scoreboard</NavLink>
+                        </li>
+                    </ul>
+                </li>
                 {/* vendor */}
                 <li aria-haspopup="true" >
                     <a href="#" className="sub-icon">
@@ -79,8 +96,22 @@ function SystemadminAside() {
                         <li>
                             <NavLink className="py-1" to="/routing/create">Create Routing</NavLink>
                         </li>
+                    </ul>
+                </li>
+                {/* setting */}
+                <li aria-haspopup="true" >
+                    <a href="#" className="sub-icon">
+                    <i class="fas fa-cogs"></i>&nbsp;Setting
+                        <i className="fe fe-chevron-down horizontal-icon" />
+                    </a>
+                    <ul className="sub-menu">
+                        <li><h3 className="fs-14 fw-bold mb-1 mt-2 text-body"><i class="fas fa-sliders-h"></i>&nbsp;&nbsp;Dynamic Rule</h3></li>
                         <li>
-                            <NavLink to="/vendor/create/connection" className="py-1">Create Connection</NavLink>
+                            <NavLink className="py-1" to="/sender-id-rule">Sender Id Rule</NavLink>
+                        </li>
+                        <li><h3 className="fs-14 fw-bold mb-1 mt-2 text-body"><i class="fas fa-cog"></i>&nbsp;&nbsp;System Settings</h3></li>
+                        <li>
+                            <NavLink className="py-1" to="/languages">Languages</NavLink>
                         </li>
                     </ul>
                 </li>

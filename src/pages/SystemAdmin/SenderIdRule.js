@@ -9,7 +9,7 @@ import TableData from './TableData';
 import { fetchOption, Toast, url } from '../../url';
 import { toast, ToastContainer } from 'react-toastify';
 import { BreadCrumb } from '../../component/UI/BreadCrumb';
-function SenderId_Rul() {
+function SenderIdRule() {
     const inputRef = useRef();
     const [editorState, setEditorState] = useState(() =>
         EditorState.createEmpty()
@@ -271,4 +271,4 @@ function SenderId_Rul() {
     )
 }
 
-export default SenderId_Rul
+export default SenderIdRule
