@@ -9,7 +9,7 @@ import Layout from "../../component/Layout";
 import { BreadCrumb } from "../../component/UI/BreadCrumb";
 //import Toast from "../../component/Toast";
 
-export default function Clinet_routing() {
+export default function ClinetRouting() {
     const { t } = useTranslation();
     const [client, setClient] = useState([]);
     const [Country, setCountry] = useState([]);

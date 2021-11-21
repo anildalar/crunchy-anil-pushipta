@@ -7,7 +7,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import Layout from '../../component/Layout';
 import { useTranslation } from 'react-i18next';
 
-function Add_field() {
+function CreateRouting() {
     const { t } = useTranslation();
     const [client, setClient] = useState([]);
     const [Country, setCountry] = useState([]);
@@ -277,4 +277,4 @@ function Add_field() {
     )
 }
 
-export default Add_field
+export default CreateRouting

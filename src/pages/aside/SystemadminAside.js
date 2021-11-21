@@ -23,28 +23,67 @@ function SystemadminAside() {
                 </Link>
             </li>
             {/* navigation start  */}
-            <li aria-haspopup="true" >
-                <a href="#" className="sub-icon">
-                    <i class="fas fa-rss"></i>&nbsp;Vendor
-                    <i className="fe fe-chevron-down horizontal-icon" />
-                </a>
-                <ul className="sub-menu">
-                    <li><h3 className="fs-14 fw-bold mb-1 mt-2 text-body"><i className="fas fa-link"></i>&nbsp;&nbsp;Connections</h3></li>
-                    <li>
-                        <NavLink className="py-1" to="/vendor/smpp">SMPP Connection</NavLink>
-                    </li>
-                    <li>
-                        <NavLink className="py-1" to="/vendor/http">HTTP Connection</NavLink>
-                    </li>
-                    <li><h3 className="fs-14 fw-bold mb-1 mt-2 text-body"><i className="fas fa-wifi"></i>&nbsp;&nbsp;Create Connections</h3></li>
-                    <li>
-                        <NavLink to="/vendor/smpp/create" className="py-1">SMPP Connection</NavLink>
-                    </li>
-                    <li>
-                        <NavLink to="/vendor/http/create" className="py-1">HTTP Connection</NavLink>
-                    </li>
-                </ul>
-            </li>
+                {/* vendor */}
+                <li aria-haspopup="true" >
+                    <a href="#" className="sub-icon">
+                        <i class="fas fa-rss"></i>&nbsp;Vendor
+                        <i className="fe fe-chevron-down horizontal-icon" />
+                    </a>
+                    <ul className="sub-menu">
+                        <li><h3 className="fs-14 fw-bold mb-1 mt-2 text-body"><i className="fas fa-link"></i>&nbsp;&nbsp;Connections</h3></li>
+                        <li>
+                            <NavLink className="py-1" to="/vendor/smpp">SMPP Connection</NavLink>
+                        </li>
+                        <li>
+                            <NavLink className="py-1" to="/vendor/http">HTTP Connection</NavLink>
+                        </li>
+                        <li><h3 className="fs-14 fw-bold mb-1 mt-2 text-body"><i className="fas fa-wifi"></i>&nbsp;&nbsp;Create Connections</h3></li>
+                        <li>
+                            <NavLink to="/vendor/smpp/create" className="py-1">SMPP Connection</NavLink>
+                        </li>
+                        <li>
+                            <NavLink to="/vendor/http/create" className="py-1">HTTP Connection</NavLink>
+                        </li>
+                    </ul>
+                </li>
+                {/* client start */}
+                <li aria-haspopup="true" >
+                    <a href="#" className="sub-icon">
+                        <i class="fas fa-rss"></i>&nbsp;Client
+                        <i className="fe fe-chevron-down horizontal-icon" />
+                    </a>
+                    <ul className="sub-menu">
+                        <li><h3 className="fs-14 fw-bold mb-1 mt-2 text-body"><i className="fas fa-link"></i>&nbsp;&nbsp;Connections</h3></li>
+                        <li>
+                            <NavLink className="py-1" to="/client/smpp">SMPP Connection</NavLink>
+                        </li>
+                        <li>
+                            <NavLink className="py-1" to="/client/http">HTTP Connection</NavLink>
+                        </li>
+                        <li>
+                            <NavLink to="/vendor/create/connection" className="py-1">Create Connection</NavLink>
+                        </li>
+                    </ul>
+                </li>
+                {/* Client routing  */}
+                <li aria-haspopup="true" >
+                    <a href="#" className="sub-icon">
+                    <i class="fas fa-route"></i>&nbsp;Routing
+                        <i className="fe fe-chevron-down horizontal-icon" />
+                    </a>
+                    <ul className="sub-menu">
+                        <li><h3 className="fs-14 fw-bold mb-1 mt-2 text-body"><i class="fas fa-map-marker-alt"></i>&nbsp;&nbsp;Routing</h3></li>
+                        <li>
+                            <NavLink className="py-1" to="/routing">Routing</NavLink>
+                        </li>
+                        <li>
+                            <NavLink className="py-1" to="/routing/create">Create Routing</NavLink>
+                        </li>
+                        <li>
+                            <NavLink to="/vendor/create/connection" className="py-1">Create Connection</NavLink>
+                        </li>
+                    </ul>
+                </li>
             {/* navigtion closed */}
             <Pushpita/>
             <li aria-haspopup="true">
