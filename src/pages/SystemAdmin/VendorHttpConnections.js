@@ -4,25 +4,26 @@ import { BreadCrumb } from '../../component/UI/BreadCrumb'
 import HelperHook from '../../custHook/HelperHook';
 import { url, Toast } from '../../helpers/helper'
 import { toast } from 'react-toastify'
+import { NavLink } from 'react-router-dom';
 /**
 * @author
-* @function GetConnection
+* @function VendorHttpConnections
 **/
 
-export const GetConnection = (props) => {
+export const VendorHttpConnections = (props) => {
     const helper = HelperHook();
-    const[connection,setConnection]=useState([])
+    const [httpdata, setHttpData] = useState([])
     useEffect(() => {
-        try {
-            fetch(url+'/client/conn/getConnection', {
+        try{
+            fetch(url+'/vendor/conn/getConnection', {
                 ...helper.fetchOption,
             })
                 .then(response => response.json())
                 .then(data => {
-                   // console.log('Success:', data);
                     if(data.status==200){
-                        //console.log('Success:', data.data);
-                        setConnection(data.data)
+                        console.log('Success:', data.data);
+                        setHttpData(data.data.http)
+
                     }else{
                         toast.error(data.msg,
                             {
@@ -30,30 +31,32 @@ export const GetConnection = (props) => {
                                 position: "top-right"
                             });
                     }
+                   
                 })
                 .catch((error) => {
                     console.error('Error:', error);
                 });
-        } catch (err) {
+        }catch(err){
             toast.error("sever error",
-                {
-                    ...Toast,
-                    position: "top-right"
-                });
+            {
+                ...Toast,
+                position: "top-right"
+            });
         }
-
+       
     }, [])
+    
   return(
     <Layout>
-      <div className="main-content horizontal-content">
-        {/* container opened */}
-        <div className="container">
-          {/* breadcrumb */}
-          <BreadCrumb></BreadCrumb>
-          {/* breadcrumb */}
-          {/* row */}
-          {/* your work start here */}
-          <div className="row row-sm">
+    <div className="main-content horizontal-content">
+      {/* container opened */}
+      <div className="container">
+        {/* breadcrumb */}
+       <BreadCrumb></BreadCrumb>
+        {/* breadcrumb */}
+        {/* row */}
+        {/* your work start here */}
+        <div className="row row-sm">
                         <div className="col-xl-12">
                             <div className="card">
                                 <div className="card-header bg-info">
@@ -64,26 +67,26 @@ export const GetConnection = (props) => {
                                         <table className="table align-middle">
                                             <thead>
                                                 <tr>
-                                                    <th >User Name</th>
-                                                    <th >Route Name</th>
-                                                    <th >Currency</th>
+                                                    <th >Active</th>
+                                                    <th >Protocol</th>
+                                                    <th >Allow Connection</th>
                                                     <th >Sms Capacity</th>
-                                                    <th >Action</th>
+                                                    <th >Actions</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
                                                 {
-                                                    connection.map((element, index) => {
+                                                    httpdata.map((element, index) => {
                                                         return (
                                                             <tr>
-                                                                <td>{element.userName}</td>
-                                                                <td>{element.routeName}</td>
-                                                                <td>{element.currency}</td>
+                                                                <td>{element.active}</td>
+                                                                <td>{element.protocol}</td>
+                                                                <td>{element.allowConn}</td>
                                                                 <td>{element.smsCapacity}</td>
                                                                 <td>
                                                                     <div className="btn-group btn-group-sm" role="group" aria-label="Basic example">
                                                                         <button type="button" className="btn btn-success"><i className="fas fa-check"></i></button>
-                                                                        <button type="button" className="btn btn-info"><i className="fas fa-pencil-alt"></i></button>
+                                                                        <NavLink to={'editvenderhttp/'+element.uuId} type="button" className="btn btn-info"><i className="fas fa-pencil-alt"></i></NavLink>
                                                                         <button type="button" className="btn btn-danger"><i className="fas fa-trash"></i></button>
                                                                     </div>
                                                                 </td>
@@ -99,14 +102,14 @@ export const GetConnection = (props) => {
                             </div>
                         </div>
                     </div>
-          {/* your work end here */}
-          {/* row close */}
-        </div>
-        {/* Container closed */}
+        {/* your work end here */}
+        {/* row close */}
       </div>
+      {/* Container closed */}
+    </div>
 
-     
-    </Layout>
+   
+  </Layout>
    )
 
  }

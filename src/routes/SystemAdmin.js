@@ -11,6 +11,9 @@ import SenderIdRule from "../pages/SystemAdmin/SenderIdRule";
 import SmsScoreboard from '../pages/SystemAdmin/SmsScoreboard';
 import Smsreports from '../pages/SystemAdmin/Smsreports';
 import Languages from '../pages/SystemAdmin/Languages';
+import CreateClientConnections from '../pages/SystemAdmin/CreateClientConnections';
+import  VendorSmppConnection  from '../pages/SystemAdmin/VendorSmppConnection';
+import { VendorHttpConnections } from '../pages/SystemAdmin/VendorHttpConnections';
 import ClientConnections from '../pages/SystemAdmin/ClientConnections';
 
  const SystemAdmin=()=> {
@@ -24,9 +27,12 @@ import ClientConnections from '../pages/SystemAdmin/ClientConnections';
             {/* Vendor connecton */}
             <Route  path="/vendor/smpp/create" component={ VendorCreateSmpp }></Route>
             <Route  path="/vendor/http/create" component={ VenderCreateHttp }></Route>
-            
+            <Route path="/vendor/smpp" component={ VendorSmppConnection }></Route>
+            <Route path="/vendor/http" component={ VendorHttpConnections }></Route>
+        
             {/* clienct connection  */}
-            <Route  path="/client/connection/create" component={ ClientConnections }></Route>
+            <Route  path="/client/connection/create" component={ CreateClientConnections }></Route>
+            <Route  path="/client/connections" component={ ClientConnections }></Route>
             
              {/* client routing route   */}
             <Route  path="/routing/create" component={ CreateRouting }></Route>

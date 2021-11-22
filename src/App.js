@@ -4,7 +4,7 @@ import { useSelector } from "react-redux";
 import Domain from "./pages/Domain";
 import Home from "./pages/Home";
 import Pushpita from "./pages/Pushpita";
-import ClientConnections from "./pages/SystemAdmin/ClientConnections";
+import ClientConnections from "./pages/SystemAdmin/CreateClientConnections";
 import TableData from "./pages/SystemAdmin/TableData";
 import { Groups } from "./pages/Admin/Groups";
 import { ImportContects } from "./pages/Admin/ImportContects";
@@ -29,9 +29,6 @@ import { NewCreateUser } from "./pages/SystemAdmin/NewCreateUser";
 import { UserProfile } from "./pages/SystemAdmin/UserProfile";
 import { ImportRateEditor } from "./pages/SystemAdmin/ImportRateEditor";
 import { NewUser } from "./pages/SystemAdmin/NewUser";
-import { GetSMPPConnection } from "./pages/SystemAdmin/GetSMPPConeection";
-import { GetHTTPData } from "./pages/SystemAdmin/GetHTTPData";
-import { GetConnection } from "./pages/SystemAdmin/GetConnection";
 import { EditVenderSmpp } from "./pages/SystemAdmin/EditVenderSmpp";
 import { EditVenderHttp } from "./pages/SystemAdmin/EditVenderHttp";
 import Login from "./pages/Login";
@@ -83,9 +80,6 @@ export default function App() {
         <Route path="/newuser" component={ NewUser }></Route>
         <Route path="/userprofile/:uuid" component={ UserProfile }></Route>
         <Route path="/importrateeditor" component={ ImportRateEditor }></Route>
-        <Route path="/getsmppconnection" component={ GetSMPPConnection }></Route>
-        <Route path="/gethttpdata" component={ GetHTTPData }></Route>
-        <Route path="/getconnection" component={ GetConnection }></Route>
         <Route path="/editvendersmpp" component={ EditVenderSmpp }></Route>
         <Route path="/editvenderhttp" component={ EditVenderHttp }></Route>
         

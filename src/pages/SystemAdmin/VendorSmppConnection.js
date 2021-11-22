@@ -7,56 +7,54 @@ import { toast } from 'react-toastify'
 import { NavLink } from 'react-router-dom';
 /**
 * @author
-* @function GetHTTPData
+* @function VendorSmppConnection
 **/
 
-export const GetHTTPData = (props) => {
+ const VendorSmppConnection = (props) => {
     const helper = HelperHook();
-    const [httpdata, setHttpData] = useState([])
+    const [smppdata, setSmppData] = useState([])
     useEffect(() => {
-        try{
-            fetch(url+'/vendor/conn/getConnection', {
+        try {
+            fetch(url + '/vendor/conn/getConnection', {
                 ...helper.fetchOption,
             })
                 .then(response => response.json())
                 .then(data => {
-                    if(data.status==200){
-                        console.log('Success:', data.data);
-                        setHttpData(data.data.http)
-
-                    }else{
+                    if (data.status == 200) {
+                        //console.log('Success:', data.data.smpp);
+                        setSmppData(data.data.smpp)
+                    } else {
                         toast.error(data.msg,
                             {
                                 ...Toast,
                                 position: "top-right"
                             });
                     }
-                   
+
                 })
                 .catch((error) => {
                     console.error('Error:', error);
                 });
-        }catch(err){
+        } catch (err) {
             toast.error("sever error",
-            {
-                ...Toast,
-                position: "top-right"
-            });
+                {
+                    ...Toast,
+                    position: "top-right"
+                });
         }
-       
+
     }, [])
-    
-  return(
-    <Layout>
-    <div className="main-content horizontal-content">
-      {/* container opened */}
-      <div className="container">
-        {/* breadcrumb */}
-       <BreadCrumb></BreadCrumb>
-        {/* breadcrumb */}
-        {/* row */}
-        {/* your work start here */}
-        <div className="row row-sm">
+    return (
+        <Layout>
+            <div className="main-content horizontal-content">
+                {/* container opened */}
+                <div className="container">
+                    {/* breadcrumb */}
+                    <BreadCrumb></BreadCrumb>
+                    {/* breadcrumb */}
+                    {/* row */}
+                    {/* your work start here */}
+                    <div className="row row-sm">
                         <div className="col-xl-12">
                             <div className="card">
                                 <div className="card-header bg-info">
@@ -67,26 +65,32 @@ export const GetHTTPData = (props) => {
                                         <table className="table align-middle">
                                             <thead>
                                                 <tr>
-                                                    <th >Active</th>
-                                                    <th >Protocol</th>
-                                                    <th >Allow Connection</th>
-                                                    <th >Sms Capacity</th>
-                                                    <th >Actions</th>
+                                                    <th >User Name</th>
+                                                    <th >UUID</th>
+                                                    <th >Host Name</th>
+                                                    <th >Port</th>
+                                                    <th >Action</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
+                                                {/* <tr>
+                                                    <td >User Name</td>
+                                                    <td >UUID</td>
+                                                    <td >Host Name</td>
+                                                    <td >Port</td>
+                                                </tr> */}
                                                 {
-                                                    httpdata.map((element, index) => {
+                                                    smppdata.map((element, index) => {
                                                         return (
                                                             <tr>
-                                                                <td>{element.active}</td>
-                                                                <td>{element.protocol}</td>
-                                                                <td>{element.allowConn}</td>
-                                                                <td>{element.smsCapacity}</td>
+                                                                <td>{element.userName}</td>
+                                                                <td>{element.uuId}</td>
+                                                                <td>{element.hostName}</td>
+                                                                <td>{element.port}</td>
                                                                 <td>
                                                                     <div className="btn-group btn-group-sm" role="group" aria-label="Basic example">
                                                                         <button type="button" className="btn btn-success"><i className="fas fa-check"></i></button>
-                                                                        <NavLink to={'editvenderhttp/'+element.uuId} type="button" className="btn btn-info"><i className="fas fa-pencil-alt"></i></NavLink>
+                                                                        <NavLink to={'editvendersmpp/'+element.uuId} type="button" className="btn btn-info"><i className="fas fa-pencil-alt"></i></NavLink>
                                                                         <button type="button" className="btn btn-danger"><i className="fas fa-trash"></i></button>
                                                                     </div>
                                                                 </td>
@@ -102,14 +106,16 @@ export const GetHTTPData = (props) => {
                             </div>
                         </div>
                     </div>
-        {/* your work end here */}
-        {/* row close */}
-      </div>
-      {/* Container closed */}
-    </div>
+                    {/* your work end here */}
+                    {/* row close */}
+                </div>
+                {/* Container closed */}
+            </div>
 
-   
-  </Layout>
-   )
 
- }
+        </Layout>
+    )
+
+}
+
+export default VendorSmppConnection;
