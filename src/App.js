@@ -26,6 +26,15 @@ import Retailer from "./routes/Retailer";
 import Reseller from "./routes/Reseller";
 import User from "./routes/User";
 import Nopage from "./pages/Nopage";
+import { NewCreateUser } from "./pages/SystemAdmin/NewCreateUser";
+import { UserProfile } from "./pages/SystemAdmin/UserProfile";
+import { ImportRateEditor } from "./pages/SystemAdmin/ImportRateEditor";
+import { NewUser } from "./pages/SystemAdmin/NewUser";
+import { GetSMPPConnection } from "./pages/SystemAdmin/GetSMPPConeection";
+import { GetHTTPData } from "./pages/SystemAdmin/GetHTTPData";
+import { GetConnection } from "./pages/SystemAdmin/GetConnection";
+import { EditVenderSmpp } from "./pages/SystemAdmin/EditVenderSmpp";
+import { EditVenderHttp } from "./pages/SystemAdmin/EditVenderHttp";
 export default function App() {
   
   const role=useSelector((state) => state.user.role)
@@ -70,6 +79,15 @@ export default function App() {
         <Route path="/viewcredit" component={ ViewCredit }></Route>
         <Route path="/editgroup" ><EditGroup/></Route>
         <Route path="/Smmp" component={ Createuser }></Route>
+        <Route path="/newcreateuser" component={ NewCreateUser }></Route>
+        <Route path="/newuser" component={ NewUser }></Route>
+        <Route path="/userprofile/:uuid" component={ UserProfile }></Route>
+        <Route path="/importrateeditor" component={ ImportRateEditor }></Route>
+        <Route path="/getsmppconnection" component={ GetSMPPConnection }></Route>
+        <Route path="/gethttpdata" component={ GetHTTPData }></Route>
+        <Route path="/getconnection" component={ GetConnection }></Route>
+        <Route path="/editvendersmpp" component={ EditVenderSmpp }></Route>
+        <Route path="/editvenderhttp" component={ EditVenderHttp }></Route>
         
         {getComponent()}
         <Route path="/"  component={ Nopage }></Route>
