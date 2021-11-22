@@ -1,3 +1,4 @@
+import React from "react";
 import { Route,Switch } from "react-router";
 import { useSelector } from "react-redux";
 //import {useSelector, useDispatch} from ""
@@ -25,6 +26,9 @@ import Retailer from "./routes/Retailer";
 import Reseller from "./routes/Reseller";
 import User from "./routes/User";
 import Nopage from "./pages/Nopage";
+<<<<<<< HEAD
+import Login from "./pages/Login";
+=======
 import { NewCreateUser } from "./pages/SystemAdmin/NewCreateUser";
 import { UserProfile } from "./pages/SystemAdmin/UserProfile";
 import { ImportRateEditor } from "./pages/SystemAdmin/ImportRateEditor";
@@ -34,7 +38,7 @@ import { GetHTTPData } from "./pages/SystemAdmin/GetHTTPData";
 import { GetConnection } from "./pages/SystemAdmin/GetConnection";
 import { EditVenderSmpp } from "./pages/SystemAdmin/EditVenderSmpp";
 import { EditVenderHttp } from "./pages/SystemAdmin/EditVenderHttp";
-import Login from "./pages/Login";
+>>>>>>> origin/newadmin
 export default function App() {
   
   const role=useSelector((state) => state.user.role)

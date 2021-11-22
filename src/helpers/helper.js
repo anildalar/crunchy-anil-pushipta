@@ -1,6 +1,6 @@
 
 
-const url = 'http://localhost:4000'
+const url = 'http://173.249.39.43:3000';
 
 // const fetchOption = { 
 //     method: 'POST', // or 'PUT'
@@ -107,6 +107,82 @@ const timeZone= [
     { label: "(GMT +14:00) Line Islands, Tokelau", value: "+14:00"}
 ];
 
+const langauges = [
+    { value: 'AF', label: 'Afrikaans' },
+    { value: 'SQ', label: 'Albanian' },
+    { value: 'AR', label: 'Arabic' },
+    { value: 'HY', label: 'Armenian' },
+    { value: 'EU', label: 'Basque' },
+    { value: 'BN', label: 'Bengali' },
+    { value: 'BG', label: 'Bulgarian' },
+    { value: 'CA', label: 'Catalan' },
+    { value: 'KM', label: 'Cambodian' },
+    { value: 'ZH', label: 'Chinese' },
+    { value: 'HR', label: 'Croatian' },
+    { value: 'CS', label: 'Czech' },
+    { value: 'DA', label: 'Danish' },
+    { value: 'NL', label: 'Dutch' },
+    { value: 'EN', label: 'English' },
+    { value: 'ET', label: 'Estonian' },
+    { value: 'FJ', label: 'Fiji' },
+    { value: 'FI', label: 'Finnish' },
+    { value: 'FR', label: 'French' },
+    { value: 'KA', label: 'Georgian' },
+    { value: 'DE', label: 'German' },
+    { value: 'EL', label: 'Greek' },
+    { value: 'GU', label: 'Gujarati' },
+    { value: 'HE', label: 'Hebrew' },
+    { value: 'HI', label: 'Hindi' },
+    { value: 'HU', label: 'Hungarian' },
+    { value: 'IS', label: 'Icelandic' },
+    { value: 'ID', label: 'Indonesian' },
+    { value: 'GA', label: 'Irish' },
+    { value: 'IT', label: 'Italian' },
+    { value: 'JA', label: 'Japanese' },
+    { value: 'JW', label: 'Javanese' },
+    { value: 'KO', label: 'Korean' },
+    { value: 'LA', label: 'Latin' },
+    { value: 'LV', label: 'Latvian' },
+    { value: 'LT', label: 'Lithuanian' },
+    { value: 'MK', label: 'Macedonian' },
+    { value: 'MS', label: 'Malay' },
+    { value: 'ML', label: 'Malayalam' },
+    { value: 'MT', label: 'Maltese' },
+    { value: 'MI', label: 'Maori' },
+    { value: 'MR', label: 'Marathi' },
+    { value: 'MN', label: 'Mongolian' },
+    { value: 'NE', label: 'Nepali' },
+    { value: 'NO', label: 'Norwegian' },
+    { value: 'FA', label: 'Persian' },
+    { value: 'PL', label: 'Polish' },
+    { value: 'PT', label: 'Portuguese' },
+    { value: 'PA', label: 'Punjabi' },
+    { value: 'QU', label: 'Quechua' },
+    { value: 'RO', label: 'Romanian' },
+    { value: 'RU', label: 'Russian' },
+    { value: 'SM', label: 'Samoan' },
+    { value: 'SR', label: 'Serbian' },
+    { value: 'SK', label: 'Slovak' },
+    { value: 'SL', label: 'Slovenian' },
+    { value: 'ES', label: 'Spanish' },
+    { value: 'SW', label: 'Swahili' },
+    { value: 'SV', label: 'Swedish' },
+    { value: 'TA', label: 'Tamil' },
+    { value: 'TT', label: 'Tatar' },
+    { value: 'TE', label: 'Telugu' },
+    { value: 'TH', label: 'Thai' },
+    { value: 'BO', label: 'Tibetan' },
+    { value: 'TO', label: 'Tonga' },
+    { value: 'TR', label: 'Turkish' },
+    { value: 'UK', label: 'Ukrainian' },
+    { value: 'UR', label: 'Urdu' },
+    { value: 'UZ', label: 'Uzbek' },
+    { value: 'VI', label: 'Vietnamese' },
+    { value: 'CY', label: 'Welsh' },
+    { value: 'XH', label: 'Xhosa' },
+      ];
+
+
 // const baseUrl = 'http://173.249.39.43:3000';
 /** toaster option heare  **/
 const toastOption={
@@ -149,5 +225,6 @@ module.exports = {
                     yesNo,
                     BindType,
                     toDataUrl,
-                    toastOption                  
+                    toastOption,
+                    langauges                  
                 };
