@@ -133,15 +133,15 @@ function VenderCreateHttp() {
             setHttpCollection({ ...hhtpCollection, [e.target.name]: e.target.value })
             setmRoute([]); //initially emtpy   
             fetch(url + "/master/route/routesByType", {
-                ...fetchOption,
+                ...helper.fetchOption,
                 body: JSON.stringify({ routeType: e.target.value })
             }).then(response => response.json())
-                .then(d => {
-                    console.log(' Success:', d.data);
-                    setmRoute(result => [...result, d.data]);//
-                }).catch((error) => {
-                    console.error('Error:', error);
-                });
+            .then(d => {
+                console.log(' Success:', d.data);
+                setmRoute(result => [...result, d.data]);//
+            }).catch((error) => {
+                console.error('Error:', error);
+            });
         }
     }
     //API Auth eventhandl
@@ -266,28 +266,28 @@ function VenderCreateHttp() {
 
         //api CALLING
         fetch(url + "/vendor/conn/create/http", {
-            ...fetchOption,
+            ...helper.fetchOption,
             body: JSON.stringify(hhtpCollection)
         }).then(response => response.json())
-            .then(data => {
-                // setData(data.data);
-                //console.log(data)
+        .then(data => {
+            // setData(data.data);
+            //console.log(data)
 
-                if (data.errors) {
-                    console.log('Error:', data.errors);
-                    data.errors.forEach(function (arrayItem) {
-                        console.log("hello" + arrayItem);
-                        //console.log(arrayItem.param);
-                        //$(selector).action()
-                        $('[name=' + arrayItem.param.split(".").pop() + ']').css("border", "1px solid red").siblings('span.text-danger').html(arrayItem.msg);
-                    });
-                } else {
-                    swal("Vendor smpp connecton successfully stored.");
-                    document.getElementById("myForm").reset();
-                }
-            }).catch((error) => {
-                console.error('Error antim:', error);
-            });
+            if (data.errors) {
+                console.log('Error:', data.errors);
+                data.errors.forEach(function (arrayItem) {
+                    console.log("hello" + arrayItem);
+                    //console.log(arrayItem.param);
+                    //$(selector).action()
+                    $('[name=' + arrayItem.param.split(".").pop() + ']').css("border", "1px solid red").siblings('span.text-danger').html(arrayItem.msg);
+                });
+            } else {
+                swal("Vendor smpp connecton successfully stored.");
+                document.getElementById("myForm").reset();
+            }
+        }).catch((error) => {
+            console.error('Error antim:', error);
+        });
     }
     return (
         <Layout>

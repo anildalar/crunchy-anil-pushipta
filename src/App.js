@@ -1,4 +1,4 @@
-import React, { useEffect, useState} from "react";
+import React from "react";
 import { Route,Switch } from "react-router";
 import { useSelector } from "react-redux";
 //import {useSelector, useDispatch} from ""
@@ -26,6 +26,7 @@ import Retailer from "./routes/Retailer";
 import Reseller from "./routes/Reseller";
 import User from "./routes/User";
 import Nopage from "./pages/Nopage";
+import Login from "./pages/Login";
 export default function App() {
   
   const role=useSelector((state) => state.user.role)
@@ -53,14 +54,14 @@ export default function App() {
   }
   return (
     <>
-      <Switch>
+      
         <Route path="/" exact> <Home /> </Route>
+        <Route path="/login"> <Login /> </Route>
         <Route path="/domain" component={ Domain }></Route>
         <Route path="/pushpita" component={ Pushpita }></Route>
         <Route path="/group"><Groups /></Route>
         <Route path="/datatable"><Abc /></Route>
         <Route path="/importcontects"><ImportContects /></Route>
-        <Route path="/ClientConnections" component={ ClientConnections }></Route>
         <Route path="/TableData" component={ TableData }></Route>
         <Route path="/breadcrumb" component={ BreadCrumb }></Route>
         <Route path="/editcontect" component={ ExportContect }></Route>
@@ -72,8 +73,8 @@ export default function App() {
         <Route path="/Smmp" component={ Createuser }></Route>
         
         {getComponent()}
-        <Route path="/"  component={ Nopage }></Route>
-      </Switch>
+        <Route  path="/*" component={ Nopage }></Route>
+      
     </>
   )
 }

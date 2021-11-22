@@ -6,10 +6,13 @@ import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
 import Layout from '../../component/Layout';
 
 import TableData from './TableData';
-import { fetchOption, Toast, url } from '../../url';
+import {Toast} from '../../url';
+import { url } from '../../helpers/helper';
 import { toast, ToastContainer } from 'react-toastify';
 import { BreadCrumb } from '../../component/UI/BreadCrumb';
+import HelperHook from '../../custHook/HelperHook';
 function SenderIdRule() {
+    const helper = HelperHook();
     const inputRef = useRef();
     const [editorState, setEditorState] = useState(() =>
         EditorState.createEmpty()
@@ -33,7 +36,7 @@ function SenderIdRule() {
     useEffect(() => {
         try {
             fetch(url + "/master/get/countries", {
-                ...fetchOption,
+                ...helper.fetchOption,
             }).then((response) => response.json())
                 .then((data) => {
                     console.log("Success +contries:", data);

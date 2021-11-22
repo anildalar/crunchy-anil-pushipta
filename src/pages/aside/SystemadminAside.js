@@ -72,13 +72,10 @@ function SystemadminAside() {
                     <ul className="sub-menu">
                         <li><h3 className="fs-14 fw-bold mb-1 mt-2 text-body"><i className="fas fa-link"></i>&nbsp;&nbsp;Connections</h3></li>
                         <li>
-                            <NavLink className="py-1" to="/client/smpp">SMPP Connection</NavLink>
+                            <NavLink className="py-1" to="/client/connections">Connections</NavLink>
                         </li>
                         <li>
-                            <NavLink className="py-1" to="/client/http">HTTP Connection</NavLink>
-                        </li>
-                        <li>
-                            <NavLink to="/vendor/create/connection" className="py-1">Create Connection</NavLink>
+                            <NavLink to="/client/connection/create" className="py-1">Create Connection</NavLink>
                         </li>
                     </ul>
                 </li>
