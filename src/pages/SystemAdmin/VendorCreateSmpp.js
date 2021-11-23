@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
-import { url, fetchOption, Toast } from '../../url';
+import { fetchOption, Toast } from '../../url';
 //import Home from '../pages/Home';
-
+import { url } from '../../helpers/helper';
 import $ from 'jquery';
 import swal from 'sweetalert';
 import { useTranslation } from 'react-i18next';
@@ -9,6 +9,8 @@ import Layout from '../../component/Layout';
 
 import { ToastContainer, toast } from 'react-toastify';
 import { BreadCrumb } from '../../component/UI/BreadCrumb';
+import HelperHook from '../../custHook/HelperHook'
+import Unauthorized  from '../../component/Unauthorized';
 /**
 * @author
 * @function VendorCreateSmpp
@@ -16,7 +18,8 @@ import { BreadCrumb } from '../../component/UI/BreadCrumb';
 
 const VendorCreateSmpp = (props) => {
     const { t } = useTranslation();
-
+    const helper=HelperHook();
+    
     const [mastProd, setData] = useState([]);
     const [mroute, setmRoute] = useState([]);
     const [subdata, setsubData] = useState({
@@ -51,14 +54,17 @@ const VendorCreateSmpp = (props) => {
     useEffect(() => {
         try {
             fetch(url + "/master/route/getRouteType", {
-                ...fetchOption
-            })
-                .then(response => response.json())
-                .then(data => {
+                ...helper.fetchOption
+            }).then(response => response.json())
+            .then(data => {
+                // console.logUnauthorized(data);
+                
+                if(data.status==200) {
                     setData(data.data);
-                }).catch((error) => {
-                    console.error('Error:', error);
-                })
+                }
+            }).catch((error) => {
+                console.error('Error:', error);
+            })
         }
         catch (err) {
             toast.error("sever error",
@@ -77,7 +83,7 @@ const VendorCreateSmpp = (props) => {
                 setsubData({ ...subdata, [e.target.name]: e.target.value });
                 setmRoute([]); //initially emtpy   
                 fetch(url + "/master/route/routesByType", {
-                    ...fetchOption,
+                    ...helper.fetchOption,
                     body: JSON.stringify({ routeType: e.target.value })
                 }).then(response => response.json())
                     .then(d => {
@@ -100,36 +106,33 @@ const VendorCreateSmpp = (props) => {
     }
     const submit = (e) => {
         $('[name]').css('border', '1px solid gray').siblings('.text-danger').html('');
-            e.preventDefault()
-            fetch(url + "/vendor/conn/create/smpp", {
-                ...fetchOption,
-                body: JSON.stringify(subdata)
-            })
-                .then(response => response.json())
-                .then(data => {
-                    if (data.errors) {
-                        toast.error("data error",
-                            {
-                                ...Toast,
-                                position: "top-right"
-                            });
-                        data.errors.forEach(function (arrayItem) {
-                            //console.log(arrayItem);
-                            console.log(arrayItem.param);
-                            //$(selector).action()
-                            $('[name=' + arrayItem.param + ']').css("border", "1px solid red").siblings('span.text-danger').html(arrayItem.msg);
-                        });
-                    } else {
-                        //Sweet alrt
-                        console.log('Success:', data);
-                        swal("Success!", t('SMPP Conenction created Successfully!'), "success");
-                        document.getElementById("myForm").reset();
-                    }
-                })
-                .catch((error) => {
-                    console.error('Error:', error);
+        e.preventDefault()
+        fetch(url + "/vendor/conn/create/smpp", {
+            ...helper.fetchOption,
+            body: JSON.stringify(subdata)
+        }).then(response => response.json())
+        .then(data => {
+            if (data.errors) {
+                toast.error("data error",
+                    {
+                        ...Toast,
+                        position: "top-right"
+                    });
+                data.errors.forEach(function (arrayItem) {
+                    //console.log(arrayItem);
+                    console.log(arrayItem.param);
+                    //$(selector).action()
+                    $('[name=' + arrayItem.param + ']').css("border", "1px solid red").siblings('span.text-danger').html(arrayItem.msg);
                 });
-       
+            } else {
+                //Sweet alrt
+                console.log('Success:', data);
+                swal("Success!", t('SMPP Conenction created Successfully!'), "success");
+                document.getElementById("myForm").reset();
+            }
+        }).catch((error) => {
+            console.error('Error:', error);
+        });
     }
     return (
         <Layout>

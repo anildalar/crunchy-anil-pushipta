@@ -11,8 +11,11 @@ import { ToastContainer, toast } from 'react-toastify';
 //import 'react-toastify/dist/ReactToastify.css';
 import {setConfig, setRole, setToken, setUser} from '.././app/reducers/userSlice'
 import CheckLogin from '../component/CheckLogin';
+
+
 function Login(props) {
     const history = useHistory();
+    const proError= useSelector((state) => state.error)
     if(CheckLogin()){
         history.push("/dashboard");
     }
@@ -30,6 +33,10 @@ function Login(props) {
             i18n.changeLanguage(language)
         }
         setLanguage();
+        if(proError.msg!=''){
+            console.log(proError.err);
+            toast.danger(proError.msg,toastOption);
+        }
     }, [])
 
     function login(e) {

@@ -1,15 +1,16 @@
 import React, { useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
-import { fetchOption, Toast, url } from "../../url";
+import { Toast} from "../../url";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-
+import {url} from '../../helpers/helper'
 import { useTranslation } from "react-i18next";
 import Layout from "../../component/Layout";
 import { BreadCrumb } from "../../component/UI/BreadCrumb";
 //import Toast from "../../component/Toast";
-
+import HelperHook from '../../custHook/HelperHook'
 export default function ClinetRouting() {
+    const helper = HelperHook();
     const { t } = useTranslation();
     const [client, setClient] = useState([]);
     const [Country, setCountry] = useState([]);
@@ -38,7 +39,7 @@ export default function ClinetRouting() {
     useEffect(() => {
         try {
             fetch(url + "/client/getClient", {
-                ...fetchOption,
+                ...helper.fetchOption,
             }).then((response) => response.json())
                 .then((data) => {
                     if (data.status === 200) {
@@ -60,7 +61,7 @@ export default function ClinetRouting() {
         }
         try {
             fetch(url + "/master/get/countries", {
-                ...fetchOption,
+                ...helper.fetchOption,
             }).then((response) => response.json())
                 .then((data) => {
                     console.log("Success +contries:", data);
@@ -85,7 +86,7 @@ export default function ClinetRouting() {
         if (id != '') {
             setProductConn([]);
             fetch(url + "/client/conn/getConnbyClient", {
-                ...fetchOption,
+                ...helper.fetchOption,
                 body: JSON.stringify({ clientId: id }),
             }).then((response) => response.json())
                 .then((data) => {
@@ -110,8 +111,8 @@ export default function ClinetRouting() {
         e.preventDefault();
         setTableData([])
         try {
-            fetch(url + '/client/conn/routing', {
-                ...fetchOption,
+            fetch(url + '/client/conn/routing/getByConn', {
+                ...helper.fetchOption,
                 body: JSON.stringify({ "clientId": clientRef.current.value, "connId": productRef.current.value, "countyId": countriesRef.current.value }),
             }).then(response => response.json())
                 .then(data => {
@@ -169,8 +170,8 @@ export default function ClinetRouting() {
     }
     const updateData = (e) => {
         e.preventDefault();
-        fetch('http://192.168.1.52:3000/client/conn/routing/edit', {
-            ...fetchOption,
+        fetch(url+'/client/conn/routing/edit', {
+            ...helper.fetchOption,
             body: JSON.stringify(updatTablDat),
         })
             .then(response => response.json())
@@ -300,7 +301,7 @@ export default function ClinetRouting() {
                                                 <div className="form-group mt-1"> <input type="hidden" name="type" defaultValue="view" />
                                                     <button type="submit" className="btn btn-primary mt-4 me-1">{t("Search")}</button>
                                                     <input type="reset" className="btn btn-info mt-4" defaultValue="Reset" />
-                                                    <Link to="/Add_field" className="btn btn-success mt-4 ms-1">{t("Add")}</Link>
+                                                    <Link to="/routing/create" className="btn btn-success mt-4 ms-1">{t("Add")}</Link>
                                                 </div>
                                             </div>
                                             <div className="col-sm-12"></div>

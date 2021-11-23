@@ -1,13 +1,15 @@
 import React, { useEffect, useRef, useState } from 'react'
-import { fetchOption, Toast, url } from '../../url';
+import {Toast} from '../../url';
+import {url} from '../../helpers/helper';
 import $ from 'jquery';
 import swal from 'sweetalert';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import Layout from '../../component/Layout';
 import { useTranslation } from 'react-i18next';
-
+import HelperHook from '../../custHook/HelperHook';
 function CreateRouting() {
+    const helper = HelperHook();
     const { t } = useTranslation();
     const [client, setClient] = useState([]);
     const [Country, setCountry] = useState([]);
@@ -31,25 +33,25 @@ function CreateRouting() {
         // console.log(routing)
         try {
             fetch(url + "/client/getClient", {
-                ...fetchOption,
+                ...helper.fetchOption,
             }).then((response) => response.json())
-                .then((data) => {
+            .then((data) => {
+                console.log("Success:", data);
+                if (data.status === 200) {
                     console.log("Success:", data);
-                    if (data.status === 200) {
-                        console.log("Success:", data);
-                        setClient(data.data);
-                        // console.log(client)
-                    } else {
-                        toast.error(data.msg,
-                            {
-                                ...Toast,
-                                position: "top-right"
-                            });
-                        // console.log(data.msg)
-                    }
-                }).catch((error) => {
-                    console.error("Error:", error);
-                });
+                    setClient(data.data);
+                    // console.log(client)
+                } else {
+                    toast.error(data.msg,
+                        {
+                            ...Toast,
+                            position: "top-right"
+                        });
+                    // console.log(data.msg)
+                }
+            }).catch((error) => {
+                console.error("Error:", error);
+            });
         } catch (err) {
             toast.error("sever error",
                 {
@@ -61,7 +63,7 @@ function CreateRouting() {
     useEffect(() => {
         try {
             fetch(url + "/master/get/countries", {
-                ...fetchOption,
+                ...helper.fetchOption,
             }).then((response) => response.json())
                 .then((data) => {
                     console.log("Success +contries:", data);
@@ -86,7 +88,7 @@ function CreateRouting() {
             setProductConn([]);
             try {
                 fetch(url + "/client/conn/getConnbyClient", {
-                    ...fetchOption,
+                    ...helper.fetchOption,
                     body: JSON.stringify({ clientId: id }),
                 }).then((response) => response.json())
                     .then((data) => {
@@ -150,27 +152,27 @@ function CreateRouting() {
         e.preventDefault();
         try {
             fetch(url + '/client/conn/routing/create', {
-                ...fetchOption,
+                ...helper.fetchOption,
                 body: JSON.stringify(routing),
             }).then(response => response.json())
-                .then(data => {
-                    if (data.status == 200) {
-                        swal("Success!");
-                        document.getElementById("myForm").reset();
-                    } else if (data.status == 404) {
-                        toast.error(data.msg,
-                            {
-                                ...Toast,
-                                position: "top-right"
-                            })
-                    } else if (data.status == 400) {
-                        data.errors.forEach(function (arrayItem) {
-                            $('[name=' + arrayItem.param + ']').css("border", "1px solid red").siblings('span.text-danger').html(arrayItem.msg);
-                        });
-                    }
-                }).catch((error) => {
-                    console.error('Error:', error);
-                });
+            .then(data => {
+                if (data.status == 200) {
+                    swal("Success!");
+                    document.getElementById("myForm").reset();
+                } else if (data.status == 404) {
+                    toast.error(data.msg,
+                        {
+                            ...Toast,
+                            position: "top-right"
+                        })
+                } else if (data.status == 400) {
+                    data.errors.forEach(function (arrayItem) {
+                        $('[name=' + arrayItem.param + ']').css("border", "1px solid red").siblings('span.text-danger').html(arrayItem.msg);
+                    });
+                }
+            }).catch((error) => {
+                console.error('Error:', error);
+            });
         } catch (err) {
             toast.error("sever error",
                 {
