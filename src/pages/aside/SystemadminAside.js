@@ -102,14 +102,13 @@ function SystemadminAside() {
                         <i className="fe fe-chevron-down horizontal-icon" />
                     </a>
                     <ul className="sub-menu">
-                        <li><h3 className="fs-14 fw-bold mb-1 mt-2 text-body"><i class="fas fa-sliders-h"></i>&nbsp;&nbsp;Dynamic Rule</h3></li>
                         <li>
-                            <NavLink className="py-1" to="/sender-id-rule">Sender Id Rule</NavLink>
+                            <NavLink className="py-1" to="/users">Users</NavLink>
                         </li>
-                        <li><h3 className="fs-14 fw-bold mb-1 mt-2 text-body"><i class="fas fa-cog"></i>&nbsp;&nbsp;System Settings</h3></li>
                         <li>
-                            <NavLink className="py-1" to="/languages">Languages</NavLink>
+                            <NavLink className="py-1" to="/users/create">Create User</NavLink>
                         </li>
+                        
                     </ul>
                 </li>
                 {/* setting */}

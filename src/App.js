@@ -1,4 +1,4 @@
-import { Route,Switch } from "react-router";
+import { Route,Switch } from "react-router-dom";
 import { useSelector } from "react-redux";
 //import {useSelector, useDispatch} from ""
 import Domain from "./pages/Domain";
@@ -17,7 +17,7 @@ import { SMSReport } from "./pages/Admin/SMSReport";
 import { Credit } from "./pages/Admin/Credit";
 import { SendSMS } from "./pages/Admin/SendSMS";
 import { ViewCredit } from "./pages/Admin/ViewCredit";
-import Createuser from "./pages/SystemAdmin/Createuser";
+import Createuser from "./pages/SystemAdmin/Createusers";
 import SystemAdmin from "./routes/SystemAdmin";
 import Admin from "./routes/SystemAdmin";
 import NoPage from './routes/NoPage'
@@ -28,7 +28,6 @@ import Nopage from "./pages/Nopage";
 import { NewCreateUser } from "./pages/SystemAdmin/NewCreateUser";
 import { UserProfile } from "./pages/SystemAdmin/UserProfile";
 import { ImportRateEditor } from "./pages/SystemAdmin/ImportRateEditor";
-import { NewUser } from "./pages/SystemAdmin/NewUser";
 import { EditVenderSmpp } from "./pages/SystemAdmin/EditVenderSmpp";
 import { EditVenderHttp } from "./pages/SystemAdmin/EditVenderHttp";
 import Login from "./pages/Login";
@@ -59,7 +58,7 @@ export default function App() {
   }
   return (
     <>
-      
+      <Switch>
         <Route path="/" exact> <Home /> </Route>
         <Route path="/login"> <Login /> </Route>
         <Route path="/domain" component={ Domain }></Route>
@@ -75,9 +74,7 @@ export default function App() {
         <Route path="/sendsms" component={ SendSMS }></Route>
         <Route path="/viewcredit" component={ ViewCredit }></Route>
         <Route path="/editgroup" ><EditGroup/></Route>
-        <Route path="/Smmp" component={ Createuser }></Route>
         <Route path="/newcreateuser" component={ NewCreateUser }></Route>
-        <Route path="/newuser" component={ NewUser }></Route>
         <Route path="/userprofile/:uuid" component={ UserProfile }></Route>
         <Route path="/importrateeditor" component={ ImportRateEditor }></Route>
         <Route path="/editvendersmpp" component={ EditVenderSmpp }></Route>
@@ -85,7 +82,7 @@ export default function App() {
         
         {getComponent()}
         <Route  path="/*" component={ Nopage }></Route>
-      
+      </Switch>
     </>
   )
 }

@@ -9,10 +9,10 @@ import HelperHook from '../../custHook/HelperHook';
 
 /**
 * @author
-* @function NewUser
+* @function Users
 **/
 
-export const NewUser = (props) => {
+const Users = (props) => {
     const helper=HelperHook();
     const [usrData, setUsrData] = useState([])
 
@@ -121,4 +121,5 @@ export const NewUser = (props) => {
 </Layout>
    )
 
- }
+}
+export default Users

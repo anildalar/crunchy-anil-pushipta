@@ -15,6 +15,8 @@ import CreateClientConnections from '../pages/SystemAdmin/CreateClientConnection
 import  VendorSmppConnection  from '../pages/SystemAdmin/VendorSmppConnection';
 import { VendorHttpConnections } from '../pages/SystemAdmin/VendorHttpConnections';
 import ClientConnections from '../pages/SystemAdmin/ClientConnections';
+import Users from '../pages/SystemAdmin/NewUser';
+import CreateUsers from '../pages/SystemAdmin/Createusers';
 
  const SystemAdmin=()=> {
     const history = useHistory();
@@ -43,6 +45,10 @@ import ClientConnections from '../pages/SystemAdmin/ClientConnections';
             {/* reports */}
             <Route  path="/sms/scoreboard" component={ SmsScoreboard }></Route>
             <Route  path="/sms/reports" component={ Smsreports }></Route>
+            {/* users */}
+            <Route  path="/users/create" component={ CreateUsers }></Route>
+            <Route  path="/users" component={ Users }></Route>
+            
         </>
     )
 }
