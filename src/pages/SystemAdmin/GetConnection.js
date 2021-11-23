@@ -57,7 +57,7 @@ export const GetConnection = (props) => {
                         <div className="col-xl-12">
                             <div className="card">
                                 <div className="card-header bg-info">
-                                    <h4 className="mb-0 text-white card-title">Create Group</h4>
+                                    <h4 className="mb-0 text-white card-title">Get Client Connection</h4>
                                 </div>
                                 <div className="card-body">
                                     <div className="table-responsive">
