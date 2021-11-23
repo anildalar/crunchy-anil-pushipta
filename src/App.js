@@ -32,6 +32,7 @@ import { NewUser } from "./pages/SystemAdmin/NewUser";
 import { EditVenderSmpp } from "./pages/SystemAdmin/EditVenderSmpp";
 import { EditVenderHttp } from "./pages/SystemAdmin/EditVenderHttp";
 import Login from "./pages/Login";
+import PushpitaRoute from "./routes/PushpitaRoute";
 export default function App() {
   
   const role=useSelector((state) => state.user.role)
@@ -59,7 +60,7 @@ export default function App() {
   }
   return (
     <>
-      
+        <PushpitaRoute/>
         <Route path="/" exact> <Home /> </Route>
         <Route path="/login"> <Login /> </Route>
         <Route path="/domain" component={ Domain }></Route>
@@ -80,12 +81,10 @@ export default function App() {
         <Route path="/newuser" component={ NewUser }></Route>
         <Route path="/userprofile/:uuid" component={ UserProfile }></Route>
         <Route path="/importrateeditor" component={ ImportRateEditor }></Route>
-        <Route path="/editvendersmpp" component={ EditVenderSmpp }></Route>
-        <Route path="/editvenderhttp" component={ EditVenderHttp }></Route>
-        
+       
         {getComponent()}
         <Route  path="/*" component={ Nopage }></Route>
-      
+        
     </>
   )
 }

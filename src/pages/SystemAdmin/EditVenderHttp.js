@@ -1,8 +1,12 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next';
 import Layout from '../../component/Layout'
 import { BreadCrumb } from '../../component/UI/BreadCrumb'
-
+import HelperHook from '../../custHook/HelperHook';
+import { ToastContainer, toast } from 'react-toastify';
+import { useParams } from 'react-router-dom'
+import { Toast, toastOption } from '../../helpers/helper'
+import { url } from '../../url';
 /**
 * @author
 * @function EditVenderHttp
@@ -10,6 +14,57 @@ import { BreadCrumb } from '../../component/UI/BreadCrumb'
 
 export const EditVenderHttp = (props) => {
     const { t } = useTranslation();
+    const helper = HelperHook();
+    const [editdata, setEditData] = useState({})
+    const [mastProd, setData] = useState([]);
+    let p = useParams();
+    useEffect(() => {
+        try {
+            fetch(url + "/master/route/getRouteType", {
+                ...helper.fetchOption
+            }).then(response => response.json())
+                .then(data => {
+                    setData(data.data);
+                }).catch((error) => {
+                    console.error('Error:', error);
+                });
+        }
+        catch (err) {
+            toast.error("sever error",
+                {
+                    ...Toast,
+                    position: "top-right"
+                });
+        }
+
+        let uuid = {
+            "id": p.uuid
+        }
+        fetch('http://173.249.39.43:3000/vendor/conn/getConnbyId', {
+            ...helper.fetchOption,
+            body: JSON.stringify(uuid),
+        })
+            .then(response => response.json())
+            .then(data => {
+                if (data.status == 200) {
+                    console.log('Success:', data.data);
+                    setEditData({ ...editdata, ...data.data })
+                    // setVenBasInfo({...venBasInfo,...data.data.venBasInfo})
+                    console.log(JSON.stringify(editdata))
+                } else {
+                    toast.danger(data.msg, toastOption);
+                }
+
+            })
+            .catch((error) => {
+                console.error('Error:', error);
+            });
+    }, [])
+
+    const submit = (e) => {
+        e.preventDefault()
+        console.log(editdata)
+    }
     return (
         <Layout>
             <div className="main-content horizontal-content">
@@ -29,9 +84,9 @@ export const EditVenderHttp = (props) => {
                                                 <label htmlFor="masprotypeld">{t("Route Type")}&nbsp; <sup className="text-danger">*</sup></label>
                                                 <select name="routeType" id="masprotypeld" className="form-select form-select-lg" required >
                                                     <option value="">{t("select route type")}</option>
-                                                    {/* {mastProd.map((d) => {
+                                                    {mastProd.map((d) => {
                                                 return <option value={d.id} key={d.id}>{d.title}</option>
-                                            })} */}
+                                            })}
                                                 </select>
                                                 <span className="text-danger error"></span>
                                             </div>
@@ -63,19 +118,19 @@ export const EditVenderHttp = (props) => {
                                             </div>
                                             <div className="col-md-3">
                                                 <label htmlFor="addrTON">{t("AddrTON")}</label>
-                                                <input type="text" className="form-control " name="addrTON" id="addrTON" />
+                                                <input defaultValue={editdata.addrTON} type="text" className="form-control " name="addrTON" id="addrTON" />
                                             </div>
                                             <div className="col-md-3">
                                                 <label htmlFor="addrNPI">{t("AddrNPI")}</label>
-                                                <input type="text" className="form-control " name="addrNPI" id="addrNPI" />
+                                                <input defaultValue={editdata.addrNPI} type="text" className="form-control " name="addrNPI" id="addrNPI" />
                                             </div>
                                             <div className="col-md-3">
                                                 <label htmlFor="addrRange">{t("AddrRange")}</label>
-                                                <input type="text" className="form-control " name="addrRange" id="addrRange" />
+                                                <input defaultValue={editdata.addrRange} type="text" className="form-control " name="addrRange" id="addrRange" />
                                             </div>
                                             <div className="col-md-3">
                                                 <label htmlFor="priority">{t("Priority")}</label>
-                                                <input type="text" className="form-control " name="priority" id="priority" />
+                                                <input defaultValue={editdata.priority} type="text" className="form-control " name="priority" id="priority" />
                                             </div>
                                             <div className="col-md-3 mg-t-20 mg-lg-t-0">
                                                 <p className="mg-b-10">{t("Loglevel")}&nbsp; <sup className="text-danger">*</sup></p> {/* message on payload */}
@@ -91,29 +146,29 @@ export const EditVenderHttp = (props) => {
                                             </div>
                                             <div className="col-md-3">
                                                 <label htmlFor="systype">{t("Systype")}</label>
-                                                <input type="text" className="form-control " name="sysType" id="systype" />
+                                                <input defaultValue={editdata.systype} type="text" className="form-control " name="sysType" id="systype" />
 
                                             </div>
 
                                             <div className="col-md-3">
                                                 <label htmlFor="dsc">{t("Data Coding schema")}</label>
-                                                <input type="text" className="form-control " name="dsc" id="dsc" />
+                                                <input defaultValue={editdata.dsc} type="text" className="form-control " name="dsc" id="dsc" />
                                                 <span className="text-danger error"></span>
                                             </div>
 
                                             <div className="col-md-3">
                                                 <label htmlFor="smscapcity">{t("Throughtput")}</label>
-                                                <input type="text" className="form-control " name="smsCapacity" id="smscapcity" />
+                                                <input defaultValue={editdata.smsCapacity} type="text" className="form-control " name="smsCapacity" id="smscapcity" />
 
                                             </div>
                                             <div className="col-md-3">
                                                 <label htmlFor="openTime">{t("Open Time")}</label>
-                                                <input type="time" className="form-control " name="openTime" id="openTime" />
+                                                <input defaultValue={editdata.openTime} type="time" className="form-control " name="openTime" id="openTime" />
 
                                             </div>
                                             <div className="col-md-3">
                                                 <label htmlFor="closeTime">{t("Close Time")}</label>
-                                                <input type="time" className="form-control " name="closeTime" id="closeTime" />
+                                                <input defaultValue={editdata.closeTime} type="time" className="form-control " name="closeTime" id="closeTime" />
 
                                             </div>
                                             <div className="col-md-3 mg-t-20 mg-lg-t-0">
@@ -129,7 +184,7 @@ export const EditVenderHttp = (props) => {
                                         <div className="row">
                                             <div className="col-md-3 mg-t-20 mg-lg-t-0">
                                                 <label htmlFor="apiPushUrl">{t("API Push Url")}</label>
-                                                <input type="text" name="apiPushUrl" id="apiPushUrl" className="form-control " />
+                                                <input defaultValue={editdata.apiPushUrl} type="text" name="apiPushUrl" id="apiPushUrl" className="form-control " />
                                                 <span className="text-danger error"></span>
                                             </div>
                                             <div className="col-md-3 mg-t-20 mg-lg-t-0">
@@ -187,7 +242,7 @@ export const EditVenderHttp = (props) => {
                                                 <div className="form-group">
                                                     <label htmlFor="apiData.sender">To&nbsp; <sup className="text-danger">*</sup></label>
                                                     <p>{t("Use for destination address.")}</p>
-                                                    <input type="text" name="sender" id="sender" className="form-control " />
+                                                    <input defaultValue={editdata.sender} type="text" name="sender" id="sender" className="form-control " />
                                                     <span className="text-danger error"></span>
                                                 </div>
                                             </div>
@@ -195,14 +250,14 @@ export const EditVenderHttp = (props) => {
                                                 <div className="form-group">
                                                     <label htmlFor="from">{t("From")}&nbsp; <sup className="text-danger">*</sup></label>
                                                     <p>{t("Use for source address or sender id.")}</p>
-                                                    <input type="text" name="from" id="from" className="form-control " />
+                                                    <input defaultValue={editdata.from} type="text" name="from" id="from" className="form-control " />
                                                 </div>
                                             </div>
                                             <div className="col-sm-6 col-md-3">
                                                 <div className="form-group">
                                                     <label htmlFor="msg">{t("MSG")}&nbsp; <sup className="text-danger">*</sup></label>
                                                     <p>{t("Use for content (message).")}</p>
-                                                    <input type="text" name="msg" id="msg" className="form-control  ps ps--theme_default" data-ps-id="e3819da9-57e8-e0c6-a66f-24315f5adce4" />
+                                                    <input defaultValue={editdata.msg} type="text" name="msg" id="msg" className="form-control  ps ps--theme_default" data-ps-id="e3819da9-57e8-e0c6-a66f-24315f5adce4" />
                                                 </div>
                                             </div>
                                         </div>
@@ -280,7 +335,7 @@ export const EditVenderHttp = (props) => {
                                         </div>
                                         <div className="row custfieldcol a_custfieldcol ">
                                             <h4 className="text-danger">{t("api custom data parameter")}</h4>
-                                          
+
                                         </div>
                                         <div className="row">
                                             <div className="col-md-3">
@@ -425,10 +480,10 @@ export const EditVenderHttp = (props) => {
                                         </div>
                                         <div className="row">
                                             <div className="col-md-3 mt-4 float-end">
-                                                <input type="submit" className="text-white form-control   btn btn-info bg-primary border-secondary" value="Submit" />
+                                                <button  type="submit" className="   btn btn-info bg-primary border-secondary"  >Submit</button>
                                             </div>
                                             <div className="col-md-3 mt-4 float-start">
-                                                <button className="btn btn-success">Add morefiled</button>
+                                                <button onClick={e => { submit(e) }} className="btn btn-success">Add morefiled</button>
                                             </div>
                                         </div>
                                     </div>
