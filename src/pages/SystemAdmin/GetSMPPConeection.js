@@ -21,7 +21,7 @@ export const GetSMPPConnection = (props) => {
                 .then(response => response.json())
                 .then(data => {
                     if (data.status == 200) {
-                        //console.log('Success:', data.data.smpp);
+                        console.log('Success:', data.data.smpp);
                         setSmppData(data.data.smpp)
                     } else {
                         toast.error(data.msg,
@@ -66,7 +66,7 @@ export const GetSMPPConnection = (props) => {
                                             <thead>
                                                 <tr>
                                                     <th >User Name</th>
-                                                    <th >UUID</th>
+                                                    <th >Active</th>
                                                     <th >Host Name</th>
                                                     <th >Port</th>
                                                     <th >Action</th>
@@ -84,7 +84,7 @@ export const GetSMPPConnection = (props) => {
                                                         return (
                                                             <tr>
                                                                 <td>{element.userName}</td>
-                                                                <td>{element.uuId}</td>
+                                                                <td>{element.active}</td>
                                                                 <td>{element.hostName}</td>
                                                                 <td>{element.port}</td>
                                                                 <td>
