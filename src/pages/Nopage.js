@@ -1,16 +1,16 @@
 import React from 'react'
 import { useSelector, useDispatch } from 'react-redux'
-import { Link } from 'react-router-dom';
+import { Link,useNavigate} from 'react-router-dom';
 import CheckLogin from '../component/CheckLogin';
-import { useHistory } from 'react-router'
+
 export default function Nopage() {
     const error= useSelector((state) => state.error);
     const msg=(error.msg!='')?error.msg:'Unkown error, please contact the support team.';
-    const history= useHistory();
+    const navigate = useNavigate();
     const con =CheckLogin();
     const goBack=()=>{
         if(!con){
-            history.push("/");
+            navigate("/");
         }else{
             //history.back();
             window.history.back();

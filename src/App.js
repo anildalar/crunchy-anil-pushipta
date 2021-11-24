@@ -1,6 +1,8 @@
-import { Route,Switch } from "react-router-dom";
+import React from 'react';
+import { BrowserRouter, Routes,Outlet } from "react-router-dom";
+
+import { Route } from "react-router-dom";
 import { useSelector } from "react-redux";
-//import {useSelector, useDispatch} from ""
 import Domain from "./pages/Domain";
 import Home from "./pages/Home";
 import Pushpita from "./pages/Pushpita";
@@ -31,8 +33,9 @@ import { ImportRateEditor } from "./pages/SystemAdmin/ImportRateEditor";
 import { EditVenderSmpp } from "./pages/SystemAdmin/EditVenderSmpp";
 import { EditVenderHttp } from "./pages/SystemAdmin/EditVenderHttp";
 import Login from "./pages/Login";
+import Loading from './routes/Loading';
+
 export default function App() {
-  
   const role=useSelector((state) => state.user.role)
   const getComponent = ()=>{
     switch(role){
@@ -52,38 +55,43 @@ export default function App() {
         return <User/> 
         break;
       default:
-        return <NoPage/>
+        return <Loading/>;
         break;
     }
   }
+  //console.log(getComponent());
   return (
     <>
-      <Switch>
-        <Route path="/" exact> <Home /> </Route>
-        <Route path="/login"> <Login /> </Route>
-        <Route path="/domain" component={ Domain }></Route>
-        <Route path="/pushpita" component={ Pushpita }></Route>
-        <Route path="/group"><Groups /></Route>
-        <Route path="/datatable"><Abc /></Route>
-        <Route path="/importcontects"><ImportContects /></Route>
-        <Route path="/TableData" component={ TableData }></Route>
-        <Route path="/breadcrumb" component={ BreadCrumb }></Route>
-        <Route path="/editcontect" component={ ExportContect }></Route>
-        <Route path="/smsreport" component={ SMSReport }></Route>
-        <Route path="/credit" component={ Credit }></Route>
-        <Route path="/sendsms" component={ SendSMS }></Route>
-        <Route path="/viewcredit" component={ ViewCredit }></Route>
-        <Route path="/editgroup" ><EditGroup/></Route>
-        <Route path="/newcreateuser" component={ NewCreateUser }></Route>
-        <Route path="/userprofile/:uuid" component={ UserProfile }></Route>
-        <Route path="/importrateeditor" component={ ImportRateEditor }></Route>
-        <Route path="/editvendersmpp" component={ EditVenderSmpp }></Route>
-        <Route path="/editvenderhttp" component={ EditVenderHttp }></Route>
-        
-        {getComponent()}
-        <Route  path="/*" component={ Nopage }></Route>
-      </Switch>
+      {getComponent()}
+      
+      {/* <BrowserRouter>
+        <Routes>
+          
+          {/* <Route element={ getComponent() } /> */}
+          {/* 
+          <Route path="/domain" element={ <Domain/> } />
+          <Route path="/pushpita" element={ <Pushpita/> } />
+          <Route path="/group" element={<Groups/> } />
+          <Route path="/importcontects" element={<ImportContects/> } />
+          <Route path="/TableData" element={ <TableData/> } />
+          <Route path="/breadcrumb" element={ <BreadCrumb/> } />
+          <Route path="/editcontect" element={ <ExportContect/> } /> 
+          <Route path="/smsreport" element={ <SMSReport/> } />
+          <Route path="/credit" element={ <Credit/> } />
+          <Route path="/sendsms" element={ <SendSMS/> } />
+          <Route path="/viewcredit" element={ <ViewCredit/> } />
+          <Route path="/editgroup" element={<EditGroup/> }/>
+          <Route path="/newcreateuser" element={ <NewCreateUser/> } />
+          <Route path="/userprofile/:uuid" element={ <UserProfile/> } />
+          <Route path="/importrateeditor" element={ <ImportRateEditor/> } />
+          <Route path="/editvendersmpp" element={ <EditVenderSmpp/> } />
+          <Route path="/editvenderhttp" element={ <EditVenderHttp/> } /> */}
+          {/* <Route path="/" element={ <Outlet/>}>{getComponent()} </Route> */}
+          {/* <Route  path="*" element={ <Nopage/> } /> */}
+        {/* </Routes> */}
+      {/* </BrowserRouter>  */}
     </>
+    
   )
 }
 

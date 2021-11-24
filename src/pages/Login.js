@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useTranslation } from "react-i18next";
-import { useHistory} from 'react-router-dom';
+import { useNavigate} from 'react-router-dom';
 import { useSelector, useDispatch, } from 'react-redux';
 import $ from "jquery";
 import i18n from '../i18n';
@@ -14,10 +14,10 @@ import CheckLogin from '../component/CheckLogin';
 
 
 function Login(props) {
-    const history = useHistory();
+    const navigate = useNavigate();
     const proError= useSelector((state) => state.error)
     if(CheckLogin()){
-        history.push("/dashboard");
+        navigate("/dashboard");
     }
     const dispatch = useDispatch();
     const domain=useSelector((state) => state.domain)
@@ -67,7 +67,7 @@ function Login(props) {
                 dispatch(setUser(data.data.user))
                 dispatch(setConfig(data.data.config))
                 dispatch(setRole(data.data.user.role))
-                history.push("/dashboard");
+                navigate("/dashboard");
                 
             }else if(data.status=='400'){
                 data.errors.forEach(element => {

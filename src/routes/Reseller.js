@@ -1,16 +1,16 @@
 import React from 'react'
-import { Route, useHistory } from 'react-router'
+import { Route, useNavigate } from 'react-router'
 import CheckLogin from '../component/CheckLogin';
 import ResellerDashboard from "../pages/Reseller/Dashbord";
 
 const Reseller=()=> {
-    const history = useHistory();
+    const navigate  = useNavigate ();
     if(!CheckLogin()){
-        history.push("/");
+        navigate("/");
     }
     return (
         <>
-            <Route path="/dashboard"><ResellerDashboard/></Route>
+            <Route  path="dashboard" element={ <ResellerDashboard/> } />
         </>
     )
 }

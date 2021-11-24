@@ -1,6 +1,6 @@
 import React from "react";
-import { useHistory } from "react-router";
-import { NavLink } from "react-router-dom";
+
+import { NavLink,useNavigate } from "react-router-dom";
 import CountryDropDown from "./UI/CountryDropDown";
 import {reset as resetUser } from "../app/reducers/userSlice"
 import { useDispatch, useSelector } from "react-redux";
@@ -10,7 +10,7 @@ import RetailerAside from "../pages/aside/RetailerAside";
 import ResellerDashboard from "../pages/aside/ResellerDashboard";
 import UserAside from "../pages/aside/UserAside";
 export default function Header() {
-  const history = useHistory();
+  const navigate = useNavigate();
   const dispatch=useDispatch();
   const role=useSelector((state) => state.user.role)
   const Logout = (e) => {
@@ -19,7 +19,7 @@ export default function Header() {
     localStorage.clear();
     localStorage.setItem("lang", l);
     dispatch(resetUser());
-    history.push("/");
+    navigate("/");
   };
   const getAside=() => {
     switch(role){

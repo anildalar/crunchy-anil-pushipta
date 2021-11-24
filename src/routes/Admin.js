@@ -1,16 +1,16 @@
 import React from 'react'
-import { Route, useHistory } from 'react-router'
+import { Route, useNavigate } from 'react-router-dom'
 import CheckLogin from '../component/CheckLogin';
 import AdminDashboard from "../pages/Admin/Dashboard";
 
 const Admin=()=> {
-    const history = useHistory();
+    const navigate  = useNavigate();
     if(!CheckLogin()){
-        history.push("/");
+        navigate("/");
     }
     return (
         <>
-            <Route path="/dashboard"><AdminDashboard/></Route>
+            <Route  path="dashboard" element={ <AdminDashboard/> } />
         </>
     )
 }

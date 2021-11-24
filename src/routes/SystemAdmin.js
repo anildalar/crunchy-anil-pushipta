@@ -1,7 +1,7 @@
 import React from 'react'
-import { Route, useHistory } from 'react-router'
-import CheckLogin from '../component/CheckLogin';
-import Nopage from '../pages/Nopage';
+import { BrowserRouter,Routes,Route} from 'react-router-dom'
+import Nopage from '../pages/Nopage'
+import Home from '../pages/Home'
 import SystemAdminDashboard from '../pages/SystemAdmin/Dashbord';
 import VenderCreateHttp from '../pages/SystemAdmin/VenderCreateHttp';
 import VendorCreateSmpp from '../pages/SystemAdmin/VendorCreateSmpp';
@@ -18,38 +18,37 @@ import ClientConnections from '../pages/SystemAdmin/ClientConnections';
 import Users from '../pages/SystemAdmin/NewUser';
 import CreateUsers from '../pages/SystemAdmin/Createusers';
 
- const SystemAdmin=()=> {
-    const history = useHistory();
-    if(!CheckLogin()){
-        history.push("/");
-    }
+function SystemAdmin() {
     return (
-        <>
-            <Route  path="/dashboard"><SystemAdminDashboard/></Route>
-            {/* Vendor connecton */}
-            <Route  path="/vendor/smpp/create" component={ VendorCreateSmpp }></Route>
-            <Route  path="/vendor/http/create" component={ VenderCreateHttp }></Route>
-            <Route path="/vendor/smpp" component={ VendorSmppConnection }></Route>
-            <Route path="/vendor/http" component={ VendorHttpConnections }></Route>
-        
-            {/* clienct connection  */}
-            <Route  path="/client/connection/create" component={ CreateClientConnections }></Route>
-            <Route  path="/client/connections" component={ ClientConnections }></Route>
-            
-             {/* client routing route   */}
-            <Route  path="/routing/create" component={ CreateRouting }></Route>
-            <Route  path="/routing" component={ ClinetRouting }></Route>
-            {/* setting */}
-            <Route  path="/sender-id-rule" component={ SenderIdRule }></Route>
-            <Route  path="/languages" component={ Languages }></Route>
-            {/* reports */}
-            <Route  path="/sms/scoreboard" component={ SmsScoreboard }></Route>
-            <Route  path="/sms/reports" component={ Smsreports }></Route>
-            {/* users */}
-            <Route  path="/users/create" component={ CreateUsers }></Route>
-            <Route  path="/users" component={ Users }></Route>
-            
-        </>
+        <BrowserRouter>
+            <Routes>
+                <Route  path="/" element={ <Home/>} />
+                <Route  path="dashboard" element={ <SystemAdminDashboard/> } />
+                {/* Vendor connecton */}
+                <Route  path="vendor/smpp/create" element={ <VendorCreateSmpp/> }/>
+                <Route  path="vendor/http/create" element={ <VenderCreateHttp/> }/>
+                <Route path="vendor/smpp" element={ <VendorSmppConnection/> }/>
+                <Route path="vendor/http" element={ <VendorHttpConnections/> }/>        
+                {/* clienct connection  */}
+                <Route  path="client/connection/create" element={ <CreateClientConnections/> }/> 
+                <Route  path="client/connections" element={ <ClientConnections/> }/>            
+                {/* client routing route   */}
+                <Route  path="routing/create" element={ <CreateRouting/> }/>
+                <Route  path="routing" element={ <ClinetRouting/> }/>
+                {/* setting */}
+                <Route  path="sender-id-rule" element={ <SenderIdRule/> }/>
+                <Route  path="languages" element={ <Languages/> }/>
+                {/* reports */}
+                <Route  path="sms/scoreboard" element={ <SmsScoreboard/> }/>
+                <Route  path="sms/reports" element={ <Smsreports/> }/>
+                {/* users */}
+                <Route  path="users/create" element={ <CreateUsers/> }/>
+                <Route  path="users" element={ <Users/> }/>            
+                {/* 404 page */}
+                <Route  path="*" element={ <Nopage/> } />
+            </Routes>
+        </BrowserRouter>
     )
 }
-export default SystemAdmin;
+
+export default SystemAdmin
