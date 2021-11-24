@@ -12,14 +12,15 @@ import UserAside from "../pages/aside/UserAside";
 export default function Header() {
   const navigate = useNavigate();
   const dispatch=useDispatch();
+  const logo=useSelector((state)=> state.domain.logo)
   const role=useSelector((state) => state.user.role)
   const Logout = (e) => {
     e.preventDefault();
-    var l = localStorage.getItem("lang");
-    localStorage.clear();
-    localStorage.setItem("lang", l);
+    localStorage.removeItem('role');
+    localStorage.removeItem('user');
+    localStorage.removeItem('config');
     dispatch(resetUser());
-    navigate("/");
+    navigate("/login");
   };
   const getAside=() => {
     switch(role){
@@ -56,19 +57,19 @@ export default function Header() {
               to={"/" + localStorage.getItem("role") + "/dashboard"}
             >
               <img
-                src={localStorage.getItem("logo")}
+                src={logo}
                 className="desktop-dark"
               />
               <img
-                src={localStorage.getItem("logo")}
+                src={logo}
                 className="desktop-logo"
               />
               <img
-                src={localStorage.getItem("logo")}
+                src={logo}
                 className="desktop-logo-1"
               />
               <img
-                src={localStorage.getItem("logo")}
+                src={logo}
                 className="desktop-logo-dark"
               />
             </NavLink>

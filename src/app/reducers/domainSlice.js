@@ -2,7 +2,7 @@ import { createSlice } from '@reduxjs/toolkit'
 
 const initialData = {
   verify:(localStorage.getItem('domainVerify'))?localStorage.getItem('domainVerify'):0,
-  data:(localStorage.getItem('domainData'))?localStorage.getItem('domainData'):{},
+  data:(localStorage.getItem('domainData'))?JSON.parse(localStorage.getItem('domainData')):{},
   logo:(localStorage.getItem('logo'))?localStorage.getItem('logo'):'',
 };
 const resetData={

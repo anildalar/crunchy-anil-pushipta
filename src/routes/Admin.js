@@ -1,17 +1,23 @@
 import React from 'react'
-import { Route, useNavigate } from 'react-router-dom'
-import CheckLogin from '../component/CheckLogin';
+import { BrowserRouter,Routes,Route} from 'react-router-dom'
+import Nopage from '../pages/Nopage'
+import Home from '../pages/Home'
+import Login from '../pages/Login';
 import AdminDashboard from "../pages/Admin/Dashboard";
 
-const Admin=()=> {
-    const navigate  = useNavigate();
-    if(!CheckLogin()){
-        navigate("/");
-    }
+function Admin() {
     return (
-        <>
-            <Route  path="dashboard" element={ <AdminDashboard/> } />
-        </>
+        <BrowserRouter>
+            <Routes>
+                <Route  path="/" element={ <Home/>} />
+                <Route  path="login" element={ <Login/>} />
+                {/* dashboard */}
+                <Route  path="dashboard" element={ <AdminDashboard/> } />
+                <Route  path="*" element={ <Nopage/> } />
+            
+            </Routes>
+        </BrowserRouter>
     )
 }
+
 export default Admin;

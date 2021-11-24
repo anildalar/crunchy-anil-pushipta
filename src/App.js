@@ -19,7 +19,7 @@ import { SendSMS } from "./pages/Admin/SendSMS";
 import { ViewCredit } from "./pages/Admin/ViewCredit";
 import Createuser from "./pages/SystemAdmin/Createusers";
 import SystemAdmin from "./routes/SystemAdmin";
-import Admin from "./routes/SystemAdmin";
+import Admin from "./routes/Admin";
 import NoPage from './routes/NoPage'
 import Retailer from "./routes/Retailer";
 import Reseller from "./routes/Reseller";
@@ -39,55 +39,37 @@ export default function App() {
   const getComponent = ()=>{
     switch(role){
       case 'systemadmin':
+        console.log('sys')
         return <SystemAdmin/>;
+        
         break;
       case 'admin':
+        console.log('admin')
         return <Admin/>
+        
         break;
       case 'retailer':
+        console.log('admin')
         return <Retailer/> 
         break;
       case 'reseller':
+        console.log('reseller')
         return <Reseller/>
         break;
       case 'user':
+        console.log('User')
         return <User/> 
         break;
       default:
+        console.log('loading')
         return <Loading/>;
         break;
     }
   }
-  //console.log(getComponent());
+  console.log(getComponent());
   return (
     <>
       {getComponent()}
-      {/* <BrowserRouter>
-        <Routes>
-          
-          {/* <Route element={ getComponent() } /> */}
-          {/* 
-          <Route path="/domain" element={ <Domain/> } />
-          <Route path="/pushpita" element={ <Pushpita/> } />
-          <Route path="/group" element={<Groups/> } />
-          <Route path="/importcontects" element={<ImportContects/> } />
-          <Route path="/TableData" element={ <TableData/> } />
-          <Route path="/breadcrumb" element={ <BreadCrumb/> } />
-          <Route path="/editcontect" element={ <ExportContect/> } /> 
-          <Route path="/smsreport" element={ <SMSReport/> } />
-          <Route path="/credit" element={ <Credit/> } />
-          <Route path="/sendsms" element={ <SendSMS/> } />
-          <Route path="/viewcredit" element={ <ViewCredit/> } />
-          <Route path="/editgroup" element={<EditGroup/> }/>
-          <Route path="/newcreateuser" element={ <NewCreateUser/> } />
-          <Route path="/userprofile/:uuid" element={ <UserProfile/> } />
-          <Route path="/importrateeditor" element={ <ImportRateEditor/> } />
-          <Route path="/editvendersmpp" element={ <EditVenderSmpp/> } />
-          <Route path="/editvenderhttp" element={ <EditVenderHttp/> } /> */}
-          {/* <Route path="/" element={ <Outlet/>}>{getComponent()} </Route> */}
-          {/* <Route  path="*" element={ <Nopage/> } /> */}
-        {/* </Routes> */}
-      {/* </BrowserRouter>  */}
     </>
     
   )

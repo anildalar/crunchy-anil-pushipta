@@ -30,14 +30,10 @@ const Home=()=> {
                         setVerify(1);
                         dispatch(add(data.data));
                         localStorage.setItem('domainVerify',1);
-                        localStorage.setItem('domainData',data.data);
+                        localStorage.setItem('domainData',JSON.stringify(data.data));
                         const logo=url+'/'+data.data.path+data.data.logo;
                         localStorage.setItem('logo',logo);
                         dispatch(setLogo(logo));
-                        // toDataUrl(url+'/'+data.data.path+data.data.logo, function(myBase64) {
-                        //     //console.log(myBase64); // myBase64 is the base64 string
-                        //     localStorage.setItem('logoData',myBase64);
-                        // });
                     }else{
                         setVerify(0)
                         localStorage.setItem('domainVerify',0);

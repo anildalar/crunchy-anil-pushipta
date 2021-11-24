@@ -10,7 +10,9 @@ function CheckLogin() {
         const decoded = jwt_decode(token);
         return true;
     }catch(error){
-        localStorage.clear();
+        localStorage.removeItem('role');
+        localStorage.removeItem('user');
+        localStorage.removeItem('config');
         dispatch(resetUser);
         return false;
     }

@@ -1,9 +1,9 @@
 import { createSlice } from '@reduxjs/toolkit'
 const initialData = {
     jwtToken:(localStorage.getItem('jwtToken'))?localStorage.getItem('jwtToken'):'',
-    user:(localStorage.getItem('user'))?localStorage.getItem('user'):{},
+    user:(localStorage.getItem('user'))?JSON.parse(localStorage.getItem('user')):{},
     role:(localStorage.getItem('role'))?localStorage.getItem('role'):'',
-    config:(localStorage.getItem('config'))?localStorage.getItem('config'):{},
+    config:(localStorage.getItem('config'))?JSON.parse(localStorage.getItem('config')):{},
 };
 const restData = {
     jwtToken:'',

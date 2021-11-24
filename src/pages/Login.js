@@ -60,9 +60,9 @@ function Login(props) {
             if (data.status=='200') {
                 //toast.success('🦄 Wow so easy!',toastOption);
                 localStorage.setItem('jwtToken', data.token);
-                localStorage.setItem('user', data.data.user);
+                localStorage.setItem('user', JSON.stringify(data.data.user));
                 localStorage.setItem('role', data.data.user.role);
-                localStorage.setItem('config', data.data.user);
+                localStorage.setItem('config',JSON.stringify(data.data.user));
                 dispatch(setToken(data.token))
                 dispatch(setUser(data.data.user))
                 dispatch(setConfig(data.data.config))

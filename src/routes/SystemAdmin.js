@@ -19,18 +19,20 @@ import Users from '../pages/SystemAdmin/NewUser';
 import CreateUsers from '../pages/SystemAdmin/Createusers';
 import { EditVenderSmpp } from "../pages/SystemAdmin/EditVenderSmpp";
 import { EditVenderHttp } from '../pages/SystemAdmin/EditVenderHttp';
+import Login from '../pages/Login';
 
 function SystemAdmin() {
     return (
         <BrowserRouter>
             <Routes>
                 <Route  path="/" element={ <Home/>} />
+                <Route  path="login" element={ <Login/>} />
                 <Route  path="dashboard" element={ <SystemAdminDashboard/> } />
                 {/* Vendor connecton */}
                 <Route  path="vendor/smpp/create" element={ <VendorCreateSmpp/> }/>
                 <Route  path="vendor/http/create" element={ <VenderCreateHttp/> }/>
-                <Route path="vendor/smpp" element={ <VendorSmppConnection/> }/>
-                <Route path="vendor/http" element={ <VendorHttpConnections/> }/>        
+                <Route  path="vendor/smpp" element={ <VendorSmppConnection/> }/>
+                <Route  path="vendor/http" element={ <VendorHttpConnections/> }/>        
                 {/* clienct connection  */}
                 <Route  path="client/connection/create" element={ <CreateClientConnections/> }/> 
                 <Route  path="client/connections" element={ <ClientConnections/> }/>            
