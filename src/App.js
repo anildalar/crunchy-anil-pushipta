@@ -1,7 +1,5 @@
 import React from 'react';
-import { BrowserRouter, Routes,Outlet } from "react-router-dom";
-
-import { Route } from "react-router-dom";
+import { BrowserRouter, Routes,Outlet,Route } from "react-router-dom";
 import { useSelector } from "react-redux";
 import Domain from "./pages/Domain";
 import Home from "./pages/Home";
@@ -63,60 +61,7 @@ export default function App() {
   //console.log(getComponent());
   return (
     <>
-      
-        <PushpitaRoute/>
       {getComponent()}
-      
-        <Route path="/" exact> <Home /> </Route>
-        <Route path="/login"> <Login /> </Route>
-        <Route path="/domain" component={ Domain }></Route>
-        <Route path="/pushpita" component={ Pushpita }></Route>
-        <Route path="/group"><Groups /></Route>
-        <Route path="/datatable"><Abc /></Route>
-        <Route path="/importcontects"><ImportContects /></Route>
-        <Route path="/TableData" component={ TableData }></Route>
-        <Route path="/breadcrumb" component={ BreadCrumb }></Route>
-        <Route path="/editcontect" component={ ExportContect }></Route>
-        <Route path="/smsreport" component={ SMSReport }></Route>
-        <Route path="/credit" component={ Credit }></Route>
-        <Route path="/sendsms" component={ SendSMS }></Route>
-        <Route path="/viewcredit" component={ ViewCredit }></Route>
-        <Route path="/editgroup" ><EditGroup/></Route>
-        <Route path="/Smmp" component={ Createuser }></Route>
-        <Route path="/newcreateuser" component={ NewCreateUser }></Route>
-        <Route path="/newuser" component={ NewUser }></Route>
-        <Route path="/userprofile/:uuid" component={ UserProfile }></Route>
-        <Route path="/importrateeditor" component={ ImportRateEditor }></Route>
-        <Route path="/editvendersmpp" component={ EditVenderSmpp }></Route>
-        <Route path="/editvenderhttp" component={ EditVenderHttp }></Route>
-        
-        {getComponent()}
-        <Route  path="/*" component={ Nopage }></Route>
-      
-        <Route path="/" exact> <Home /> </Route>
-        <Route path="/login"> <Login /> </Route>
-        <Route path="/domain" component={ Domain }></Route>
-        <Route path="/pushpita" component={ Pushpita }></Route>
-        <Route path="/group"><Groups /></Route>
-        <Route path="/datatable"><Abc /></Route>
-        <Route path="/importcontects"><ImportContects /></Route>
-        <Route path="/TableData" component={ TableData }></Route>
-        <Route path="/breadcrumb" component={ BreadCrumb }></Route>
-        <Route path="/editcontect" component={ ExportContect }></Route>
-        <Route path="/smsreport" component={ SMSReport }></Route>
-        <Route path="/credit" component={ Credit }></Route>
-        <Route path="/sendsms" component={ SendSMS }></Route>
-        <Route path="/viewcredit" component={ ViewCredit }></Route>
-        <Route path="/editgroup" ><EditGroup/></Route>
-        <Route path="/Smmp" component={ Createuser }></Route>
-        <Route path="/newcreateuser" component={ NewCreateUser }></Route>
-        <Route path="/newuser" component={ NewUser }></Route>
-        <Route path="/userprofile/:uuid" component={ UserProfile }></Route>
-        <Route path="/importrateeditor" component={ ImportRateEditor }></Route>
-       
-        {getComponent()}
-        <Route  path="/*" component={ Nopage }></Route>
-        
       {/* <BrowserRouter>
         <Routes>
           

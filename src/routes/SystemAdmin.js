@@ -15,21 +15,10 @@ import CreateClientConnections from '../pages/SystemAdmin/CreateClientConnection
 import VendorSmppConnection from '../pages/SystemAdmin/VendorSmppConnection';
 import { VendorHttpConnections } from '../pages/SystemAdmin/VendorHttpConnections';
 import ClientConnections from '../pages/SystemAdmin/ClientConnections';
-
- const SystemAdmin=()=> {
-    const history = useHistory();
-    if(!CheckLogin()){
-        history.push("/");
-    }
-import { EditVenderSmpp } from "../pages/SystemAdmin/EditVenderSmpp";
-import { EditVenderHttp } from '../pages/SystemAdmin/EditVenderHttp';
-const SystemAdmin = () => {
-    const history = useHistory();
-    if (!CheckLogin()) {
-        history.push("/");
-    }
 import Users from '../pages/SystemAdmin/NewUser';
 import CreateUsers from '../pages/SystemAdmin/Createusers';
+import { EditVenderSmpp } from "../pages/SystemAdmin/EditVenderSmpp";
+import { EditVenderHttp } from '../pages/SystemAdmin/EditVenderHttp';
 
 function SystemAdmin() {
     return (
