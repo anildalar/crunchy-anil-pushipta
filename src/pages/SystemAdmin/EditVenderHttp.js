@@ -7,6 +7,7 @@ import { ToastContainer, toast } from 'react-toastify';
 import { useParams } from 'react-router-dom'
 import { Toast, toastOption } from '../../helpers/helper'
 import { url } from '../../url';
+import $, { event } from 'jquery';
 /**
 * @author
 * @function EditVenderHttp
@@ -17,7 +18,9 @@ export const EditVenderHttp = (props) => {
     const helper = HelperHook();
     const [editdata, setEditData] = useState({})
     const [mastProd, setData] = useState([]);
+    const [mroute, setmRoute] = useState([]);
     let p = useParams();
+
     useEffect(() => {
         try {
             fetch(url + "/master/route/getRouteType", {
@@ -65,6 +68,24 @@ export const EditVenderHttp = (props) => {
         e.preventDefault()
         console.log(editdata)
     }
+
+    const handleChange = (e) => {
+        $('.route').html('<option value="">' + t('Select Route Type') + '</option>');
+        if (e.target.value != '') {
+            //setHttpCollection({ ...hhtpCollection, [e.target.name]: e.target.value })
+            setmRoute([]); //initially emtpy   
+            fetch(url + "/master/route/routesByType", {
+                ...helper.fetchOption,
+                body: JSON.stringify({ routeType: e.target.value })
+            }).then(response => response.json())
+                .then(d => {
+                    console.log(' Success:', d.data);
+                    setmRoute(result => [...result, d.data]);//
+                }).catch((error) => {
+                    console.error('Error:', error);
+                });
+        }
+    }
     return (
         <Layout>
             <div className="main-content horizontal-content">
@@ -82,24 +103,24 @@ export const EditVenderHttp = (props) => {
                                         <div className="row">
                                             <div className="col-md-3">
                                                 <label htmlFor="masprotypeld">{t("Route Type")}&nbsp; <sup className="text-danger">*</sup></label>
-                                                <select name="routeType" id="masprotypeld" className="form-select form-select-lg" required >
+                                                <select onChange={handleChange} name="routeType" id="masprotypeld" className="form-select form-select-lg" required >
                                                     <option value="">{t("select route type")}</option>
                                                     {mastProd.map((d) => {
-                                                return <option value={d.id} key={d.id}>{d.title}</option>
-                                            })}
+                                                        return <option value={d.id} key={d.id}>{d.title}</option>
+                                                    })}
                                                 </select>
                                                 <span className="text-danger error"></span>
                                             </div>
                                             <div className="col-md-3">
                                                 <label htmlFor="masprold">{t("Route")}&nbsp; <sup className="text-danger">*</sup></label>
-                                                <select id="masprold" name="route" className="form-select form-select-lg route" required>
+                                                <select  id="masprold" name="route" className="form-select form-select-lg route" required>
                                                     <option value="" >{t("select one")}</option>
-
-                                                    {/* {mroute.map((items, index) => {
-                                                return items.map((b) => {
-                                                    return <option value={b.id} key={b.id}>{b.title}</option>
-                                                })
-                                            })} */}
+                                                    {mroute.map((items, index) => {
+                                                        return items.map((b) => {
+                                                            return <option value={b.id} key={b.id}>{b.title}</option>
+                                                        })
+                                                    })
+                                                    }
 
                                                 </select>
                                                 <span className="text-danger error"></span>
@@ -480,7 +501,7 @@ export const EditVenderHttp = (props) => {
                                         </div>
                                         <div className="row">
                                             <div className="col-md-3 mt-4 float-end">
-                                                <button  type="submit" className="   btn btn-info bg-primary border-secondary"  >Submit</button>
+                                                <button type="submit" className="   btn btn-info bg-primary border-secondary"  >Submit</button>
                                             </div>
                                             <div className="col-md-3 mt-4 float-start">
                                                 <button onClick={e => { submit(e) }} className="btn btn-success">Add morefiled</button>
