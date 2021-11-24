@@ -13,6 +13,7 @@ export const ImportRateEditor = (props) => {
     const [files, setfiles] = useState();
     const [exceldata, setExcelData] = useState([]);
     const [excelheader, setExcelHeader] = useState([]);
+    
 
     const handleInput = (e) => {
         e.preventDefault()
@@ -48,18 +49,22 @@ export const ImportRateEditor = (props) => {
                 const ws = wb.Sheets[wsname];
                 const data = XLSX.utils.sheet_to_csv(ws, { header: 1 });
                 var xlexData = data.split(/\r\n|\n/);
-                //console.log(xlexData)
+                var filedata=[...xlexData]
+                console.log("hello",filedata)
+                setExcelData(filedata)
+                console.log("hello",xlexData)
                 let newExceldata = xlexData.splice(0, 1)
                 let header = newExceldata.toString().split(",")
-                setExcelData(header)
-                // console.log(JSON.stringify(exceldata))
+                setExcelHeader(header)
+                 
             };
             excelreader.readAsBinaryString(file);
-            console.log(document.querySelector('.field_card').classList.remove('d-none'))
+            document.querySelector('.field_card').classList.remove('d-none')
         }
     }
     const submit = (e) => {
         e.preventDefault()
+        console.log(excelheader)
         console.log(exceldata)
     }
 

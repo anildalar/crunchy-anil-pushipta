@@ -57,10 +57,10 @@ const VendorCreateSmpp = (props) => {
                 ...helper.fetchOption
             }).then(response => response.json())
             .then(data => {
-                // console.logUnauthorized(data);
-                
                 if(data.status==200) {
                     setData(data.data);
+                    console.log("hello",mastProd)
+                    console.log(data.data)
                 }
             }).catch((error) => {
                 console.error('Error:', error);

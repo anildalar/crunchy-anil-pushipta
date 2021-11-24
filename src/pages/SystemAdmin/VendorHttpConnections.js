@@ -60,7 +60,7 @@ export const VendorHttpConnections = (props) => {
                         <div className="col-xl-12">
                             <div className="card">
                                 <div className="card-header bg-info">
-                                    <h4 className="mb-0 text-white card-title">Create Group</h4>
+                                    <h4 className="mb-0 text-white card-title"> Get Vender HTTP </h4>
                                 </div>
                                 <div className="card-body">
                                     <div className="table-responsive">
@@ -86,7 +86,7 @@ export const VendorHttpConnections = (props) => {
                                                                 <td>
                                                                     <div className="btn-group btn-group-sm" role="group" aria-label="Basic example">
                                                                         <button type="button" className="btn btn-success"><i className="fas fa-check"></i></button>
-                                                                        <NavLink to={'editvenderhttp/'+element.uuId} type="button" className="btn btn-info"><i className="fas fa-pencil-alt"></i></NavLink>
+                                                                        <NavLink to={'/vendor/http/editvenderhttp/'+element.uuId} type="button" className="btn btn-info"><i className="fas fa-pencil-alt"></i></NavLink>
                                                                         <button type="button" className="btn btn-danger"><i className="fas fa-trash"></i></button>
                                                                     </div>
                                                                 </td>

@@ -21,7 +21,7 @@ import { NavLink } from 'react-router-dom';
                 .then(response => response.json())
                 .then(data => {
                     if (data.status == 200) {
-                        //console.log('Success:', data.data.smpp);
+                        console.log('Success:', data.data.smpp);
                         setSmppData(data.data.smpp)
                     } else {
                         toast.error(data.msg,
@@ -58,7 +58,7 @@ import { NavLink } from 'react-router-dom';
                         <div className="col-xl-12">
                             <div className="card">
                                 <div className="card-header bg-info">
-                                    <h4 className="mb-0 text-white card-title">Create Group</h4>
+                                    <h4 className="mb-0 text-white card-title">Get Vender SMPP Connection</h4>
                                 </div>
                                 <div className="card-body">
                                     <div className="table-responsive">
@@ -66,7 +66,7 @@ import { NavLink } from 'react-router-dom';
                                             <thead>
                                                 <tr>
                                                     <th >User Name</th>
-                                                    <th >UUID</th>
+                                                    <th >Active</th>
                                                     <th >Host Name</th>
                                                     <th >Port</th>
                                                     <th >Action</th>
@@ -84,13 +84,13 @@ import { NavLink } from 'react-router-dom';
                                                         return (
                                                             <tr>
                                                                 <td>{element.userName}</td>
-                                                                <td>{element.uuId}</td>
+                                                                <td>{element.active}</td>
                                                                 <td>{element.hostName}</td>
                                                                 <td>{element.port}</td>
                                                                 <td>
                                                                     <div className="btn-group btn-group-sm" role="group" aria-label="Basic example">
                                                                         <button type="button" className="btn btn-success"><i className="fas fa-check"></i></button>
-                                                                        <NavLink to={'editvendersmpp/'+element.uuId} type="button" className="btn btn-info"><i className="fas fa-pencil-alt"></i></NavLink>
+                                                                        <NavLink to={'/vendor/smpp/editvendersmpp/'+element.uuId} type="button" className="btn btn-info"><i className="fas fa-pencil-alt"></i></NavLink>
                                                                         <button type="button" className="btn btn-danger"><i className="fas fa-trash"></i></button>
                                                                     </div>
                                                                 </td>
