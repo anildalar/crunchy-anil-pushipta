@@ -6,14 +6,14 @@ import Home from "./pages/Home";
 import Pushpita from "./pages/Pushpita";
 import ClientConnections from "./pages/SystemAdmin/CreateClientConnections";
 import TableData from "./pages/SystemAdmin/TableData";
-import { Groups } from "./pages/Admin/Groups";
-import { ImportContects } from "./pages/Admin/ImportContects";
+
+
 
 import { Abc } from "./pages/Abc";
 import { EditGroup } from "./pages/Admin/EditGroup";
 import { BreadCrumb } from "./component/UI/BreadCrumb";
-import { ExportContect } from "./pages/Admin/ExportContect";
-import { SMSReport } from "./pages/Admin/SMSReport";
+
+
 import { Credit } from "./pages/Admin/Credit";
 import { SendSMS } from "./pages/Admin/SendSMS";
 import { ViewCredit } from "./pages/Admin/ViewCredit";
@@ -39,29 +39,21 @@ export default function App() {
   const getComponent = ()=>{
     switch(role){
       case 'systemadmin':
-        console.log('sys')
         return <SystemAdmin/>;
-        
         break;
       case 'admin':
-        console.log('admin')
         return <Admin/>
-        
         break;
       case 'retailer':
-        console.log('admin')
         return <Retailer/> 
         break;
       case 'reseller':
-        console.log('reseller')
         return <Reseller/>
         break;
       case 'user':
-        console.log('User')
         return <User/> 
         break;
       default:
-        console.log('loading')
         return <Loading/>;
         break;
     }

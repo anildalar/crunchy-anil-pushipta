@@ -36,7 +36,7 @@ function SystemadminAside() {
                         </li>
                         <li><h3 className="fs-14 fw-bold mb-1 mt-2 text-body"><i class="fas fa-mail-bulk"></i>&nbsp;&nbsp;Reports</h3></li>
                         <li>
-                            <NavLink className="py-1" to="/sms/reports">SMS Scoreboard</NavLink>
+                            <NavLink className="py-1" to="/sms/reports">SMS Reports</NavLink>
                         </li>
                     </ul>
                 </li>
