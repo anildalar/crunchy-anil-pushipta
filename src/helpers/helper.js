@@ -1,6 +1,6 @@
 
 
-const url = 'http://localhost:4000';
+const url = 'http://173.249.39.43:3000';
 
 // const fetchOption = { 
 //     method: 'POST', // or 'PUT'
