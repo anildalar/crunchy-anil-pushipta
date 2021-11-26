@@ -86,7 +86,7 @@ export const VendorHttpConnections = (props) => {
                                                                 <td>
                                                                     <div className="btn-group btn-group-sm" role="group" aria-label="Basic example">
                                                                         <button type="button" className="btn btn-success"><i className="fas fa-check"></i></button>
-                                                                        <NavLink to={'/vendor/http/editvenderhttp/'+element.uuId} type="button" className="btn btn-info"><i className="fas fa-pencil-alt"></i></NavLink>
+                                                                        <NavLink to={'/vendor/http/edit/'+element.uuId} type="button" className="btn btn-info"><i className="fas fa-pencil-alt"></i></NavLink>
                                                                         <button type="button" className="btn btn-danger"><i className="fas fa-trash"></i></button>
                                                                     </div>
                                                                 </td>

@@ -86,7 +86,7 @@ export const Groups = (props) => {
                     })
                 } else if (data.status == 403) {
                     swal("warning", data.msg, "warning");
-                    document.getElementById('cantactForm').reset();
+                    //document.getElementById('cantactForm').reset();
                 }
             }).catch((error) => {
                 console.error('Error:', error);

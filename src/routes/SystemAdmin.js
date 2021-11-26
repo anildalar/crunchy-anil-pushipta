@@ -1,5 +1,5 @@
 import React from 'react'
-import { BrowserRouter,Routes,Route} from 'react-router-dom'
+import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import Nopage from '../pages/Nopage'
 import Home from '../pages/Home'
 import SystemAdminDashboard from '../pages/SystemAdmin/Dashbord';
@@ -18,38 +18,40 @@ import ClientConnections from '../pages/SystemAdmin/ClientConnections';
 import Users from '../pages/SystemAdmin/NewUser';
 import CreateUsers from '../pages/SystemAdmin/Createusers';
 import { EditVenderSmpp } from "../pages/SystemAdmin/EditVenderSmpp";
-import { EditVenderHttp } from '../pages/SystemAdmin/EditVenderHttp';
 import Login from '../pages/Login';
+import { EditVenderHttp } from '../pages/SystemAdmin/EditVenderHttp';
 
 function SystemAdmin() {
     return (
         <BrowserRouter>
             <Routes>
-                <Route  path="/" element={ <Home/>} />
-                <Route  path="login" element={ <Login/>} />
-                <Route  path="dashboard" element={ <SystemAdminDashboard/> } />
+                <Route path="/" element={<Home />} />
+                <Route path="login" element={<Login />} />
+                <Route path="dashboard" element={<SystemAdminDashboard />} />
                 {/* Vendor connecton */}
-                <Route  path="vendor/smpp/create" element={ <VendorCreateSmpp/> }/>
-                <Route  path="vendor/http/create" element={ <VenderCreateHttp/> }/>
-                <Route  path="vendor/smpp" element={ <VendorSmppConnection/> }/>
-                <Route  path="vendor/http" element={ <VendorHttpConnections/> }/>        
+                <Route path="vendor/smpp/create" element={<VendorCreateSmpp />} />
+                <Route path="vendor/http/create" element={<VenderCreateHttp />} />
+                <Route path="vendor/smpp" element={<VendorSmppConnection />} />
+                <Route path="vendor/smpp/edit/:uuid" element={<EditVenderSmpp />}></Route>
+                <Route path="vendor/http" element={<VendorHttpConnections />} />
+                <Route path="/vendor/http/edit/:uuid" element={<EditVenderHttp />}></Route>
                 {/* clienct connection  */}
-                <Route  path="client/connection/create" element={ <CreateClientConnections/> }/> 
-                <Route  path="client/connections" element={ <ClientConnections/> }/>            
+                <Route path="client/connection/create" element={<CreateClientConnections />} />
+                <Route path="client/connections" element={<ClientConnections />} />
                 {/* client routing route   */}
-                <Route  path="routing/create" element={ <CreateRouting/> }/>
-                <Route  path="routing" element={ <ClinetRouting/> }/>
+                <Route path="routing/create" element={<CreateRouting />} />
+                <Route path="routing" element={<ClinetRouting />} />
                 {/* setting */}
-                <Route  path="sender-id-rule" element={ <SenderIdRule/> }/>
-                <Route  path="languages" element={ <Languages/> }/>
+                <Route path="sender-id-rule" element={<SenderIdRule />} />
+                <Route path="languages" element={<Languages />} />
                 {/* reports */}
-                <Route  path="sms/scoreboard" element={ <SmsScoreboard/> }/>
-                <Route  path="sms/reports" element={ <Smsreports/> }/>
+                <Route path="sms/scoreboard" element={<SmsScoreboard />} />
+                <Route path="sms/reports" element={<Smsreports />} />
                 {/* users */}
-                <Route  path="users/create" element={ <CreateUsers/> }/>
-                <Route  path="users" element={ <Users/> }/>            
+                <Route path="users/create" element={<CreateUsers />} />
+                <Route path="users" element={<Users />} />
                 {/* 404 page */}
-                <Route  path="*" element={ <Nopage/> } />
+                <Route path="*" element={<Nopage />} />
             </Routes>
         </BrowserRouter>
     )
