@@ -65,7 +65,8 @@ export const EditVenderSmpp = (props) => {
                 if (data.status == 200) {
                     // console.log('Success:', data.data);
                     setsubData({ ...subdata, ...data.data })
-                    //console.log(JSON.stringify(subdata))
+                    console.log(JSON.stringify(subdata))
+
                 } else {
                     toast.danger(data.msg, toastOption);
                 }
@@ -105,13 +106,19 @@ export const EditVenderSmpp = (props) => {
         })
             .then(response => response.json())
             .then(data => {
-                console.log('Success:', data);
+                // console.log('Success:', data);
             })
             .catch((error) => {
                 console.error('Error:', error);
             });
         console.log("RouteType", subdata.routeType)
     }, [subdata]);
+
+    useEffect(() => {
+        if (subdata != "") {
+            document.getElementById("SSI_type").defaultSelected = subdata.sslType
+        }
+    }, [subdata])
     let handleChange = (e) => {
         //$('').action()
         try {
@@ -150,7 +157,7 @@ export const EditVenderSmpp = (props) => {
 
     const submitData = (e) => {
         e.preventDefault()
-        // console.log(subdata)
+        console.log(JSON.stringify(subdata))
         let updatedata = {
             ...subdata,
             "id": p.uuid

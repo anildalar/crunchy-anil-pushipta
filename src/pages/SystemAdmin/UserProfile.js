@@ -167,7 +167,7 @@ export const UserProfile = (props) => {
       .then(response => response.json())
       .then(data => {
         if (data.status == 200) {
-          console.log(data.plainPass)
+         // console.log(data.plainPass)
           swal("success", data.msg, "success")
         } else if (data.status == 400) {
           data.errors.forEach(function (arrayItem) {

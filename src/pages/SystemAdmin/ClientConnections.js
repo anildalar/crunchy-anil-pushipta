@@ -20,7 +20,7 @@ import { toast } from 'react-toastify'
             .then(data => {
                 // console.log('Success:', data);
                 if(data.status==200){
-                    //console.log('Success:', data.data);
+                    console.log('Pushpita:', data.data);
                     setConnection(data.data)
                 }else{
                     toast.error(data.msg,
@@ -74,7 +74,7 @@ import { toast } from 'react-toastify'
                                                 {
                                                     connection.map((element, index) => {
                                                         return (
-                                                            <tr>
+                                                            <tr key={index}>
                                                                 <td>{element.userName}</td>
                                                                 <td>{element.routeName}</td>
                                                                 <td>{element.currency}</td>
