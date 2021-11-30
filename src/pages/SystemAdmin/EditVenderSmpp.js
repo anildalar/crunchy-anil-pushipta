@@ -14,7 +14,7 @@ import swal from 'sweetalert';
 **/
 
 export const EditVenderSmpp = (props) => {
-    const [editdata, setEditData] = useState({})
+    //const [editdata, setEditData] = useState({})
     const [mastProd, setData] = useState([]);
     const [mroute, setmRoute] = useState([]);
     const helper = HelperHook();
@@ -64,7 +64,7 @@ export const EditVenderSmpp = (props) => {
             .then(data => {
                 if (data.status == 200) {
                     // console.log('Success:', data.data);
-                    setsubData({ ...subdata, ...data.data })
+                    setsubData(data.data)
                     console.log(JSON.stringify(subdata))
 
                 } else {
@@ -116,7 +116,7 @@ export const EditVenderSmpp = (props) => {
 
     useEffect(() => {
         if (subdata != "") {
-            document.getElementById("SSI_type").defaultSelected = subdata.sslType
+            document.getElementById("SSI_type").value = subdata.sslType
         }
     }, [subdata])
     let handleChange = (e) => {

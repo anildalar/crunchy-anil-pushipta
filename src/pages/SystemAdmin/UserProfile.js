@@ -16,7 +16,7 @@ import HelperHook from '../../custHook/HelperHook';
 **/
 
 export const UserProfile = (props) => {
-  const helper=HelperHook();
+  const helper = HelperHook();
   let p = useParams();
   const [data, setData] = useState({
     "firstName": "",
@@ -54,7 +54,6 @@ export const UserProfile = (props) => {
           console.log(JSON.stringify(alert))
 
         } else {
-          // history.push('/createuser')
           toast.error(data.msg,
             {
               ...Toast,
@@ -81,7 +80,6 @@ export const UserProfile = (props) => {
 
       })
     }
-    //setData(!(data.alert))
     console.log(data.alert)
     let updatealert = {
       "id": p.uuid,
@@ -93,7 +91,6 @@ export const UserProfile = (props) => {
       body: JSON.stringify(updatealert),
     }).then(response => response.json())
       .then(data => {
-        //console.log('Success:', data);
         if (data.status == 200) {
           toast.success(data.msg,
             {
@@ -167,7 +164,7 @@ export const UserProfile = (props) => {
       .then(response => response.json())
       .then(data => {
         if (data.status == 200) {
-         // console.log(data.plainPass)
+          // console.log(data.plainPass)
           swal("success", data.msg, "success")
         } else if (data.status == 400) {
           data.errors.forEach(function (arrayItem) {
@@ -235,7 +232,7 @@ export const UserProfile = (props) => {
   const keys = Object.keys(data.alert);
   console.log("komal", keys);
   console.log("pushpita", data.alert);
-  return(
+  return (
     <Layout>
       <div className="main-content horizontal-content">
         {/* container opened */}
@@ -337,16 +334,6 @@ export const UserProfile = (props) => {
                                     {/* <fieldset id="fieldset2" disabled> */}
                                     <div className="row row-sm" >
                                       <div className="col-12" >
-                                        {/* <div className="pt-1">
-                                          <label className="ckbox pt-1" ><input onChange={e => pushpita(e)} name="rate"  checked={alert.rate} type="checkbox" value=" " /><span>Send Rate Changes anil</span></label>
-                                        </div>
-                                        <div className="pt-1">
-                                          <label className="ckbox pt-1" ><input onChange={e => pushpita(e)} checked={alert.invoice} name="invoice" className="invoice" type="checkbox" value="" /><span>Send Invoices</span></label>
-                                        </div>
-                                        <div className="pt-1">
-                                          <label className="ckbox pt-1" ><input onChange={e => pushpita(e)} checked={alert.alarms} name="alarms" className="alarms" type="checkbox" value="" /><span>Send Alarms</span></label>
-                                        </div> */}
-
                                         {
 
                                           keys.map((element, index) => {
@@ -362,15 +349,12 @@ export const UserProfile = (props) => {
                                         }
                                       </div>
                                     </div>
-                                    {/* </fieldset > */}
                                     <ToastContainer />
                                   </div>
                                 </div>
                               </div>
                             </div>
                           </div>
-
-
                         </div>
                       </div>
                       <div className="row gutters-sm">
@@ -445,6 +429,6 @@ export const UserProfile = (props) => {
 
 
     </Layout>
-   )
+  )
 
- }
+}
