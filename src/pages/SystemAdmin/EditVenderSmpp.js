@@ -63,7 +63,6 @@ export const EditVenderSmpp = (props) => {
             .then(response => response.json())
             .then(data => {
                 if (data.status == 200) {
-                    // console.log('Success:', data.data);
                     setsubData(data.data)
                     console.log(JSON.stringify(subdata))
 
@@ -75,7 +74,8 @@ export const EditVenderSmpp = (props) => {
             .catch((error) => {
                 console.error('Error:', error);
             });
-        //
+
+
         try {
             fetch(url + "/master/route/getRouteType", {
                 ...helper.fetchOption
@@ -94,10 +94,8 @@ export const EditVenderSmpp = (props) => {
                     position: "top-right"
                 });
         }
-
-
-
     }, [])
+    
     useEffect(() => {
         //routes by type
         fetch(url + '/master/route/routesByType', {
@@ -119,6 +117,7 @@ export const EditVenderSmpp = (props) => {
             document.getElementById("SSI_type").value = subdata.sslType
         }
     }, [subdata])
+
     let handleChange = (e) => {
         //$('').action()
         try {
@@ -145,6 +144,7 @@ export const EditVenderSmpp = (props) => {
                 });
         }
     };
+
     const datasubmit = (e) => {
         setsubData({ ...subdata, [e.target.name]: e.target.value });
         setsubData({
@@ -162,7 +162,6 @@ export const EditVenderSmpp = (props) => {
             ...subdata,
             "id": p.uuid
         }
-        //console.log(updatedata)
         $('[name]').css('border', '1px solid gray').siblings('.text-danger').html('');
         fetch(url + '/vendor/conn/update/smpp', {
             ...helper.fetchOption,
