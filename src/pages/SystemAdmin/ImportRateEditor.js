@@ -13,7 +13,7 @@ export const ImportRateEditor = (props) => {
     const [files, setfiles] = useState();
     const [exceldata, setExcelData] = useState([]);
     const [excelheader, setExcelHeader] = useState([]);
-    
+
 
     const handleInput = (e) => {
         e.preventDefault()
@@ -49,14 +49,14 @@ export const ImportRateEditor = (props) => {
                 const ws = wb.Sheets[wsname];
                 const data = XLSX.utils.sheet_to_csv(ws, { header: 1 });
                 var xlexData = data.split(/\r\n|\n/);
-                var filedata=[...xlexData]
-                console.log("hello",filedata)
+                var filedata = [...xlexData]
+                console.log("hello", filedata)
                 setExcelData(filedata)
-                console.log("hello",xlexData)
+                console.log("hello", xlexData)
                 let newExceldata = xlexData.splice(0, 1)
                 let header = newExceldata.toString().split(",")
                 setExcelHeader(header)
-                 
+
             };
             excelreader.readAsBinaryString(file);
             document.querySelector('.field_card').classList.remove('d-none')
@@ -74,8 +74,8 @@ export const ImportRateEditor = (props) => {
             <option>{element}</option>
         )
     });
-  return(
-    <Layout>
+    return (
+        <Layout>
             <div className="main-content horizontal-content">
                 {/* container opened */}
                 <div className="container">
@@ -332,6 +332,6 @@ export const ImportRateEditor = (props) => {
 
 
         </Layout>
-   )
+    )
 
- }
+}

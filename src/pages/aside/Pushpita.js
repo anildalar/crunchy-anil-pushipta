@@ -91,6 +91,21 @@ function Pushpita() {
                         Get Client Connection
                     </NavLink>
                 </li>
+                <li>
+                    <NavLink className="" to="/systemerrorcode">
+                       System Error Code
+                    </NavLink>
+                </li>
+                <li>
+                    <NavLink className="" to="/vendererrorcode">
+                    Vender Error Code
+                    </NavLink>
+                </li>
+                <li>
+                    <NavLink className="" to="/mappingerrorcode">
+                  Mapping Error Code
+                    </NavLink>
+                </li>
                 
             </ul>
         </li>

@@ -20,6 +20,9 @@ import CreateUsers from '../pages/SystemAdmin/Createusers';
 import { EditVenderSmpp } from "../pages/SystemAdmin/EditVenderSmpp";
 import Login from '../pages/Login';
 import { EditVenderHttp } from '../pages/SystemAdmin/EditVenderHttp';
+import { SystemErrorCode } from '../pages/SystemAdmin/SystemErrorCode';
+import { VenderErrorCode } from '../pages/SystemAdmin/VenderErrorCode';
+import { MappingErrorCode } from '../pages/SystemAdmin/MappingErrorCode';
 
 function SystemAdmin() {
     return (
@@ -52,6 +55,10 @@ function SystemAdmin() {
                 <Route path="users" element={<Users />} />
                 {/* 404 page */}
                 <Route path="*" element={<Nopage />} />
+                {/*Error Mapping */}
+                <Route path="systemerrorcode" element={<SystemErrorCode />} />
+                <Route path="vendererrorcode" element={<VenderErrorCode />} />
+                <Route path="mappingerrorcode" element={<MappingErrorCode />} />
             </Routes>
         </BrowserRouter>
     )

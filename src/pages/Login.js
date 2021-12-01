@@ -58,7 +58,6 @@ function Login(props) {
             setError(0);
             $('[name]').css('border', '1px solid gray').siblings('.text-danger').html('');
             if (data.status=='200') {
-                //toast.success('🦄 Wow so easy!',toastOption);
                 localStorage.setItem('jwtToken', data.token);
                 localStorage.setItem('user', JSON.stringify(data.data.user));
                 localStorage.setItem('role', data.data.user.role);
